@@ -42,15 +42,16 @@ const PLANES = [
         nombre: "Chispa",
         emoji: "⚡",
         icon: <RiFlashlightLine />,
-        tagline: "El arranque perfecto",
-        sub: "Para tu primera tienda — simple, rápido y sin complicaciones.",
-        badge: "Ideal para comenzar",
+        tagline: "El arranque inteligente",
+        sub: "Un punto de venta completo para empezar bien. Sin curva de aprendizaje.",
+        para: "negocios que arrancan o trabajan solos",
+        ctaText: "Empezar con Chispa",
         precio_mes: 49000,
         precio_ano: 42000,
-        color: "#818cf8",
-        colorAlt: "#6366f1",
-        colorDark: "#4338ca",
-        glow: "rgba(99,102,241,0.4)",
+        color: "#C4A882",
+        colorAlt: "#A8885E",
+        colorDark: "#8A6A40",
+        glow: "rgba(196,168,130,0.35)",
         popular: false,
         features: [
             { icon: <RiStore2Line />,       ok: true,  txt: "1 almacén" },
@@ -59,8 +60,6 @@ const PLANES = [
             { icon: <RiArchiveLine />,      ok: true,  txt: "Inventario básico" },
             { icon: <RiBarChartBoxLine />,  ok: true,  txt: "Reportes básicos" },
             { icon: <RiWhatsappLine />,     ok: true,  txt: "Soporte por WhatsApp" },
-            { icon: <RiFileListLine />,     ok: false, txt: "Kardex y trazabilidad" },
-            { icon: <RiGroupLine />,        ok: false, txt: "Multi-sucursal" },
         ],
     },
     {
@@ -68,14 +67,15 @@ const PLANES = [
         nombre: "Fuego",
         emoji: "🔥",
         icon: <RiFireLine />,
-        tagline: "El combustible de tu crecimiento",
-        sub: "Para negocios que ya saben lo que quieren y van por más.",
-        badge: "⭐ El más elegido",
+        tagline: "El más elegido en Colombia",
+        sub: "Multi-almacén, múltiples usuarios, trazabilidad completa y reportes en tiempo real.",
+        para: "negocios en crecimiento con varios puntos de venta",
+        ctaText: "Comenzar con Fuego",
         precio_mes: 129000,
         precio_ano: 110000,
         color: "#C4773A",
         colorAlt: "#A66030",
-        colorDark: "#b45309",
+        colorDark: "#8A4A20",
         glow: "rgba(196,119,58,0.5)",
         popular: true,
         features: [
@@ -95,15 +95,16 @@ const PLANES = [
         nombre: "Cosmos",
         emoji: "🌌",
         icon: <RiPlanetLine />,
-        tagline: "Potencia real. Escala con seguridad.",
-        sub: "Para cadenas y operaciones que piensan en grande — muy en grande.",
-        badge: "Potencia tu marca",
+        tagline: "Para cadenas y franquicias",
+        sub: "Hasta 6 sedes, 12 usuarios y soporte dedicado. Para cuando el negocio pide más.",
+        para: "cadenas, franquicias y operaciones de alto volumen",
+        ctaText: "Escalar con Cosmos",
         precio_mes: 249000,
         precio_ano: 212000,
-        color: "#34d399",
-        colorAlt: "#10b981",
-        colorDark: "#065f46",
-        glow: "rgba(52,211,153,0.4)",
+        color: "#6BAF8A",
+        colorAlt: "#4A9070",
+        colorDark: "#2E7050",
+        glow: "rgba(107,175,138,0.35)",
         popular: false,
         features: [
             { icon: <RiStore2Line />,               ok: true, txt: "Hasta 6 almacenes" },
@@ -114,7 +115,6 @@ const PLANES = [
             { icon: <RiCustomerService2Line />,     ok: true, txt: "Soporte dedicado 24/7" },
             { icon: <RiShieldCheckLine />,          ok: true, txt: "SLA garantizado 99.9%" },
             { icon: <RiTimeLine />,                 ok: true, txt: "Respuesta en < 2 horas" },
-            { icon: <RiStore2Line />,               ok: true, txt: "+$100.000/mes por almacén adicional" },
         ],
     },
 ];
@@ -126,10 +126,10 @@ const PROCESS_MSGS = [
 ];
 
 const STATS = [
-    { val: "25+", label: "negocios activos" },
-    { val: "99.9%", label: "uptime garantizado" },
-    { val: "< 2min", label: "tiempo de activación" },
-    { val: "5★", label: "calificación promedio" },
+    { val: "25+", label: "negocios creciendo" },
+    { val: "99.9%", label: "disponibilidad garantizada" },
+    { val: "48h", label: "para estar activo" },
+    { val: "5★", label: "satisfacción de clientes" },
 ];
 
 const formatCOP = (n) =>
@@ -547,19 +547,31 @@ export function PlanesTemplate() {
                     <HeroText>
                         <HeroBadge>
                             <HeroBadgeDot />
-                            Sistema de gestión · Colombia
+                            El SaaS a tu medida · Colombia 🇨🇴
                         </HeroBadge>
                         <HeroTitle>
                             Del caos,<br />
                             <HeroItalic>claridad.</HeroItalic>
                         </HeroTitle>
                         <HeroSub>
-                            Sin contratos, sin permanencia, sin letra pequeña.<br />
-                            Actívate hoy y empieza a vender en minutos.
+                            POS · inventario · reportes · multi-sucursal.<br />
+                            Todo lo que tu negocio necesita, en un solo lugar.
                         </HeroSub>
-                        <HeroCTA onClick={abrirRegistro}>
-                            Comenzar ahora →
-                        </HeroCTA>
+                        <HeroCTAsRow>
+                            <HeroCTA onClick={abrirRegistro}>
+                                Comenzar ahora →
+                            </HeroCTA>
+                            <HeroCTASecondary onClick={() => document.getElementById("chispa")?.scrollIntoView({ behavior: "smooth" })}>
+                                Ver planes ↓
+                            </HeroCTASecondary>
+                        </HeroCTAsRow>
+                        <HeroTrust>
+                            <span>✓ Activo en 48 horas</span>
+                            <HeroTrustDot />
+                            <span>✓ Sin tarjeta de crédito</span>
+                            <HeroTrustDot />
+                            <span>✓ Cancela cuando quieras</span>
+                        </HeroTrust>
                     </HeroText>
                 </HeroContent>
                 <motion.div
@@ -607,22 +619,26 @@ export function PlanesTemplate() {
                         $delay={`${idx * 0.1}s`}
                         $visible={true}
                     >
-                        {/* Borde animado para popular */}
-                        {plan.popular && <RotatingBorder $color={plan.color} $colorAlt={plan.colorAlt} />}
+                        {/* Acento superior de color */}
+                        <PlanAccentBar $color={plan.color} $popular={plan.popular} />
 
-                        {plan.popular && <PopularStrip>⭐ Más elegido por nuestros clientes</PopularStrip>}
+                        {plan.popular && (
+                            <PopularBand>⭐ El más elegido</PopularBand>
+                        )}
 
                         <CardInner>
-                            {/* Header del plan */}
-                            <PlanHeader>
-                                <EmojiWrap $color={plan.color} $glow={plan.glow}>{plan.emoji}</EmojiWrap>
-                                <PlanMeta>
+                            {/* Cabecera */}
+                            <PlanTopRow>
+                                <PlanEmojiBox $color={plan.color} $glow={plan.glow}>
+                                    {plan.emoji}
+                                </PlanEmojiBox>
+                                <PlanInfo>
                                     <PlanNombre $color={plan.color}>{plan.nombre}</PlanNombre>
-                                    <PlanTagline>{plan.tagline}</PlanTagline>
-                                </PlanMeta>
-                            </PlanHeader>
+                                    <PlanTaglineNew>{plan.tagline}</PlanTaglineNew>
+                                </PlanInfo>
+                            </PlanTopRow>
 
-                            <PlanDesc>{plan.sub}</PlanDesc>
+                            <PlanDescNew>{plan.sub}</PlanDescNew>
 
                             {/* Precio */}
                             <PrecioBloque>
@@ -635,7 +651,7 @@ export function PlanesTemplate() {
                                 <PrecioNota>
                                     {anual
                                         ? `Facturado anualmente · ${formatCOP(plan.precio_ano * 12)}/año`
-                                        : "Facturado mensualmente · Cancela cuando quieras"}
+                                        : "Sin permanencia · Cancela cuando quieras"}
                                 </PrecioNota>
                             </PrecioBloque>
 
@@ -648,64 +664,82 @@ export function PlanesTemplate() {
                                 $popular={plan.popular}
                                 onClick={() => abrirPago(plan)}
                             >
-                                {plan.popular ? "Comenzar con Fuego 🔥" : `Elegir ${plan.nombre}`}
+                                {plan.ctaText}
                             </BtnPlan>
                             </motion.div>
 
-                            <Divisor />
-
-                            {/* Features — editables desde /configuracion/planes */}
+                            {/* Features */}
+                            <PlanIncluye>Incluye:</PlanIncluye>
                             <FeatureList>
                                 {(planFeatures[plan.id] ?? plan.features).filter(f => f.ok).map((f, i) => (
                                     <motion.li
                                         key={i}
-                                        style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, fontWeight: 500, color: f.ok ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.2)", textDecoration: f.ok ? "none" : "line-through", listStyle: "none" }}
-                                        initial={{ opacity: 0, x: -10 }}
+                                        style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.78)", listStyle: "none" }}
+                                        initial={{ opacity: 0, x: -8 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ duration: 0.35, delay: i * 0.055, ease: "easeOut" }}
+                                        transition={{ duration: 0.3, delay: i * 0.04, ease: "easeOut" }}
                                     >
-                                        <FeatureIco $ok={f.ok} $color={plan.color}>
-                                            {f.ok ? <RiCheckLine /> : <RiCloseLine />}
+                                        <FeatureIco $ok={true} $color={plan.color}>
+                                            <RiCheckLine />
                                         </FeatureIco>
                                         <span>{f.txt}</span>
                                     </motion.li>
                                 ))}
                             </FeatureList>
+
+                            <PlanParaWrap>
+                                Ideal para: <PlanParaText>{plan.para}</PlanParaText>
+                            </PlanParaWrap>
                         </CardInner>
                     </PlanCard>
                     </TiltCard>
                 ))}
             </CardsSection>
 
-            {/* ── Comparación visual ── */}
+            {/* ── Por qué ORDER BI ── */}
             <CompareSection $visible={visible}>
-                <CompareTitulo>¿Por qué ORDER BI?</CompareTitulo>
-                <CompareSub>Diseñado para negocios colombianos que quieren crecer sin complicaciones.</CompareSub>
+                <CompareEyebrow>Por qué elegirnos</CompareEyebrow>
+                <CompareTitulo>Tu negocio, en control.</CompareTitulo>
+                <CompareSub>No somos software genérico. Cada módulo fue construido para el comercio colombiano.</CompareSub>
                 <CompareGrid>
                     {[
-                        { icon: <RiRocketLine />,           title: "Activación inmediata",     desc: "Tu negocio listo para vender en menos de 2 minutos desde que pagas." },
-                        { icon: <RiShieldCheckLine />,      title: "Datos 100% seguros",       desc: "Cifrado bancario, backups automáticos y acceso con roles estrictos." },
-                        { icon: <RiCustomerService2Line />, title: "Soporte real",              desc: "Personas reales que conocen tu negocio. Nada de bots ni formularios eternos." },
-                        { icon: <RiStarLine />,             title: "Sin letra pequeña",         desc: "El precio que ves es lo que pagas. Sin costos ocultos ni sorpresas al final del mes." },
+                        {
+                            num: "01",
+                            icon: <RiBarChartBoxLine />,
+                            title: "Ventas en tiempo real",
+                            desc: "Ve exactamente qué se vende, cuándo y cuánto. Sin esperar el cierre de caja para saber cómo va el día.",
+                        },
+                        {
+                            num: "02",
+                            icon: <RiArchiveLine />,
+                            title: "Inventario sin sorpresas",
+                            desc: "Alertas automáticas de stock bajo, trazabilidad por producto y Kardex completo. Cero pérdidas por descuido.",
+                        },
+                        {
+                            num: "03",
+                            icon: <RiFileListLine />,
+                            title: "Reportes que se entienden",
+                            desc: "Olvídate de las hojas de Excel. Rentabilidad, rotación y cierres de caja en una pantalla que cualquiera puede leer.",
+                        },
+                        {
+                            num: "04",
+                            icon: <RiShieldCheckLine />,
+                            title: "Precio justo, sin trampas",
+                            desc: "Lo que ves es lo que pagas. Sin costos ocultos, sin permanencia forzada, sin sorpresas al final del mes.",
+                        },
                     ].map((item, i) => (
                         <motion.div
                             key={i}
-                            style={{ padding: "24px 20px", borderRadius: 20, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", backdropFilter: "blur(12px)", display: "flex", flexDirection: "column", gap: 10, textAlign: "left" }}
-                            initial={{ opacity: 0, y: 36, scale: 0.93 }}
-                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            initial={{ opacity: 0, y: 32 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: 0.52, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                            whileHover={{ borderColor: "rgba(196,119,58,0.32)", background: "rgba(196,119,58,0.05)", y: -6, scale: 1.025, transition: { type: "spring", stiffness: 280, damping: 20 } }}
+                            transition={{ duration: 0.5, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
+                            whileHover={{ borderColor: "rgba(196,119,58,0.3)", background: "rgba(196,119,58,0.04)", y: -5, transition: { type: "spring", stiffness: 300, damping: 22 } }}
+                            style={{ padding: "28px 24px", borderRadius: 20, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", display: "flex", flexDirection: "column", gap: 12, textAlign: "left", position: "relative", overflow: "hidden" }}
                         >
-                            <motion.div
-                                initial={{ scale: 0.4, opacity: 0 }}
-                                whileInView={{ scale: 1, opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.45, delay: 0.18 + i * 0.09, type: "spring", stiffness: 220, damping: 16 }}
-                            >
-                                <CompareIcon>{item.icon}</CompareIcon>
-                            </motion.div>
+                            <CompareNum>{item.num}</CompareNum>
+                            <CompareIcon>{item.icon}</CompareIcon>
                             <CompareItemTitle>{item.title}</CompareItemTitle>
                             <CompareItemDesc>{item.desc}</CompareItemDesc>
                         </motion.div>
@@ -953,10 +987,10 @@ export function PlanesTemplate() {
             >
                 <CtaGlow />
                 <CtaEmoji>👋</CtaEmoji>
-                <CtaTitulo>¿Tienes dudas? Te ayudamos.</CtaTitulo>
+                <CtaTitulo>¿Cuál plan es el tuyo?</CtaTitulo>
                 <CtaDesc>
-                    Escríbenos y en minutos te contamos cuál plan se adapta mejor a tu negocio —
-                    sin presión, sin ventas agresivas, solo la información que necesitas.
+                    Cuéntanos cómo es tu negocio y en minutos te decimos cuál plan se adapta mejor —
+                    sin presión, sin ventas agresivas, solo claridad.
                 </CtaDesc>
                 <CtaBtns>
                     <motion.a
@@ -1820,6 +1854,92 @@ const AhorroBadge = styled.span`
     padding: 2px 8px; border-radius: 999px;
 `;
 
+/* ── Nuevos elements de Cards ── */
+const PlanAccentBar = styled.div`
+    height: ${({ $popular }) => $popular ? "4px" : "3px"};
+    background: ${({ $color }) => $color};
+    opacity: ${({ $popular }) => $popular ? 1 : 0.7};
+    border-radius: 28px 28px 0 0;
+`;
+
+const PopularBand = styled.div`
+    background: ${({ theme }) => theme?.primary ?? "#C4773A"};
+    color: #fff;
+    text-align: center;
+    font-size: 11px; font-weight: 800;
+    padding: 6px 16px;
+    letter-spacing: 0.04em;
+`;
+
+const PlanTopRow = styled.div`
+    display: flex; align-items: center; gap: 14px;
+`;
+
+const PlanEmojiBox = styled.div`
+    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+    background: ${({ $color }) => `${$color}18`};
+    border: 1.5px solid ${({ $color }) => `${$color}30`};
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 0 18px ${({ $glow }) => $glow};
+`;
+
+const PlanInfo = styled.div`
+    display: flex; flex-direction: column; gap: 2px;
+`;
+
+const PlanTaglineNew = styled.span`
+    font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase; letter-spacing: 0.05em;
+`;
+
+const PlanDescNew = styled.p`
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    margin: 0; line-height: 1.65;
+    border-left: 2px solid rgba(255,255,255,0.08);
+    padding-left: 12px;
+`;
+
+const PlanIncluye = styled.div`
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.25);
+    padding-top: 4px;
+`;
+
+const PlanParaWrap = styled.div`
+    margin-top: 4px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+`;
+
+const PlanParaText = styled.span`
+    color: rgba(255,255,255,0.55); font-style: italic;
+`;
+
+/* ── Compare section extras ── */
+const CompareEyebrow = styled.div`
+    font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #C4773A;
+    margin-bottom: 8px;
+`;
+
+const CompareNum = styled.div`
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 52px; font-weight: 900;
+    color: rgba(196,119,58,0.08);
+    line-height: 1;
+    position: absolute; top: 16px; right: 20px;
+    pointer-events: none;
+    user-select: none;
+`;
+
 /* ── Stats + Toggle section (debajo del fold) ── */
 const StatsToggleSection = styled.div`
     position: relative; z-index: 1;
@@ -1883,9 +2003,14 @@ const HeroItalic = styled.span`
     color: #C4773A;
 `;
 
+const HeroCTAsRow = styled.div`
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center;
+    margin-top: 8px;
+`;
+
 const HeroCTA = styled.button`
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 34px; border-radius: 999px;
+    padding: 15px 36px; border-radius: 999px;
     background: #C4773A;
     border: 2px solid #9A5A28;
     color: #fff;
@@ -1894,9 +2019,35 @@ const HeroCTA = styled.button`
     cursor: pointer;
     box-shadow: 4px 4px 0 #9A5A28;
     transition: filter 0.15s, transform 0.1s, box-shadow 0.1s;
-    margin-top: 8px;
     &:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 4px 6px 0 #9A5A28; }
     &:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #9A5A28; }
+`;
+
+const HeroCTASecondary = styled.button`
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 15px 32px; border-radius: 999px;
+    background: transparent;
+    border: 1.5px solid rgba(196,119,58,0.4);
+    color: rgba(240,230,211,0.7);
+    font-size: 16px; font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    &:hover { border-color: #C4773A; color: #F0E6D3; background: rgba(196,119,58,0.08); }
+`;
+
+const HeroTrust = styled.div`
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    color: rgba(240,230,211,0.35);
+    letter-spacing: 0.02em;
+    margin-top: 6px;
+`;
+
+const HeroTrustDot = styled.div`
+    width: 3px; height: 3px; border-radius: 50%;
+    background: rgba(240,230,211,0.2);
+    flex-shrink: 0;
 `;
 
 /* ── Laptop Mockup ── */
@@ -2003,18 +2154,16 @@ const PlanCard = styled.div`
                 box-shadow 0.25s ease;
 
     ${({ $popular, $color, $glow }) => $popular ? css`
-        background: linear-gradient(160deg, #130d00 0%, #0d0800 100%);
-        box-shadow: 0 0 60px ${$glow}, 0 24px 64px rgba(0,0,0,0.6);
-        transform: ${({ $visible }) => $visible ? "scale(1.03)" : "translateY(32px) scale(1.03)"};
-        &:hover { box-shadow: 0 0 80px ${$glow}, 0 32px 80px rgba(0,0,0,0.7); transform: scale(1.04) translateY(-4px); }
-        @media (max-width: 960px) { transform: none; &:hover { transform: translateY(-4px); } }
+        background: linear-gradient(160deg, #1C1108 0%, #140D05 100%);
+        box-shadow: 0 0 50px ${$glow}, 0 24px 56px rgba(0,0,0,0.55);
+        &:hover { box-shadow: 0 0 70px ${$glow}, 0 30px 70px rgba(0,0,0,0.65); transform: translateY(-6px); }
     ` : css`
-        background: rgba(255,255,255,0.025);
+        background: rgba(255,255,255,0.022);
         border: 1px solid rgba(255,255,255,0.07);
-        box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+        box-shadow: 0 4px 28px rgba(0,0,0,0.35);
         &:hover {
-            box-shadow: 0 8px 48px ${$glow}, 0 20px 56px rgba(0,0,0,0.5);
-            border-color: ${$color}44;
+            box-shadow: 0 8px 44px ${$glow}, 0 20px 48px rgba(0,0,0,0.45);
+            border-color: ${$color}40;
             transform: translateY(-6px);
         }
     `}
