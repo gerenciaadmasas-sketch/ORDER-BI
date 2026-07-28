@@ -218,7 +218,7 @@ export function HomeTemplates() {
     const sucursal = dataSucursales?.find(s => s.id === datausuarios?.id_sucursal);
     const almacen  = dataAlmacenes?.find(a => a.id === datausuarios?.id_almacen);
     const contexto = tipo === "superadmin"
-        ? versiones[0]?.version ?? "POS"
+        ? versiones[0]?.version ?? "ORDER BI"
         : tipo === "cajero"
         ? almacen?.nombre ?? "Sin almacén"
         : tipo === "supervisor"
