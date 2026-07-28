@@ -530,15 +530,6 @@ export function PlanesTemplate() {
                     <span>ORDER <b>BI</b></span>
                 </NavLogo>
 
-                <NavCenter>
-                    {PLANES.map(p => (
-                        <NavDot key={p.id} $color={p.color}
-                            onClick={() => document.getElementById(p.id)?.scrollIntoView({ behavior: "smooth" })}>
-                            {p.emoji} {p.nombre}
-                        </NavDot>
-                    ))}
-                </NavCenter>
-
                 <BtnIniciarSesion onClick={abrirLogin}>
                     Inicia sesión 👑
                 </BtnIniciarSesion>
@@ -553,30 +544,6 @@ export function PlanesTemplate() {
                     ))}
                 </StonesLayer>
                 <HeroContent $visible={visible}>
-                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
-                        <motion.div style={{ x: mockSpringX, y: mockSpringY }}>
-                            <LaptopFrame>
-                                <LaptopScreen>
-                                    <ScreenHeader>
-                                        <ScreenDot $c="#C4773A" />
-                                        <ScreenDot $c="#D4A96A" />
-                                        <ScreenDot $c="#4A7059" />
-                                        <ScreenTitle>ORDER BI</ScreenTitle>
-                                    </ScreenHeader>
-                                    <ScreenBody>
-                                        <BigStat>$4.2M</BigStat>
-                                        <ScreenStatLabel>Ventas del mes</ScreenStatLabel>
-                                        <MiniCharts>
-                                            {[65, 45, 80, 55, 90, 70, 85].map((h, i) => (
-                                                <MiniBar key={i} $h={h} />
-                                            ))}
-                                        </MiniCharts>
-                                    </ScreenBody>
-                                </LaptopScreen>
-                                <LaptopBase />
-                            </LaptopFrame>
-                        </motion.div>
-                    </motion.div>
                     <HeroText>
                         <HeroBadge>
                             <HeroBadgeDot />
