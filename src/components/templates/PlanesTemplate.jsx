@@ -800,8 +800,8 @@ export function PlanesTemplate() {
                 ))}
             </FaqSection>
 
-            {/* ── Servicio Web ── */}
-            <WebServiceSection>
+            {/* ── Servicio Web — temporalmente oculto ── */}
+            {false && <WebServiceSection>
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -973,7 +973,7 @@ export function PlanesTemplate() {
                     </motion.div>
                 </WebServiceCard>
                 </motion.div>
-            </WebServiceSection>
+            </WebServiceSection>}
 
             {/* ── CTA Final ── */}
             <CtaFinal
