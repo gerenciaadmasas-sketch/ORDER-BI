@@ -1,5 +1,5 @@
-# Technical Requirements Document (TRD)
-## SaaS.DTO2 — Guía técnica para desarrollo
+﻿# Technical Requirements Document (TRD)
+## ORDER BI — Guía técnica para desarrollo
 
 ---
 
@@ -33,7 +33,7 @@
 | Herramienta | Rol |
 |-------------|-----|
 | Vercel | Deploy frontend (saasdto2.vercel.app) |
-| GitHub | Control de versiones (gerenciaadmasas-sketch/SAAS.DTO2) |
+| GitHub | Control de versiones (gerenciaadmasas-sketch/ORDER BI) |
 | Supabase Cloud | Backend (proyecto: souwqzfmxsorhelmidqq, región: us-east-2) |
 
 ---

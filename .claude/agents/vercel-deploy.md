@@ -1,6 +1,6 @@
----
+﻿---
 name: vercel-deploy
-description: Skill de deploy para SaaS.DTO2 en Vercel. Úsalo cuando vayas a desplegar cambios, verificar el estado del deploy, diagnosticar errores de build en Vercel, o cuando necesites información del proyecto en producción.
+description: Skill de deploy para ORDER BI en Vercel. Úsalo cuando vayas a desplegar cambios, verificar el estado del deploy, diagnosticar errores de build en Vercel, o cuando necesites información del proyecto en producción.
 model: claude-sonnet-4-6
 tools:
   - Bash
@@ -10,16 +10,16 @@ tools:
   - Grep
 ---
 
-# Vercel Deploy — SaaS.DTO2
+# Vercel Deploy — ORDER BI
 
 ---
 
 ## Datos del proyecto
 
 ```
-App:        SaaS.DTO2
+App:        ORDER BI
 URL prod:   https://saasdto2.vercel.app
-Repo:       https://github.com/gerenciaadmasas-sketch/SAAS.DTO2
+Repo:       https://github.com/gerenciaadmasas-sketch/ORDER BI
 Branch:     main → auto-deploy a producción
 Framework:  Vite (React 19)
 ```

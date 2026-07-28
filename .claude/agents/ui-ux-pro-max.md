@@ -1,6 +1,6 @@
----
+﻿---
 name: ui-ux-pro-max
-description: Skill de UI/UX de nivel profesional para SaaS.DTO2. Lee esto cuando vayas a diseñar una pantalla nueva, rediseñar algo existente, o cuando quieras elevar la calidad visual de cualquier componente. Define jerarquía, espaciado, motion, copy y principios de experiencia de usuario.
+description: Skill de UI/UX de nivel profesional para ORDER BI. Lee esto cuando vayas a diseñar una pantalla nueva, rediseñar algo existente, o cuando quieras elevar la calidad visual de cualquier componente. Define jerarquía, espaciado, motion, copy y principios de experiencia de usuario.
 model: claude-sonnet-4-6
 tools:
   - Read
@@ -10,7 +10,7 @@ tools:
   - Grep
 ---
 
-# UI/UX Pro Max — SaaS.DTO2
+# UI/UX Pro Max — ORDER BI
 
 El objetivo es construir interfaces que se sientan premium, claras y rápidas. El usuario es un dueño de negocio colombiano que necesita operar rápido, no leer manuales.
 

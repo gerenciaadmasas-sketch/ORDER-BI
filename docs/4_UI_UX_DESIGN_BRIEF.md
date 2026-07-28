@@ -1,5 +1,5 @@
-# UI/UX Design Brief
-## SaaS.DTO2 — Sistema de diseño y guía visual
+﻿# UI/UX Design Brief
+## ORDER BI — Sistema de diseño y guía visual
 
 ---
 
@@ -259,7 +259,7 @@ CredOverlay (fixed, backdrop oscuro, z-index 600)
 
 ### Mensaje WhatsApp pre-armado
 ```
-Hola {nombre}, tu cuenta en SaaS.DTO2 está lista 🎉
+Hola {nombre}, tu cuenta en ORDER BI está lista 🎉
 
 👤 Usuario: {usuario}
 🔑 Contraseña: {password}

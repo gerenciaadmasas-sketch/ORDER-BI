@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/AuthStore";
@@ -44,7 +44,7 @@ export function LoginTemplate() {
 
                     <Logo>
                         <img src={v.logo} alt="logo" />
-                        <span>SaaS<b>.DTO2</b></span>
+                        <span>ORDER <b>BI</b></span>
                     </Logo>
 
                     <Titulo>Inicia sesión</Titulo>

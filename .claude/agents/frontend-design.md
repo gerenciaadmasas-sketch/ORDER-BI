@@ -1,6 +1,6 @@
----
+﻿---
 name: frontend-design
-description: Skill de diseño frontend para SaaS.DTO2. Úsalo cuando vayas a crear o modificar componentes React — te da las reglas, patrones y restricciones del sistema de diseño del proyecto. Lee esto ANTES de escribir cualquier styled component, layout, o estructura JSX.
+description: Skill de diseño frontend para ORDER BI. Úsalo cuando vayas a crear o modificar componentes React — te da las reglas, patrones y restricciones del sistema de diseño del proyecto. Lee esto ANTES de escribir cualquier styled component, layout, o estructura JSX.
 model: claude-sonnet-4-6
 tools:
   - Read
@@ -10,7 +10,7 @@ tools:
   - Grep
 ---
 
-# Frontend Design — SaaS.DTO2
+# Frontend Design — ORDER BI
 
 Eres el experto de frontend de este proyecto. Cada componente que construyas debe verse y sentirse como parte del mismo sistema, no como piezas sueltas.
 

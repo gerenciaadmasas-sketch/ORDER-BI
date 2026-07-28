@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+﻿import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useScroll } from "motion/react";
 import styled, { keyframes, css } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -545,7 +545,7 @@ export function PlanesTemplate() {
             <Navbar $visible={visible} $scrolled={scrolled}>
                 <NavLogo onClick={() => navigate("/")}>
                     <img src={v.logo} alt="logo" />
-                    <span>SaaS<b>.DTO2</b></span>
+                    <span>ORDER <b>BI</b></span>
                 </NavLogo>
 
                 <NavCenter>
@@ -717,7 +717,7 @@ export function PlanesTemplate() {
 
             {/* ── Comparación visual ── */}
             <CompareSection $visible={visible}>
-                <CompareTitulo>¿Por qué SaaS.DTO2?</CompareTitulo>
+                <CompareTitulo>¿Por qué ORDER BI?</CompareTitulo>
                 <CompareSub>Diseñado para negocios colombianos que quieren crecer sin complicaciones.</CompareSub>
                 <CompareGrid>
                     {[
@@ -756,7 +756,7 @@ export function PlanesTemplate() {
                 {[
                     { q: "¿Puedo cambiar de plan después?", a: "Sí, en cualquier momento. Sube o baja de plan sin perder ningún dato y el cambio se aplica de inmediato." },
                     { q: "¿Qué pasa si cancelo?", a: "Puedes cancelar en cualquier momento desde tu perfil. Seguirás usando el sistema hasta el final del período pagado, luego se desactiva." },
-                    { q: "¿Necesito instalar algo?", a: "No. SaaS.DTO2 funciona completamente desde el navegador — en computador, tablet o celular. Sin instalaciones, sin actualizaciones manuales." },
+                    { q: "¿Necesito instalar algo?", a: "No. ORDER BI funciona completamente desde el navegador — en computador, tablet o celular. Sin instalaciones, sin actualizaciones manuales." },
                     { q: "¿Mis datos están seguros en la nube?", a: "Sí. Toda la información está cifrada y almacenada en servidores seguros con backups automáticos cada 24 horas." },
                 ].map((faq, i) => (
                     <motion.div
@@ -1008,7 +1008,7 @@ export function PlanesTemplate() {
                         </BtnWA>
                     </motion.a>
                     <motion.a
-                        href="mailto:gerencia.adma.sas@gmail.com?subject=Quiero%20información%20sobre%20SaaS.DTO2"
+                        href="mailto:gerencia.adma.sas@gmail.com?subject=Quiero%20información%20sobre%20ORDER BI"
                         whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
                         transition={{ type: "spring", stiffness: 300, damping: 18 }}
                         style={{ textDecoration: "none" }}
@@ -1034,7 +1034,7 @@ export function PlanesTemplate() {
             <PlanFooter>
                 <FooterLogo onClick={() => navigate("/")}>
                     <img src={v.logo} alt="logo" />
-                    <span>SaaS<b>.DTO2</b></span>
+                    <span>ORDER <b>BI</b></span>
                 </FooterLogo>
                 <FooterLinks>
                     <FooterLink onClick={() => navigate("/privacidad")}>Política de Privacidad</FooterLink>
@@ -1054,7 +1054,7 @@ export function PlanesTemplate() {
 
             <DrawerLogo>
                 <img src={v.logo} alt="logo" />
-                <span>SaaS<b>.DTO2</b></span>
+                <span>ORDER <b>BI</b></span>
             </DrawerLogo>
 
             {regOk ? (
@@ -1312,7 +1312,7 @@ export function PlanesTemplate() {
 
             <DrawerLogo>
                 <img src={v.logo} alt="logo" />
-                <span>SaaS<b>.DTO2</b></span>
+                <span>ORDER <b>BI</b></span>
             </DrawerLogo>
 
             <DrawerTitle>Bienvenido de vuelta</DrawerTitle>

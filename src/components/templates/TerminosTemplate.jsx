@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { RiArrowLeftLine, RiFileTextLine } from "react-icons/ri";
 import { v } from "../../styles/variables";
@@ -6,7 +6,7 @@ import { v } from "../../styles/variables";
 const SECCIONES = [
     {
         titulo: "1. Descripción del servicio",
-        texto: `SaaS.DTO2 es una plataforma de software como servicio (SaaS) desarrollada por ADMA BI, orientada a micro y pequeñas empresas colombianas. El servicio incluye punto de venta (POS), gestión de inventario, reportes, y módulos adicionales según el plan contratado.\n\nEl acceso al servicio se otorga mediante suscripción mensual o anual, y queda habilitado tras la confirmación del pago.`,
+        texto: `ORDER BI es una plataforma de software como servicio (SaaS) desarrollada por ADMA BI, orientada a micro y pequeñas empresas colombianas. El servicio incluye punto de venta (POS), gestión de inventario, reportes, y módulos adicionales según el plan contratado.\n\nEl acceso al servicio se otorga mediante suscripción mensual o anual, y queda habilitado tras la confirmación del pago.`,
     },
     {
         titulo: "2. Planes y precios",
@@ -34,7 +34,7 @@ const SECCIONES = [
     },
     {
         titulo: "8. Propiedad intelectual",
-        texto: `Todo el software, diseño, código fuente y documentación de SaaS.DTO2 es propiedad exclusiva de ADMA BI. Queda prohibida su reproducción, distribución, ingeniería inversa o uso fuera de los términos aquí establecidos.\n\nLos datos ingresados por el usuario (productos, clientes, ventas, etc.) son de propiedad exclusiva del usuario.`,
+        texto: `Todo el software, diseño, código fuente y documentación de ORDER BI es propiedad exclusiva de ADMA BI. Queda prohibida su reproducción, distribución, ingeniería inversa o uso fuera de los términos aquí establecidos.\n\nLos datos ingresados por el usuario (productos, clientes, ventas, etc.) son de propiedad exclusiva del usuario.`,
     },
     {
         titulo: "9. Modificaciones a los términos",
@@ -59,12 +59,12 @@ export function TerminosTemplate() {
                 <Header>
                     <IconoDoc><RiFileTextLine /></IconoDoc>
                     <Titulo>Términos y Condiciones de Uso</Titulo>
-                    <Meta>ADMA BI · SaaS.DTO2 · Última actualización: enero 2025</Meta>
+                    <Meta>ADMA BI · ORDER BI · Última actualización: enero 2025</Meta>
                     <Meta>República de Colombia 🇨🇴</Meta>
                 </Header>
 
                 <Intro>
-                    Al registrarse y utilizar la plataforma SaaS.DTO2, usted acepta estos Términos y Condiciones en su totalidad. Si no está de acuerdo con alguno de ellos, le recomendamos no utilizar el servicio.
+                    Al registrarse y utilizar la plataforma ORDER BI, usted acepta estos Términos y Condiciones en su totalidad. Si no está de acuerdo con alguno de ellos, le recomendamos no utilizar el servicio.
                 </Intro>
 
                 <Divider />
@@ -92,7 +92,7 @@ export function TerminosTemplate() {
                 <FooterLegal>
                     <LogoBtn onClick={() => navigate("/")}>
                         <img src={v.logo} alt="logo" />
-                        <span>SaaS<b>.DTO2</b></span>
+                        <span>ORDER <b>BI</b></span>
                     </LogoBtn>
                     <FooterTexto>© {new Date().getFullYear()} ADMA BI · Bogotá, Colombia</FooterTexto>
                 </FooterLegal>

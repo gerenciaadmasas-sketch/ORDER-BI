@@ -1,11 +1,11 @@
-# Product Requirements Document (PRD)
-## SaaS.DTO2 — POS para micro-empresas colombianas
+﻿# Product Requirements Document (PRD)
+## ORDER BI — POS para micro-empresas colombianas
 
 ---
 
 ## 1. Visión del producto
 
-SaaS.DTO2 es una plataforma SaaS de Punto de Venta (POS) diseñada para micro-empresas colombianas. Combina gestión de inventario, ventas, reportes y presencia digital en un solo sistema, adaptado automáticamente al tipo de negocio del cliente.
+ORDER BI es una plataforma SaaS de Punto de Venta (POS) diseñada para micro-empresas colombianas. Combina gestión de inventario, ventas, reportes y presencia digital en un solo sistema, adaptado automáticamente al tipo de negocio del cliente.
 
 **Propuesta de valor diferencial:**
 - Activación en menos de 2 minutos desde el pago

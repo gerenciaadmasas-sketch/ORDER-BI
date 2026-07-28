@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+﻿import styled, { keyframes } from "styled-components";
 import { v } from "../../styles/variables";
 import { usePlan } from "../../hooks/usePlan";
 import { RiLockLine, RiWhatsappLine, RiShieldCheckLine } from "react-icons/ri";
@@ -22,7 +22,7 @@ export function SuspensionOverlay() {
             <Caja>
                 <Logo>
                     <img src={v.logo} alt="logo" width={36} />
-                    <span>SaaS<b>.DTO2</b></span>
+                    <span>ORDER <b>BI</b></span>
                 </Logo>
 
                 <IconoLock>
@@ -53,7 +53,7 @@ export function SuspensionOverlay() {
                 <Btns>
                     <BtnWA
                         as="a"
-                        href={`https://wa.me/573118303017?text=Hola!%20Soy%20${encodeURIComponent(nombre)}%20y%20quiero%20regularizar%20mi%20pago%20de%20SaaS.DTO2`}
+                        href={`https://wa.me/573118303017?text=Hola!%20Soy%20${encodeURIComponent(nombre)}%20y%20quiero%20regularizar%20mi%20pago%20de%20ORDER BI`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -61,7 +61,7 @@ export function SuspensionOverlay() {
                     </BtnWA>
                     <BtnPagar
                         as="a"
-                        href={`https://wa.me/573118303017?text=Quiero%20pagar%20mi%20suscripci%C3%B3n%20de%20SaaS.DTO2`}
+                        href={`https://wa.me/573118303017?text=Quiero%20pagar%20mi%20suscripci%C3%B3n%20de%20ORDER BI`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

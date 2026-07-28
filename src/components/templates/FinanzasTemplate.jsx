@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { MostrarSuscripciones } from "../../supabase/crudSuscripciones";
@@ -34,7 +34,7 @@ const MIX = [0.30, 0.60, 0.10]; // 30% Chispa, 60% Fuego, 10% Cosmos
 const COMPETENCIA = [
     { nombre: "Siigo POS",   basico: 79000,  medio: 159000, color: "#60a5fa" },
     { nombre: "Alegra",      basico: 45000,  medio: 99000,  color: "#a78bfa" },
-    { nombre: "SaaS.DTO2",    basico: 49000,  medio: 129000, color: "#f88533", propio: true },
+    { nombre: "ORDER BI",    basico: 49000,  medio: 129000, color: "#f88533", propio: true },
 ];
 
 const fmtCOP = (n) =>
@@ -476,7 +476,7 @@ export function FinanzasTemplate() {
                     </tbody>
                 </CompTable>
                 <CompNota>
-                    SaaS.DTO2 entra al mercado con precios similares a Alegra pero con kardex, multi-almacén
+                    ORDER BI entra al mercado con precios similares a Alegra pero con kardex, multi-almacén
                     y roles incluidos desde el plan Fuego — lo que Siigo cobra $159.000.
                 </CompNota>
             </CompCard>

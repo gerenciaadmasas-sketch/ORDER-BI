@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { supabase } from "../../supabase/supabase.config";
@@ -68,7 +68,7 @@ export function PagoExitosoTemplate() {
                 {/* Logo */}
                 <Logo onClick={() => navigate("/")}>
                     <img src={v.logo} alt="logo" />
-                    <span>SaaS<b>.DTO2</b></span>
+                    <span>ORDER <b>BI</b></span>
                 </Logo>
 
                 {/* ── APROBADO: creando cuenta ── */}

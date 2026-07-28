@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+﻿import { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
@@ -301,7 +301,7 @@ export function SaasTemplate() {
                             {credNuevas.telefono && (
                                 <CredBtnWA
                                     as="a"
-                                    href={`https://wa.me/57${credNuevas.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(`Hola ${credNuevas.nombre}, tu cuenta en SaaS.DTO2 está lista 🎉\n\n👤 Usuario: ${credNuevas.usuario}\n🔑 Contraseña: ${credNuevas.password}\n\n🌐 Ingresa en: https://saasdto2.vercel.app/login\n\n¡Bienvenido!`)}`}
+                                    href={`https://wa.me/57${credNuevas.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(`Hola ${credNuevas.nombre}, tu cuenta en ORDER BI está lista 🎉\n\n👤 Usuario: ${credNuevas.usuario}\n🔑 Contraseña: ${credNuevas.password}\n\n🌐 Ingresa en: https://saasdto2.vercel.app/login\n\n¡Bienvenido!`)}`}
                                     target="_blank" rel="noopener noreferrer"
                                 >
                                     <RiWhatsappLine size={17} /> Enviar por WhatsApp

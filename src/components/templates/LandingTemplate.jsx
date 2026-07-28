@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/AuthStore";
@@ -87,7 +87,7 @@ export function LandingTemplate() {
                 <MktInner>
                     <MktLogo>
                         <img src={v.logo} alt="logo" />
-                        <MktNombre>SaaS<span>.DTO2</span></MktNombre>
+                        <MktNombre>ORDER <span>BI</span></MktNombre>
                     </MktLogo>
                     <MktTagline>El sistema de punto de venta que impulsa tu negocio</MktTagline>
                     <MktSub>Gestiona ventas, inventario y reportes desde cualquier dispositivo, en tiempo real.</MktSub>
@@ -109,7 +109,7 @@ export function LandingTemplate() {
                 <MktMobile>
                     <MktMobileLogo>
                         <img src={v.logo} alt="logo" />
-                        <span>SaaS<b>.DTO2</b></span>
+                        <span>ORDER <b>BI</b></span>
                     </MktMobileLogo>
                     <MktMobileTagline>El punto de venta que impulsa tu negocio</MktMobileTagline>
                     <MktMobileGrid>
@@ -126,7 +126,7 @@ export function LandingTemplate() {
                 <Card>
                     <CtaLogo>
                         <img src={v.logo} alt="logo" />
-                        <span>SaaS<b>.DTO2</b></span>
+                        <span>ORDER <b>BI</b></span>
                     </CtaLogo>
                     <CtaTexto>Bienvenido al sistema de gestión</CtaTexto>
 
@@ -167,7 +167,7 @@ export function LandingTemplate() {
 
             <DrawerLogo>
                 <img src={v.logo} alt="logo" />
-                <span>SaaS<b>.DTO2</b></span>
+                <span>ORDER <b>BI</b></span>
             </DrawerLogo>
 
             <DrawerTitle>Bienvenido de vuelta</DrawerTitle>

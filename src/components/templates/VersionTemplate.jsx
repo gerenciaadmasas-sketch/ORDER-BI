@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MostrarVersion, EditarVersion } from "../../supabase/crudVersion";
@@ -80,7 +80,7 @@ export function VersionTemplate() {
                         <ModalForm onSubmit={handleGuardar}>
                             <Campo>
                                 <label>Versión</label>
-                                <Input value={form.version} onChange={e => setForm({ ...form, version: e.target.value })} placeholder="Ej: SaaS.DTO2.v3" required />
+                                <Input value={form.version} onChange={e => setForm({ ...form, version: e.target.value })} placeholder="Ej: ORDER BI.v3" required />
                             </Campo>
                             <Campo>
                                 <label>Notas de actualización</label>

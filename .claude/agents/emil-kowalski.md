@@ -1,4 +1,4 @@
----
+﻿---
 name: emil-kowalski
 description: Skill inspirado en el estilo de Emil Kowalski — Design Engineer en Vercel, creador de Sonner, Vaul y cmdk. Úsalo cuando quieras elevar un componente al siguiente nivel: micro-interacciones, animaciones con física real, detalles que hacen la diferencia entre bueno y memorable. Aplícalo en componentes de alto impacto visual.
 model: claude-sonnet-4-6

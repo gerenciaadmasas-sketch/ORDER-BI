@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -58,7 +58,7 @@ export function CocinaTemplate({ id_empresa: propIdEmpresa }) {
             <TopBar>
                 <LogoArea>
                     <RiRestaurantLine size={22} />
-                    <span>Cocina · SaaS.DTO2</span>
+                    <span>Cocina · ORDER BI</span>
                 </LogoArea>
                 <Stats>
                     <Chip $c="#f59e0b">{activas.length} en curso</Chip>
