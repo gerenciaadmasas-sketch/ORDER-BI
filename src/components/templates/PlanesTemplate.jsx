@@ -136,63 +136,54 @@ const formatCOP = (n) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n);
 
 /* ─────────────────────────────────────────
-   CURSOR SPOTLIGHT
+   PARALLAX DE RATÓN
 ───────────────────────────────────────── */
-function CursorSpotlight() {
-    const [pos, setPos] = useState({ x: -999, y: -999 });
+function useMouseParallax() {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
     useEffect(() => {
-        const h = (e) => setPos({ x: e.clientX, y: e.clientY });
+        const h = (e) => {
+            mouseX.set((e.clientX / window.innerWidth  - 0.5) * 2);
+            mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
+        };
         window.addEventListener("mousemove", h);
         return () => window.removeEventListener("mousemove", h);
     }, []);
-    return (
-        <div style={{
-            position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-            background: `radial-gradient(700px at ${pos.x}px ${pos.y}px, rgba(196,119,58,0.055) 0%, transparent 75%)`,
-        }} />
-    );
+    return { mouseX, mouseY };
 }
 
-/* ─────────────────────────────────────────
-   CANVAS DE PARTÍCULAS
-───────────────────────────────────────── */
-function ParticleCanvas() {
-    const canvasRef = useRef(null);
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        let W = canvas.width  = canvas.offsetWidth;
-        let H = canvas.height = canvas.offsetHeight;
-        const particles = Array.from({ length: 90 }, () => ({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.4 + 0.2,
-            dx: (Math.random() - 0.5) * 0.18,
-            dy: (Math.random() - 0.5) * 0.12,
-            o: Math.random() * 0.45 + 0.08,
-        }));
-        let raf;
-        function draw() {
-            ctx.clearRect(0, 0, W, H);
-            for (const p of particles) {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${p.o})`;
-                ctx.fill();
-                p.x += p.dx; p.y += p.dy;
-                if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-                if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-            }
-            raf = requestAnimationFrame(draw);
-        }
-        draw();
-        const onResize = () => { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; };
-        window.addEventListener("resize", onResize);
-        return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
-    }, []);
+const STONES = [
+    { id:1, depth:0.18, left:"5%",  top:"15%", w:220, h:180, rot:-18,
+      shape:"polygon(0 30%,38% 0,100% 8%,96% 68%,62% 100%,8% 88%)",   color:"#2A1A10" },
+    { id:2, depth:0.22, left:"72%", top:"8%",  w:260, h:200, rot:22,
+      shape:"polygon(18% 0,92% 4%,100% 42%,82% 100%,28% 96%,0 52%)",  color:"#1E1208" },
+    { id:3, depth:0.38, left:"60%", top:"60%", w:180, h:150, rot:-8,
+      shape:"polygon(12% 0,88% 6%,100% 50%,78% 100%,20% 94%,0 48%)",  color:"#3D2010" },
+    { id:4, depth:0.45, left:"18%", top:"65%", w:150, h:130, rot:14,
+      shape:"polygon(0 40%,45% 0,100% 15%,90% 72%,55% 100%,5% 85%)",  color:"#4A2A18" },
+    { id:5, depth:0.42, left:"82%", top:"45%", w:120, h:110, rot:-22,
+      shape:"polygon(20% 0,100% 20%,88% 90%,10% 100%,0 55%)",         color:"#2E1A0C" },
+    { id:6, depth:0.68, left:"3%",  top:"50%", w:90,  h:80,  rot:30,
+      shape:"polygon(0 35%,55% 0,100% 25%,85% 100%,20% 95%)",         color:"#5A3520" },
+    { id:7, depth:0.75, left:"88%", top:"72%", w:100, h:90,  rot:-12,
+      shape:"polygon(15% 0,100% 10%,95% 75%,45% 100%,0 60%)",         color:"#3A2015" },
+    { id:8, depth:0.70, left:"45%", top:"82%", w:80,  h:70,  rot:8,
+      shape:"polygon(0 20%,60% 0,100% 40%,70% 100%,5% 90%)",          color:"#4A2A1A" },
+];
+
+function StoneItem({ stone, mouseX, mouseY }) {
+    const rawX = useTransform(mouseX, [-1, 1], [-stone.depth * 40, stone.depth * 40]);
+    const rawY = useTransform(mouseY, [-1, 1], [-stone.depth * 30, stone.depth * 30]);
+    const springX = useSpring(rawX, { stiffness: 35, damping: 20 });
+    const springY = useSpring(rawY, { stiffness: 35, damping: 20 });
     return (
-        <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0, opacity: 0.3 }} />
+        <motion.div style={{ position:"absolute", left:stone.left, top:stone.top, width:stone.w, height:stone.h, x:springX, y:springY, rotate:stone.rot, pointerEvents:"none" }}>
+            <motion.div
+                style={{ width:"100%", height:"100%", clipPath:stone.shape, background:stone.color, borderRadius:2 }}
+                animate={{ y:[0, -(stone.depth * 14), 0] }}
+                transition={{ duration:4 + stone.id * 0.7, repeat:Infinity, ease:"easeInOut" }}
+            />
+        </motion.div>
     );
 }
 
@@ -328,9 +319,12 @@ export function PlanesTemplate() {
     const [visible, setVisible] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [faqOpen, setFaqOpen] = useState(null);
-    const heroRef = useRef(null);
     const { scrollYProgress } = useScroll();
-    const heroParallaxY = useTransform(scrollYProgress, [0, 0.18], [0, -45]);
+    const { mouseX, mouseY } = useMouseParallax();
+    const rawMockX = useTransform(mouseX, [-1, 1], [-10, 10]);
+    const rawMockY = useTransform(mouseY, [-1, 1], [-8, 8]);
+    const mockSpringX = useSpring(rawMockX, { stiffness: 60, damping: 25 });
+    const mockSpringY = useSpring(rawMockY, { stiffness: 60, damping: 25 });
 
     useEffect(() => {
         const h = () => setScrolled(window.scrollY > 40);
@@ -529,18 +523,6 @@ export function PlanesTemplate() {
         />
 
         <Pagina>
-            {/* ── Efectos de fondo ── */}
-            <CursorSpotlight />
-            <ParticleCanvas />
-            <BgOrb $x="-10%" $y="-8%"  $size="700px" $color="rgba(196,119,58,0.14)"  $dur="7s" />
-            <BgOrb $x="70%"  $y="10%"  $size="500px" $color="rgba(99,102,241,0.11)"  $dur="9s" $delay="1s" />
-            <BgOrb $x="20%"  $y="55%"  $size="420px" $color="rgba(52,211,153,0.09)"  $dur="11s" $delay="2s" />
-            <BgOrb $x="80%"  $y="75%"  $size="600px" $color="rgba(196,119,58,0.09)"  $dur="8s" $delay="0.5s" />
-            <BgLines />
-            <AuroraBeam $color="#C4773A" $top="18%"  $delay="0s"  $dur="13s" />
-            <AuroraBeam $color="#818cf8" $top="52%"  $delay="5s"  $dur="17s" />
-            <AuroraBeam $color="#34d399" $top="82%"  $delay="9s"  $dur="15s" />
-
             {/* ── Navbar ── */}
             <Navbar $visible={visible} $scrolled={scrolled}>
                 <NavLogo onClick={() => navigate("/")}>
@@ -562,42 +544,68 @@ export function PlanesTemplate() {
                 </BtnIniciarSesion>
             </Navbar>
 
-            {/* ── Hero ── */}
-            <Hero ref={heroRef} $visible={visible}>
-                <motion.div style={{ y: heroParallaxY }}>
-                <HeroBadge>
-                    <HeroBadgeDot />
-                    Sistema de punto de venta SaaS para Colombia
-                </HeroBadge>
-
-                <HeroTitle>
-                    {["Un", "plan", "para"].map((word, i) => (
-                        <motion.span key={i}
-                            initial={{ opacity: 0, y: 22, filter: "blur(8px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.55, delay: 0.25 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                            style={{ display: "inline-block", marginRight: "0.26em" }}
-                        >{word}</motion.span>
+            {/* ── Hero Inmersivo ── */}
+            <HeroScene>
+                <HeroGlow />
+                <StonesLayer>
+                    {STONES.map(s => (
+                        <StoneItem key={s.id} stone={s} mouseX={mouseX} mouseY={mouseY} />
                     ))}
-                    <br />
-                    <TitleGrad>
-                        {["cada", "historia"].map((word, i) => (
-                            <motion.span key={i}
-                                initial={{ opacity: 0, y: 22, filter: "blur(8px)" }}
-                                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                                transition={{ duration: 0.55, delay: 0.6 + i * 0.13, ease: [0.22, 1, 0.36, 1] }}
-                                style={{ display: "inline-block", marginRight: i === 0 ? "0.26em" : 0 }}
-                            >{word}</motion.span>
-                        ))}
-                    </TitleGrad>
-                </HeroTitle>
+                </StonesLayer>
+                <HeroContent $visible={visible}>
+                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
+                        <motion.div style={{ x: mockSpringX, y: mockSpringY }}>
+                            <LaptopFrame>
+                                <LaptopScreen>
+                                    <ScreenHeader>
+                                        <ScreenDot $c="#C4773A" />
+                                        <ScreenDot $c="#D4A96A" />
+                                        <ScreenDot $c="#4A7059" />
+                                        <ScreenTitle>ORDER BI</ScreenTitle>
+                                    </ScreenHeader>
+                                    <ScreenBody>
+                                        <BigStat>$4.2M</BigStat>
+                                        <ScreenStatLabel>Ventas del mes</ScreenStatLabel>
+                                        <MiniCharts>
+                                            {[65, 45, 80, 55, 90, 70, 85].map((h, i) => (
+                                                <MiniBar key={i} $h={h} />
+                                            ))}
+                                        </MiniCharts>
+                                    </ScreenBody>
+                                </LaptopScreen>
+                                <LaptopBase />
+                            </LaptopFrame>
+                        </motion.div>
+                    </motion.div>
+                    <HeroText>
+                        <HeroBadge>
+                            <HeroBadgeDot />
+                            Sistema de gestión · Colombia
+                        </HeroBadge>
+                        <HeroTitle>
+                            Del caos,<br />
+                            <HeroItalic>claridad.</HeroItalic>
+                        </HeroTitle>
+                        <HeroSub>
+                            Sin contratos, sin permanencia, sin letra pequeña.<br />
+                            Actívate hoy y empieza a vender en minutos.
+                        </HeroSub>
+                        <HeroCTA onClick={abrirRegistro}>
+                            Comenzar ahora →
+                        </HeroCTA>
+                    </HeroText>
+                </HeroContent>
+                <motion.div
+                    animate={{ y: [0, 9, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                    style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", color: "rgba(255,255,255,0.18)", fontSize: 30, pointerEvents: "none" }}
+                >
+                    <RiArrowDownSLine />
+                </motion.div>
+            </HeroScene>
 
-                <HeroSub>
-                    Sin contratos, sin permanencia, sin letra pequeña.<br />
-                    Actívate hoy y empieza a vender en minutos.
-                </HeroSub>
-
-                {/* Stats con contador animado */}
+            {/* ── Stats + Toggle ── */}
+            <StatsToggleSection>
                 <StatsBar>
                     {STATS.map((s, i) => (
                         <motion.div key={i} style={{ flex: 1 }}
@@ -609,8 +617,6 @@ export function PlanesTemplate() {
                         </motion.div>
                     ))}
                 </StatsBar>
-
-                {/* Toggle */}
                 <ToggleWrap>
                     <ToggleOpt $active={!anual} onClick={() => setAnual(false)}>Mensual</ToggleOpt>
                     <TogglePill onClick={() => setAnual(!anual)} $on={anual}>
@@ -620,17 +626,7 @@ export function PlanesTemplate() {
                         Anual <AhorroBadge>−15%</AhorroBadge>
                     </ToggleOpt>
                 </ToggleWrap>
-                </motion.div>
-
-                {/* Scroll hint */}
-                <motion.div
-                    animate={{ y: [0, 9, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                    style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", color: "rgba(255,255,255,0.18)", fontSize: 30, pointerEvents: "none" }}
-                >
-                    <RiArrowDownSLine />
-                </motion.div>
-            </Hero>
+            </StatsToggleSection>
 
             {/* ── Cards ── */}
             <CardsSection>
@@ -1414,7 +1410,7 @@ const auroraMove = keyframes`
 ═══════════════════════════════════════ */
 const Pagina = styled.div`
     min-height: 100vh;
-    background: #07090f;
+    background: #0D0B09;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -1737,19 +1733,6 @@ const RegTextarea = styled.textarea`
     &::placeholder { color: rgba(255,255,255,0.25); }
 `;
 
-/* ── Hero ── */
-const Hero = styled.section`
-    position: relative; z-index: 1;
-    text-align: center;
-    padding: 32px 24px 60px;
-    max-width: 780px;
-    opacity: ${({ $visible }) => $visible ? 1 : 0};
-    transform: ${({ $visible }) => $visible ? "none" : "translateY(24px)"};
-    transition: opacity 0.6s 0.1s ease, transform 0.6s 0.1s ease;
-
-    @media (max-width: 767px) { padding: 20px 20px 44px; }
-`;
-
 const HeroBadge = styled.div`
     display: inline-flex; align-items: center; gap: 8px;
     padding: 7px 18px;
@@ -1771,11 +1754,13 @@ const HeroBadgeDot = styled.div`
 `;
 
 const HeroTitle = styled.h1`
-    font-size: clamp(38px, 6vw, 64px);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(42px, 6.5vw, 76px);
     font-weight: 900;
-    line-height: 1.1;
-    margin: 0 0 18px;
-    letter-spacing: -1px;
+    line-height: 1.08;
+    margin: 0 0 4px;
+    letter-spacing: -2px;
+    color: #F0E6D3;
 `;
 
 const TitleGrad = styled.span`
@@ -1866,6 +1851,167 @@ const AhorroBadge = styled.span`
     background: linear-gradient(90deg, #10b981, #059669);
     color: #fff; font-size: 10px; font-weight: 800;
     padding: 2px 8px; border-radius: 999px;
+`;
+
+/* ── Stats + Toggle section (debajo del fold) ── */
+const StatsToggleSection = styled.div`
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
+    width: 100%; max-width: 780px;
+    padding: 0 24px 48px;
+`;
+
+/* ── Hero Inmersivo ── */
+const HeroScene = styled.section`
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+`;
+
+const HeroGlow = styled.div`
+    position: absolute;
+    top: 35%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 500px;
+    background: radial-gradient(ellipse at center, rgba(196,119,58,0.09) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+`;
+
+const StonesLayer = styled.div`
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+`;
+
+const HeroContent = styled.div`
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 44px;
+    padding: 120px 24px 100px;
+    width: 100%; max-width: 860px;
+    opacity: ${({ $visible }) => $visible ? 1 : 0};
+    transform: ${({ $visible }) => $visible ? "none" : "translateY(28px)"};
+    transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
+`;
+
+const HeroText = styled.div`
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 14px;
+`;
+
+const HeroItalic = styled.span`
+    font-style: italic;
+    color: #C4773A;
+`;
+
+const HeroCTA = styled.button`
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 34px; border-radius: 999px;
+    background: #C4773A;
+    border: 2px solid #9A5A28;
+    color: #fff;
+    font-size: 16px; font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #9A5A28;
+    transition: filter 0.15s, transform 0.1s, box-shadow 0.1s;
+    margin-top: 8px;
+    &:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 4px 6px 0 #9A5A28; }
+    &:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #9A5A28; }
+`;
+
+/* ── Laptop Mockup ── */
+const LaptopFrame = styled.div`
+    display: flex; flex-direction: column; align-items: center;
+    filter: drop-shadow(0 40px 70px rgba(0,0,0,0.65)) drop-shadow(0 0 60px rgba(196,119,58,0.13));
+`;
+
+const LaptopScreen = styled.div`
+    width: min(460px, 88vw);
+    border-radius: 14px 14px 0 0;
+    background: #0D0B09;
+    border: 2.5px solid rgba(196,119,58,0.4);
+    border-bottom: none;
+    overflow: hidden;
+`;
+
+const ScreenHeader = styled.div`
+    background: #1A1612;
+    padding: 8px 14px;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid rgba(196,119,58,0.15);
+`;
+
+const ScreenDot = styled.div`
+    width: 9px; height: 9px; border-radius: 50%;
+    background: ${({ $c }) => $c};
+    opacity: 0.9; flex-shrink: 0;
+`;
+
+const ScreenTitle = styled.span`
+    flex: 1; text-align: center; font-size: 10px;
+    font-weight: 700; color: rgba(240,230,211,0.4);
+    letter-spacing: 0.06em;
+`;
+
+const ScreenBody = styled.div`
+    padding: 20px 24px 24px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+`;
+
+const BigStat = styled.div`
+    font-size: clamp(28px, 6vw, 44px);
+    font-weight: 900; line-height: 1;
+    background: linear-gradient(90deg, #C4773A, #D4A96A);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1.5px;
+`;
+
+const ScreenStatLabel = styled.div`
+    font-size: 11px; color: rgba(240,230,211,0.38);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 14px;
+`;
+
+const MiniCharts = styled.div`
+    width: 100%;
+    display: flex; align-items: flex-end; gap: 5px;
+    height: 54px;
+`;
+
+const MiniBar = styled.div`
+    flex: 1; border-radius: 3px 3px 0 0;
+    height: ${({ $h }) => $h}%;
+    background: linear-gradient(180deg, #C4773A 0%, rgba(196,119,58,0.25) 100%);
+`;
+
+const LaptopBase = styled.div`
+    width: 100%;
+    height: 14px;
+    background: linear-gradient(180deg, #231E18 0%, #1A1612 100%);
+    border-radius: 0 0 8px 8px;
+    border: 2.5px solid rgba(196,119,58,0.3);
+    border-top: none;
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+        width: 20%; height: 3px; border-radius: 0 0 4px 4px;
+        background: rgba(196,119,58,0.35);
+    }
 `;
 
 /* ── Cards ── */
