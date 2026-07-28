@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { Btn1, Buscador, RegistrarCategorias, TablaCategorias, Title, useCategoriasStore } from "../../index"
 import { v } from "../../styles/variables"
 import { useState } from "react"
@@ -26,7 +26,7 @@ export function CategoriasTemplate() {
         <section className="area1">
             <Title>Categoria</Title>
             <Btn1 funcion={nuevoRegistro}
-                bgcolor="#f88533"
+                bgcolor="#C4773A"
                 titulo="nuevo"
                 icono={<v.iconoagregar />} />
         </section>

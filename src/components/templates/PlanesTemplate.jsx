@@ -73,10 +73,10 @@ const PLANES = [
         badge: "⭐ El más elegido",
         precio_mes: 129000,
         precio_ano: 110000,
-        color: "#f88533",
-        colorAlt: "#f56a00",
+        color: "#C4773A",
+        colorAlt: "#A66030",
         colorDark: "#b45309",
-        glow: "rgba(248,133,51,0.5)",
+        glow: "rgba(196,119,58,0.5)",
         popular: true,
         features: [
             { icon: <RiStore2Line />,       ok: true,  txt: "Hasta 3 almacenes" },
@@ -148,7 +148,7 @@ function CursorSpotlight() {
     return (
         <div style={{
             position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-            background: `radial-gradient(700px at ${pos.x}px ${pos.y}px, rgba(248,133,51,0.055) 0%, transparent 75%)`,
+            background: `radial-gradient(700px at ${pos.x}px ${pos.y}px, rgba(196,119,58,0.055) 0%, transparent 75%)`,
         }} />
     );
 }
@@ -522,7 +522,7 @@ export function PlanesTemplate() {
             style={{
                 position: "fixed", top: 0, left: 0, right: 0,
                 height: 2,
-                background: "linear-gradient(90deg, #f88533, #fbbf24, #f56a00)",
+                background: "linear-gradient(90deg, #C4773A, #fbbf24, #A66030)",
                 zIndex: 998, scaleX: scrollYProgress, transformOrigin: "0%",
                 pointerEvents: "none",
             }}
@@ -532,12 +532,12 @@ export function PlanesTemplate() {
             {/* ── Efectos de fondo ── */}
             <CursorSpotlight />
             <ParticleCanvas />
-            <BgOrb $x="-10%" $y="-8%"  $size="700px" $color="rgba(248,133,51,0.14)"  $dur="7s" />
+            <BgOrb $x="-10%" $y="-8%"  $size="700px" $color="rgba(196,119,58,0.14)"  $dur="7s" />
             <BgOrb $x="70%"  $y="10%"  $size="500px" $color="rgba(99,102,241,0.11)"  $dur="9s" $delay="1s" />
             <BgOrb $x="20%"  $y="55%"  $size="420px" $color="rgba(52,211,153,0.09)"  $dur="11s" $delay="2s" />
-            <BgOrb $x="80%"  $y="75%"  $size="600px" $color="rgba(248,133,51,0.09)"  $dur="8s" $delay="0.5s" />
+            <BgOrb $x="80%"  $y="75%"  $size="600px" $color="rgba(196,119,58,0.09)"  $dur="8s" $delay="0.5s" />
             <BgLines />
-            <AuroraBeam $color="#f88533" $top="18%"  $delay="0s"  $dur="13s" />
+            <AuroraBeam $color="#C4773A" $top="18%"  $delay="0s"  $dur="13s" />
             <AuroraBeam $color="#818cf8" $top="52%"  $delay="5s"  $dur="17s" />
             <AuroraBeam $color="#34d399" $top="82%"  $delay="9s"  $dur="15s" />
 
@@ -733,7 +733,7 @@ export function PlanesTemplate() {
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true, margin: "-40px" }}
                             transition={{ duration: 0.52, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                            whileHover={{ borderColor: "rgba(248,133,51,0.32)", background: "rgba(248,133,51,0.05)", y: -6, scale: 1.025, transition: { type: "spring", stiffness: 280, damping: 20 } }}
+                            whileHover={{ borderColor: "rgba(196,119,58,0.32)", background: "rgba(196,119,58,0.05)", y: -6, scale: 1.025, transition: { type: "spring", stiffness: 280, damping: 20 } }}
                         >
                             <motion.div
                                 initial={{ scale: 0.4, opacity: 0 }}
@@ -767,19 +767,19 @@ export function PlanesTemplate() {
                         viewport={{ once: true, margin: "-30px" }}
                         transition={{ duration: 0.4, delay: i * 0.08, ease: "easeOut" }}
                         animate={{
-                            background: faqOpen === i ? "rgba(248,133,51,0.05)" : "rgba(255,255,255,0.03)",
-                            borderColor: faqOpen === i ? "rgba(248,133,51,0.35)" : "rgba(255,255,255,0.06)",
-                            outline: faqOpen === i ? "1px solid rgba(248,133,51,0.35)" : "1px solid rgba(255,255,255,0.06)",
+                            background: faqOpen === i ? "rgba(196,119,58,0.05)" : "rgba(255,255,255,0.03)",
+                            borderColor: faqOpen === i ? "rgba(196,119,58,0.35)" : "rgba(255,255,255,0.06)",
+                            outline: faqOpen === i ? "1px solid rgba(196,119,58,0.35)" : "1px solid rgba(255,255,255,0.06)",
                         }}
                         onClick={() => setFaqOpen(faqOpen === i ? null : i)}
-                        whileHover={{ outline: "1px solid rgba(248,133,51,0.28)" }}
+                        whileHover={{ outline: "1px solid rgba(196,119,58,0.28)" }}
                     >
                         <FaqHeader>
                             <FaqQ style={{ margin: 0 }}>{faq.q}</FaqQ>
                             <motion.div
                                 animate={{ rotate: faqOpen === i ? 180 : 0 }}
                                 transition={{ duration: 0.25, ease: "easeInOut" }}
-                                style={{ display: "flex", alignItems: "center", color: faqOpen === i ? "#f88533" : "rgba(255,255,255,0.3)", fontSize: 22, flexShrink: 0 }}
+                                style={{ display: "flex", alignItems: "center", color: faqOpen === i ? "#C4773A" : "rgba(255,255,255,0.3)", fontSize: 22, flexShrink: 0 }}
                             >
                                 <RiArrowDownSLine />
                             </motion.div>
@@ -1061,7 +1061,7 @@ export function PlanesTemplate() {
                 <RegExitoWrap>
                     <ConfettiCenter>
                         <ConfettiExplosion force={0.65} duration={3200} particleCount={180} width={600}
-                            colors={['#f88533','#fbbf24','#34d399','#818cf8','#fff','#f87171']} />
+                            colors={['#C4773A','#fbbf24','#34d399','#818cf8','#fff','#f87171']} />
                     </ConfettiCenter>
                     <RegExitoCirculo>🚀</RegExitoCirculo>
                     <DrawerTitle style={{ textAlign:"center" }}>¡Listo! Te contactamos pronto</DrawerTitle>
@@ -1463,8 +1463,8 @@ const BgLines = styled.div`
     pointer-events: none;
     z-index: 0;
     background-image:
-        linear-gradient(rgba(248,133,51,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(248,133,51,0.035) 1px, transparent 1px);
+        linear-gradient(rgba(196,119,58,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(196,119,58,0.035) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 80%);
 `;
@@ -1494,7 +1494,7 @@ const NavLogo = styled.button`
     display: flex; align-items: center; gap: 10px;
     background: none; border: none; cursor: pointer;
     img { width: 34px; height: 34px; object-fit: contain; }
-    span { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.3px; b { color: #f88533; } }
+    span { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.3px; b { color: #C4773A; } }
 `;
 
 const NavCenter = styled.div`
@@ -1520,17 +1520,17 @@ const BtnIniciarSesion = styled.button`
     display: flex; align-items: center; gap: 8px;
     padding: 10px 20px;
     border-radius: 999px;
-    border: 2px solid #B56B12;
-    background: #E8891A;
+    border: 2px solid #9A5A28;
+    background: #C4773A;
     color: #fff;
     font-size: 13px; font-weight: 800;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(232,137,26,0.35), 3px 3px 0 #B56B12;
+    box-shadow: 0 4px 16px rgba(232,137,26,0.35), 3px 3px 0 #9A5A28;
     transition: all 0.18s;
     white-space: nowrap;
-    &:hover  { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(232,137,26,0.45), 3px 3px 0 #B56B12; }
-    &:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #B56B12; }
+    &:hover  { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(232,137,26,0.45), 3px 3px 0 #9A5A28; }
+    &:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #9A5A28; }
 
     @media (max-width: 767px) {
         font-size: 12px; padding: 9px 16px;
@@ -1556,7 +1556,7 @@ const LoginDrawer = styled.div`
     @media (min-width: 769px) {
         top: 0; right: 0; bottom: 0; width: 420px;
         padding: 40px 36px;
-        border-left: 1px solid rgba(248,133,51,0.2);
+        border-left: 1px solid rgba(196,119,58,0.2);
         box-shadow: -12px 0 48px rgba(0,0,0,0.6);
         transform: ${({ $open }) => $open ? "translateX(0)" : "translateX(100%)"};
         opacity: ${({ $open }) => $open ? 1 : 0};
@@ -1568,7 +1568,7 @@ const LoginDrawer = styled.div`
         left: 0; right: 0; bottom: 0;
         border-radius: 28px 28px 0 0;
         padding: 12px 24px 40px;
-        border-top: 1px solid rgba(248,133,51,0.2);
+        border-top: 1px solid rgba(196,119,58,0.2);
         box-shadow: 0 -12px 48px rgba(0,0,0,0.7);
         transform: ${({ $open }) => $open ? "translateY(0)" : "translateY(100%)"};
         opacity: ${({ $open }) => $open ? 1 : 0};
@@ -1592,13 +1592,13 @@ const BtnCerrar = styled.button`
     color: rgba(255,255,255,0.6); font-size: 20px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.15s;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const DrawerLogo = styled.div`
     display: flex; align-items: center; gap: 8px; margin-top: 8px;
     img { width: 28px; height: 28px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 900; color: #fff; b { color: #f88533; } }
+    span { font-size: 16px; font-weight: 900; color: #fff; b { color: #C4773A; } }
 `;
 
 const DrawerTitle = styled.h2`
@@ -1634,7 +1634,7 @@ const InputField = styled.input`
     font-size: 16px; font-family: "Poppins", sans-serif;
     outline: none; box-sizing: border-box; min-height: 52px;
     transition: border-color 0.2s;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: rgba(255,255,255,0.25); }
 `;
 
@@ -1679,7 +1679,7 @@ const BtnEye = styled.button`
     color: rgba(255,255,255,0.35); font-size: 20px;
     display: flex; align-items: center;
     transition: color 0.15s;
-    &:hover { color: #f88533; }
+    &:hover { color: #C4773A; }
 `;
 
 const MsgError = styled.p`
@@ -1691,20 +1691,20 @@ const MsgError = styled.p`
 
 const BtnIngresar = styled.button`
     width: 100%; padding: 16px; min-height: 54px; border-radius: 14px;
-    border: 2px solid ${({ disabled }) => disabled ? "rgba(255,255,255,0.1)" : "#B56B12"};
-    background: ${({ disabled }) => disabled ? "rgba(255,255,255,0.06)" : "#E8891A"};
+    border: 2px solid ${({ disabled }) => disabled ? "rgba(255,255,255,0.1)" : "#9A5A28"};
+    background: ${({ disabled }) => disabled ? "rgba(255,255,255,0.06)" : "#C4773A"};
     color: ${({ disabled }) => disabled ? "rgba(255,255,255,0.35)" : "#fff"};
     font-size: 16px; font-weight: 800; cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     font-family: "Poppins", sans-serif;
-    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #B56B12"};
+    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #9A5A28"};
     transition: box-shadow 0.1s, transform 0.1s, filter 0.1s;
     &:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
-    &:active:not(:disabled) { box-shadow: 2px 2px 0 #B56B12; transform: translate(2px,2px); }
+    &:active:not(:disabled) { box-shadow: 2px 2px 0 #9A5A28; transform: translate(2px,2px); }
 `;
 
 const DrawerFootNote = styled.p`
     font-size: 13px; text-align: center; color: rgba(255,255,255,0.35); margin: 0;
-    span { color: #f88533; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
+    span { color: #C4773A; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
 `;
 
 const RegRow = styled.div`
@@ -1720,10 +1720,10 @@ const ContactoOpt = styled.button`
     flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
     padding: 11px; border-radius: 12px; font-size: 13px; font-weight: 700;
     font-family: "Poppins", sans-serif; cursor: pointer; transition: all 0.15s;
-    border: 2px solid ${({ $active }) => $active ? "#f88533" : "rgba(255,255,255,0.1)"};
-    background: ${({ $active }) => $active ? "rgba(248,133,51,0.15)" : "rgba(255,255,255,0.04)"};
-    color: ${({ $active }) => $active ? "#f88533" : "rgba(255,255,255,0.5)"};
-    &:hover { border-color: #f88533; color: #f88533; }
+    border: 2px solid ${({ $active }) => $active ? "#C4773A" : "rgba(255,255,255,0.1)"};
+    background: ${({ $active }) => $active ? "rgba(196,119,58,0.15)" : "rgba(255,255,255,0.04)"};
+    color: ${({ $active }) => $active ? "#C4773A" : "rgba(255,255,255,0.5)"};
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const RegTextarea = styled.textarea`
@@ -1733,7 +1733,7 @@ const RegTextarea = styled.textarea`
     color: #fff; font-size: 15px; font-family: "Poppins", sans-serif;
     outline: none; resize: none; box-sizing: border-box; line-height: 1.5;
     transition: border-color 0.2s;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: rgba(255,255,255,0.25); }
 `;
 
@@ -1754,9 +1754,9 @@ const HeroBadge = styled.div`
     display: inline-flex; align-items: center; gap: 8px;
     padding: 7px 18px;
     border-radius: 999px;
-    border: 1px solid rgba(248,133,51,0.3);
-    background: rgba(248,133,51,0.07);
-    color: #f88533;
+    border: 1px solid rgba(196,119,58,0.3);
+    background: rgba(196,119,58,0.07);
+    color: #C4773A;
     font-size: 12px; font-weight: 700;
     letter-spacing: 0.3px;
     margin-bottom: 24px;
@@ -1766,7 +1766,7 @@ const HeroBadge = styled.div`
 const HeroBadgeDot = styled.div`
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: #f88533;
+    background: #C4773A;
     animation: ${blink} 1.8s ease-in-out infinite;
 `;
 
@@ -1779,7 +1779,7 @@ const HeroTitle = styled.h1`
 `;
 
 const TitleGrad = styled.span`
-    background: linear-gradient(90deg, #f88533 0%, #fbbf24 40%, #f56a00 70%, #f88533 100%);
+    background: linear-gradient(90deg, #C4773A 0%, #fbbf24 40%, #A66030 70%, #C4773A 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1821,7 +1821,7 @@ const StatItem = styled.div`
 
 const StatVal = styled.span`
     font-size: 20px; font-weight: 900;
-    background: linear-gradient(90deg, #f88533, #fbbf24);
+    background: linear-gradient(90deg, #C4773A, #fbbf24);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1847,8 +1847,8 @@ const ToggleOpt = styled.span`
 const TogglePill = styled.div`
     width: 52px; height: 28px;
     border-radius: 999px;
-    background: ${({ $on }) => $on ? "linear-gradient(90deg, #f88533, #f56a00)" : "rgba(255,255,255,0.1)"};
-    border: 1.5px solid ${({ $on }) => $on ? "#f56a0088" : "rgba(255,255,255,0.15)"};
+    background: ${({ $on }) => $on ? "linear-gradient(90deg, #C4773A, #A66030)" : "rgba(255,255,255,0.1)"};
+    border: 1.5px solid ${({ $on }) => $on ? "#A6603088" : "rgba(255,255,255,0.15)"};
     position: relative; cursor: pointer;
     transition: background 0.28s, border-color 0.28s;
 `;
@@ -1925,7 +1925,7 @@ const RotatingBorder = styled.div`
 
 const PopularStrip = styled.div`
     position: relative; z-index: 2;
-    background: linear-gradient(90deg, #f88533, #f56a00, #fbbf24, #f88533);
+    background: linear-gradient(90deg, #C4773A, #A66030, #fbbf24, #C4773A);
     background-size: 200% auto;
     animation: ${shimmer} 2.5s linear infinite;
     color: #fff;
@@ -2077,14 +2077,14 @@ const CompareItem = styled.div`
     display: flex; flex-direction: column; gap: 10px;
     text-align: left;
     transition: border-color 0.2s, background 0.2s;
-    &:hover { border-color: rgba(248,133,51,0.3); background: rgba(248,133,51,0.04); }
+    &:hover { border-color: rgba(196,119,58,0.3); background: rgba(196,119,58,0.04); }
 `;
 
 const CompareIcon = styled.span`
     display: flex; align-items: center; justify-content: center;
     width: 44px; height: 44px; border-radius: 12px;
-    background: rgba(248,133,51,0.12);
-    color: #f88533; font-size: 22px;
+    background: rgba(196,119,58,0.12);
+    color: #C4773A; font-size: 22px;
 `;
 
 const CompareItemTitle = styled.h4`
@@ -2116,7 +2116,7 @@ const FaqItem = styled.div`
     border: 1px solid rgba(255,255,255,0.06);
     margin-bottom: 12px;
     transition: border-color 0.2s;
-    &:hover { border-color: rgba(248,133,51,0.25); }
+    &:hover { border-color: rgba(196,119,58,0.25); }
 `;
 
 const FaqHeader = styled.div`
@@ -2155,7 +2155,7 @@ const CtaFinal = styled.section`
 const CtaGlow = styled.div`
     position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
     width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(248,133,51,0.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(196,119,58,0.18) 0%, transparent 70%);
     pointer-events: none; z-index: -1;
 `;
 
@@ -2194,13 +2194,13 @@ const BtnWA = styled.button`
 
 const BtnLogin = styled.button`
     padding: 15px 28px; border-radius: 14px;
-    border: 2px solid rgba(248,133,51,0.5);
-    background: rgba(248,133,51,0.08);
-    color: #f88533; font-size: 15px; font-weight: 800;
+    border: 2px solid rgba(196,119,58,0.5);
+    background: rgba(196,119,58,0.08);
+    color: #C4773A; font-size: 15px; font-weight: 800;
     font-family: "Poppins", sans-serif; cursor: pointer;
     backdrop-filter: blur(8px);
     transition: all 0.18s;
-    &:hover { background: rgba(248,133,51,0.15); border-color: #f88533; transform: translateY(-2px); }
+    &:hover { background: rgba(196,119,58,0.15); border-color: #C4773A; transform: translateY(-2px); }
 `;
 
 /* ── Footer ── */
@@ -2214,7 +2214,7 @@ const FooterLogo = styled.button`
     display: flex; align-items: center; gap: 8px;
     background: none; border: none; cursor: pointer; margin-bottom: 4px;
     img { width: 28px; height: 28px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.4); b { color: #f8853355; } }
+    span { font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.4); b { color: #C4773A55; } }
 `;
 
 const FooterTexto = styled.span`
@@ -2230,7 +2230,7 @@ const FooterLink = styled.button`
     font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.35);
     font-family: "Poppins", sans-serif; padding: 0;
     transition: color 0.15s;
-    &:hover { color: #f88533; }
+    &:hover { color: #C4773A; }
 `;
 
 const FooterSep = styled.span`
@@ -2246,7 +2246,7 @@ const TerminosCheck = styled.div`
 
     input[type="checkbox"] {
         width: 16px; height: 16px; flex-shrink: 0;
-        accent-color: #f88533; margin-top: 2px; cursor: pointer;
+        accent-color: #C4773A; margin-top: 2px; cursor: pointer;
     }
 
     label {
@@ -2257,7 +2257,7 @@ const TerminosCheck = styled.div`
 
 const TerminosLink = styled.button`
     background: none; border: none; padding: 0;
-    font-size: 12px; font-weight: 700; color: #f88533;
+    font-size: 12px; font-weight: 700; color: #C4773A;
     cursor: pointer; font-family: "Poppins", sans-serif;
     text-decoration: underline; text-underline-offset: 2px;
     &:hover { color: #ffa05c; }
@@ -2492,7 +2492,7 @@ const WebBtnWA = styled.button`
 
 const WebBtnBadge = styled.span`
     position: absolute; top: -10px; right: -10px;
-    background: linear-gradient(90deg,#f88533,#f56a00);
+    background: linear-gradient(90deg,#C4773A,#A66030);
     color: #fff; font-size: 9px; font-weight: 800;
     padding: 2px 7px; border-radius: 999px; letter-spacing: .03em;
     white-space: nowrap;
@@ -2576,9 +2576,9 @@ const WebDescBanner = styled.div`
     padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 700;
     background: ${({ $plan }) => $plan === "cosmos"
         ? "linear-gradient(90deg, rgba(52,211,153,0.12), rgba(99,102,241,0.12))"
-        : "linear-gradient(90deg, rgba(248,133,51,0.12), rgba(248,133,51,0.06))"};
-    border: 1px solid ${({ $plan }) => $plan === "cosmos" ? "rgba(52,211,153,0.25)" : "rgba(248,133,51,0.25)"};
-    color: ${({ $plan }) => $plan === "cosmos" ? "#34d399" : "#f88533"};
+        : "linear-gradient(90deg, rgba(196,119,58,0.12), rgba(196,119,58,0.06))"};
+    border: 1px solid ${({ $plan }) => $plan === "cosmos" ? "rgba(52,211,153,0.25)" : "rgba(196,119,58,0.25)"};
+    color: ${({ $plan }) => $plan === "cosmos" ? "#34d399" : "#C4773A"};
     text-align: center;
 `;
 

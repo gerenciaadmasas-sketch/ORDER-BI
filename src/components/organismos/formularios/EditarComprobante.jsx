@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { useState } from "react";
 import { useComprobantesStore } from "../../../store/ComprobantesStore";
 import { v } from "../../../styles/variables";
@@ -93,12 +93,12 @@ const Field = styled.div`
         color: ${({ theme }) => theme.text};
         font-size: 14px;
         outline: none;
-        &:focus { border-color: #f88533; }
+        &:focus { border-color: #C4773A; }
     }
 `;
 const BtnGuardar = styled.button`
     width: 100%; padding: 12px;
-    background: linear-gradient(135deg, #f88533, #f56a00);
+    background: linear-gradient(135deg, #C4773A, #A66030);
     color: #fff; border: none; border-radius: 12px;
     font-size: 14px; font-weight: 700; cursor: pointer;
     margin-top: 4px;

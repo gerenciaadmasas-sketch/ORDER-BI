@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { v } from "../../../styles/variables";
 import { SubirImagenProducto } from "../../../supabase/crudProductos";
@@ -471,7 +471,7 @@ const ZonaImagen = styled.div`
     justify-content: center;
     margin-bottom: 18px;
     transition: border-color 0.2s;
-    &:hover { border-color: #f88533; }
+    &:hover { border-color: #C4773A; }
 `;
 
 const FotoProducto = styled.img`
@@ -499,7 +499,7 @@ const BadgeCamara = styled.div`
     position: absolute;
     bottom: 10px;
     right: 10px;
-    background: rgba(248,133,51,0.9);
+    background: rgba(196,119,58,0.9);
     border-radius: 8px;
     padding: 5px 8px;
     display: flex;

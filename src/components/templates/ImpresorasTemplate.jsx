@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { RiPrinterLine, RiCheckLine, RiAlertLine, RiSettings3Line, RiInformationLine, RiTestTubeLine } from "react-icons/ri";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -221,7 +221,7 @@ const TopBar = styled.div`
 `;
 const TitleGroup = styled.div`
     display: flex; align-items: center; gap: 14px;
-    .icono { font-size: 36px; color: #f88533; }
+    .icono { font-size: 36px; color: #C4773A; }
     h1 { font-size: 22px; font-weight: 900; color: ${({ theme }) => theme.text}; margin: 0 0 3px; }
     p  { font-size: 13px; color: ${({ theme }) => theme.colorsubtitlecard}; margin: 0; }
 `;
@@ -252,7 +252,7 @@ const SeccionCard = styled.div`
 const SeccionHeader = styled.div`
     display: flex; align-items: center; gap: 8px;
     font-size: 14px; font-weight: 800; color: ${({ theme }) => theme.text};
-    svg { font-size: 18px; color: #f88533; }
+    svg { font-size: 18px; color: #C4773A; }
 `;
 
 const Campo = styled.div`
@@ -268,7 +268,7 @@ const Input = styled.input`
     background: ${({ theme }) => theme.bgtotal};
     color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; opacity: 0.6; }
 `;
 const Hint = styled.span`
@@ -278,18 +278,18 @@ const OpcionesRow = styled.div`display: flex; gap: 8px; flex-wrap: wrap;`;
 const OpcionBtn = styled.button`
     padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 700;
     cursor: pointer; font-family: "Poppins", sans-serif;
-    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#f88533" : theme.color2};
-    background: ${({ $activo }) => $activo ? "rgba(248,133,51,0.12)" : "transparent"};
-    color: ${({ $activo, theme }) => $activo ? "#f88533" : theme.text};
+    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#C4773A" : theme.color2};
+    background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.12)" : "transparent"};
+    color: ${({ $activo, theme }) => $activo ? "#C4773A" : theme.text};
     transition: all 0.15s;
-    &:hover { border-color: #f88533; }
+    &:hover { border-color: #C4773A; }
 `;
 
 const BotonesRow = styled.div`display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap;`;
 const BtnGuardar = styled.button`
     flex: 1; min-width: 140px; display: flex; align-items: center; justify-content: center; gap: 7px;
     padding: 11px 20px; border-radius: 10px; border: none;
-    background: #f88533; color: #fff;
+    background: #C4773A; color: #fff;
     font-size: 13px; font-weight: 700; cursor: pointer; font-family: "Poppins", sans-serif;
     transition: background 0.15s;
     &:hover { background: #e07520; }
@@ -301,7 +301,7 @@ const BtnPrueba = styled.button`
     background: transparent; color: ${({ theme }) => theme.text};
     font-size: 13px; font-weight: 700; cursor: pointer; font-family: "Poppins", sans-serif;
     transition: all 0.15s;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 /* Pasos de instrucciones */
@@ -309,7 +309,7 @@ const PasosList = styled.div`display: flex; flex-direction: column; gap: 14px;`;
 const Paso = styled.div`display: flex; align-items: flex-start; gap: 12px;`;
 const PasoNum = styled.div`
     width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(248,133,51,0.15); color: #f88533;
+    background: rgba(196,119,58,0.15); color: #C4773A;
     font-size: 12px; font-weight: 800;
     display: flex; align-items: center; justify-content: center;
 `;

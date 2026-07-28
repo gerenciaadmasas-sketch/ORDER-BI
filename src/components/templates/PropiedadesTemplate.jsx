@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -22,14 +22,14 @@ export const TIPOS_PROP = [
     { key: "lote",           label: "Lote",            icon: "solar:map-point-bold-duotone",   color: "#f59e0b" },
     { key: "finca",          label: "Finca",           icon: "mdi:home-group",                 color: "#34d399" },
     { key: "local_comercial",label: "Local Comercial", icon: "solar:shop-bold-duotone",        color: "#a78bfa" },
-    { key: "edificio",       label: "Bodega",          icon: "mdi:warehouse",                  color: "#f88533" },
+    { key: "edificio",       label: "Bodega",          icon: "mdi:warehouse",                  color: "#C4773A" },
 ];
 
 const ESTADOS_PROP = [
     { key: "disponible",      label: "Disponible",      color: "#4ade80", bg: "rgba(74,222,128,0.12)"   },
     { key: "reservado",       label: "Reservado",       color: "#f59e0b", bg: "rgba(245,158,11,0.12)"   },
     { key: "vendido",         label: "Vendido",         color: "#60a5fa", bg: "rgba(96,165,250,0.12)"   },
-    { key: "en_construccion", label: "En construcción", color: "#f88533", bg: "rgba(248,133,51,0.12)"   },
+    { key: "en_construccion", label: "En construcción", color: "#C4773A", bg: "rgba(196,119,58,0.12)"   },
 ];
 
 const ESTADOS_ADMIN = [
@@ -44,7 +44,7 @@ const TODOS_ESTADOS = [...ESTADOS_PROP, ...ESTADOS_ADMIN];
 const TIPOS_PROYECTO = [
     { key: "remodelacion",   label: "Remodelación",       icon: "mdi:wrench",                         color: "#f59e0b" },
     { key: "reparacion",     label: "Reparación locativa", icon: "mdi:toolbox",                        color: "#60a5fa" },
-    { key: "construccion",   label: "Construcción",        icon: "mdi:hard-hat",                       color: "#f88533" },
+    { key: "construccion",   label: "Construcción",        icon: "mdi:hard-hat",                       color: "#C4773A" },
     { key: "administracion", label: "Administración",      icon: "solar:clipboard-list-bold-duotone",  color: "#a78bfa" },
 ];
 
@@ -69,7 +69,7 @@ const VISTAS = [
     { key: "todos",         label: "Todo",                icon: "solar:widget-5-bold-duotone",          color: "#f59e0b" },
     { key: "propias",       label: "Inmuebles Propios",   icon: "solar:home-2-bold-duotone",            color: "#4ade80" },
     { key: "administradas", label: "Gestión Adm.",        icon: "solar:clipboard-list-bold-duotone",    color: "#a78bfa" },
-    { key: "proyectos",     label: "Proyectos",           icon: "mdi:hard-hat",                         color: "#f88533" },
+    { key: "proyectos",     label: "Proyectos",           icon: "mdi:hard-hat",                         color: "#C4773A" },
 ];
 
 export function PropiedadesTemplate() {
@@ -246,8 +246,8 @@ export function PropiedadesTemplate() {
                     <StatNum>{admCnt}</StatNum>
                     <StatLabel>En gestión adm.</StatLabel>
                 </StatCard>
-                <StatCard $color="#f88533" onClick={() => cambiarVista("proyectos")} $active={vista === "proyectos"}>
-                    <StatIcon $color="#f88533"><Icon icon="mdi:hard-hat" /></StatIcon>
+                <StatCard $color="#C4773A" onClick={() => cambiarVista("proyectos")} $active={vista === "proyectos"}>
+                    <StatIcon $color="#C4773A"><Icon icon="mdi:hard-hat" /></StatIcon>
                     <StatNum>{proyActivosCnt}<StatSub>/{proyectos.length}</StatSub></StatNum>
                     <StatLabel>Proyectos activos</StatLabel>
                 </StatCard>
@@ -619,7 +619,7 @@ const PageSub = styled.p`font-size:13px;color:rgba(255,255,255,0.4);margin:0;`;
 
 const BtnNuevoInmueble = styled.button`
     display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;
-    background:linear-gradient(135deg,#f59e0b,#f88533);border:none;
+    background:linear-gradient(135deg,#f59e0b,#C4773A);border:none;
     color:#fff;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;
     font-family:"Poppins",sans-serif;transition:opacity .15s,transform .15s;
     svg{font-size:18px;}
@@ -832,7 +832,7 @@ const BtnCancelar = styled.button`
 `;
 const BtnGuardar = styled.button`
     flex:2;padding:11px;border-radius:12px;border:none;
-    background:linear-gradient(135deg,#f59e0b,#f88533);
+    background:linear-gradient(135deg,#f59e0b,#C4773A);
     color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:"Poppins",sans-serif;
     transition:opacity .15s;&:disabled{opacity:.5;cursor:not-allowed;}&:hover:not(:disabled){opacity:.9;}
 `;

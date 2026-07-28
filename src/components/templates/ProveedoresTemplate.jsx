@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+﻿import styled, { keyframes } from "styled-components";
 import { useState, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -218,10 +218,10 @@ const HeaderLeft = styled.div`
 const PageIcon = styled.div`
     width: 46px; height: 46px;
     border-radius: 14px;
-    background: rgba(248,133,51,.15);
-    border: 1px solid rgba(248,133,51,.3);
+    background: rgba(196,119,58,.15);
+    border: 1px solid rgba(196,119,58,.3);
     display: flex; align-items: center; justify-content: center;
-    font-size: 24px; color: #f88533; flex-shrink: 0;
+    font-size: 24px; color: #C4773A; flex-shrink: 0;
 `;
 
 const Stats = styled.div`
@@ -250,7 +250,7 @@ const StatDiv = styled.div`
 
 const NuevoBtn = styled.button`
     display: flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #f88533, #f59e0b);
+    background: linear-gradient(135deg, #C4773A, #f59e0b);
     color: #fff; border: none; border-radius: 12px;
     padding: 11px 18px;
     font-size: 13px; font-weight: 700;
@@ -298,12 +298,12 @@ const Chips = styled.div`
 const Chip = styled.button`
     padding: 8px 16px;
     border-radius: 10px;
-    border: 1px solid ${p => p.$active ? "#f88533" : "rgba(255,255,255,.1)"};
-    background: ${p => p.$active ? "rgba(248,133,51,.15)" : "rgba(255,255,255,.04)"};
-    color: ${p => p.$active ? "#f88533" : "rgba(255,255,255,.4)"};
+    border: 1px solid ${p => p.$active ? "#C4773A" : "rgba(255,255,255,.1)"};
+    background: ${p => p.$active ? "rgba(196,119,58,.15)" : "rgba(255,255,255,.04)"};
+    color: ${p => p.$active ? "#C4773A" : "rgba(255,255,255,.4)"};
     font-size: 12px; font-weight: 700; font-family: "Poppins", sans-serif;
     cursor: pointer; transition: .15s;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const Grid = styled.div`
@@ -324,7 +324,7 @@ const Card = styled.div`
     gap: 8px;
     transition: border-color .2s, transform .2s;
     &:hover {
-        border-color: rgba(248,133,51,.3);
+        border-color: rgba(196,119,58,.3);
         transform: translateY(-2px);
     }
 `;
@@ -360,9 +360,9 @@ const ActBtn = styled.button`
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: .15s;
     &:hover {
-        background: ${p => p.$edit ? "rgba(248,133,51,.12)" : "rgba(248,113,113,.12)"};
-        color: ${p => p.$edit ? "#f88533" : "#f87171"};
-        border-color: ${p => p.$edit ? "rgba(248,133,51,.3)" : "rgba(248,113,113,.3)"};
+        background: ${p => p.$edit ? "rgba(196,119,58,.12)" : "rgba(248,113,113,.12)"};
+        color: ${p => p.$edit ? "#C4773A" : "#f87171"};
+        border-color: ${p => p.$edit ? "rgba(196,119,58,.3)" : "rgba(248,113,113,.3)"};
     }
 `;
 

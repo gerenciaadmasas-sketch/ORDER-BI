@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { RiDeleteBin2Line, RiWhatsappLine, RiPhoneLine, RiCloseLine, RiCheckLine
 
 const ESTADOS = [
     { key: "nuevo",          label: "Nuevo",          color: "#818cf8" },
-    { key: "contactado",     label: "Contactado",     color: "#f88533" },
+    { key: "contactado",     label: "Contactado",     color: "#C4773A" },
     { key: "en_negociacion", label: "En negociación", color: "#fbbf24" },
     { key: "cerrado",        label: "Cerrado",        color: "#34d399" },
     { key: "perdido",        label: "Perdido",        color: "#f87171" },
@@ -83,7 +83,7 @@ export function ProspectosTemplate() {
             <StatsRow>
                 {[
                     { label: "Total",         val: total,    color: "#818cf8" },
-                    { label: "Nuevos",        val: nuevos,   color: "#f88533" },
+                    { label: "Nuevos",        val: nuevos,   color: "#C4773A" },
                     { label: "En negociación",val: enNeg,    color: "#fbbf24" },
                     { label: "Cerrados",      val: cerrados, color: "#34d399" },
                 ].map(s => (
@@ -390,12 +390,12 @@ const FiltroBtn = styled.button`
     padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700;
     font-family: "Poppins", sans-serif; cursor: pointer; transition: all 0.15s;
     border: 1.5px solid ${({ $active, $color, theme }) =>
-        $active ? ($color ?? "#f88533") : theme.color2};
+        $active ? ($color ?? "#C4773A") : theme.color2};
     background: ${({ $active, $color }) =>
-        $active ? ($color ? `${$color}22` : "rgba(248,133,51,0.15)") : "transparent"};
+        $active ? ($color ? `${$color}22` : "rgba(196,119,58,0.15)") : "transparent"};
     color: ${({ $active, $color, theme }) =>
-        $active ? ($color ?? "#f88533") : theme.colorsubtitlecard};
-    &:hover { border-color: ${({ $color }) => $color ?? "#f88533"}; color: ${({ $color }) => $color ?? "#f88533"}; }
+        $active ? ($color ?? "#C4773A") : theme.colorsubtitlecard};
+    &:hover { border-color: ${({ $color }) => $color ?? "#C4773A"}; color: ${({ $color }) => $color ?? "#C4773A"}; }
 `;
 
 /* Tabla */
@@ -422,7 +422,7 @@ const Th = styled.th`
 
 const TrBody = styled.tr`
     cursor: pointer; transition: background 0.15s;
-    &:hover { background: ${({ theme }) => theme.bghover ?? "rgba(248,133,51,0.05)"}; }
+    &:hover { background: ${({ theme }) => theme.bghover ?? "rgba(196,119,58,0.05)"}; }
     &:not(:last-child) td { border-bottom: 1px solid ${({ theme }) => theme.color2}; }
 `;
 
@@ -544,7 +544,7 @@ const BtnCerrar = styled.button`
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; cursor: pointer; flex-shrink: 0;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const DrawerSection = styled.div`
@@ -595,7 +595,7 @@ const NotasArea = styled.textarea`
     font-size: 13px; font-family: "Poppins", sans-serif;
     outline: none; resize: vertical; box-sizing: border-box;
     line-height: 1.6;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 
@@ -605,10 +605,10 @@ const DrawerActions = styled.div`
 
 const BtnGuardar = styled.button`
     flex: 1; padding: 13px; border-radius: 12px;
-    border: 2px solid #B56B12; background: #E8891A;
+    border: 2px solid #9A5A28; background: #C4773A;
     color: #fff; font-size: 14px; font-weight: 800;
     font-family: "Poppins", sans-serif; cursor: pointer;
-    box-shadow: 3px 3px 0 #B56B12;
+    box-shadow: 3px 3px 0 #9A5A28;
     transition: all 0.1s;
     &:hover:not(:disabled) { filter: brightness(1.08); }
     &:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }

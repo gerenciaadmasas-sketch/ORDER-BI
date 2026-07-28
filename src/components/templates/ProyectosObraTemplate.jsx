@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -18,7 +18,7 @@ const formatCOP = (n) =>
 const TIPOS_PROYECTO = [
     { key: "remodelacion",  label: "Remodelación",        icon: "mdi:wrench",                             color: "#f59e0b" },
     { key: "reparacion",    label: "Reparación locativa",  icon: "mdi:toolbox",                           color: "#60a5fa" },
-    { key: "construccion",  label: "Construcción",         icon: "mdi:hard-hat",                          color: "#f88533" },
+    { key: "construccion",  label: "Construcción",         icon: "mdi:hard-hat",                          color: "#C4773A" },
     { key: "administracion",label: "Administración",       icon: "solar:clipboard-list-bold-duotone",     color: "#a78bfa" },
 ];
 

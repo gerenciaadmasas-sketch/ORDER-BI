@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { RiCloseLine } from "react-icons/ri";
 
 export function ListaDesplegable({ data, setState, funcion, scroll, top, state }) {
@@ -61,7 +61,7 @@ const Items = styled.div`
   flex: 1;
 
   &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-thumb { background: #f88533; border-radius: 10px; }
+  &::-webkit-scrollbar-thumb { background: #C4773A; border-radius: 10px; }
 `;
 
 const Item = styled.div`
@@ -85,7 +85,7 @@ const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #f88533;
+  background: #C4773A;
   flex-shrink: 0;
 `;
 

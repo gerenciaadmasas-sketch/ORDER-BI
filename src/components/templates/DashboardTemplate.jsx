@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+﻿import { useState, useMemo, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -213,7 +213,7 @@ function DashboardSaaS() {
                         <StatCard $loading={loadV}>
                             <StatTop>
                                 <StatLabel>Ventas</StatLabel>
-                                <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#f88533" }} />
+                                <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#C4773A" }} />
                             </StatTop>
                             <StatVal>{formatCOP(totalVentas)}</StatVal>
                         </StatCard>
@@ -254,7 +254,7 @@ function DashboardSaaS() {
                                         <XAxis dataKey="dia" tick={{ fontSize: 10, fill: "#94a3b8" }} />
                                         <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
                                         <Tooltip formatter={(v) => [formatCOP(v), "Ventas"]} contentStyle={{ background: "#1C2E42", border: "1px solid #2d4a66", borderRadius: 10, fontSize: 12 }} />
-                                        <Line type="monotone" dataKey="total" stroke="#f88533" strokeWidth={3} dot={{ r: 4, fill: "#f88533" }} />
+                                        <Line type="monotone" dataKey="total" stroke="#C4773A" strokeWidth={3} dot={{ r: 4, fill: "#C4773A" }} />
                                     </LineChart>
                                 </ResponsiveContainer>
                             )}
@@ -310,7 +310,7 @@ const BtnVolver = styled.button`
 const ActividadBadge = styled.span`
     font-size: 11px; font-weight: 700; text-transform: capitalize;
     padding: 4px 12px; border-radius: 20px;
-    background: rgba(248,133,51,0.1); color: #f88533;
+    background: rgba(196,119,58,0.1); color: #C4773A;
 `;
 
 /* ── Dashboard POS (admin/supervisor/cajero) ───── */
@@ -498,7 +498,7 @@ export function DashboardTemplate() {
                             <StatCard $loading={loading}>
                                 <StatTop>
                                     <StatLabel>Ventas</StatLabel>
-                                    <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#f88533" }} />
+                                    <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#C4773A" }} />
                                 </StatTop>
                                 <StatVal>{loading ? "—" : formatCOP(totalVentas)}</StatVal>
                                 <PctBadge pct={filtro === "todo" ? null : calcPct(totalVentas, totalVentasPrev)} />
@@ -557,7 +557,7 @@ export function DashboardTemplate() {
                                             contentStyle={{ background: "#1C2E42", border: "1px solid #2d4a66", borderRadius: 10, fontSize: 12 }}
                                             labelStyle={{ color: "#94a3b8" }}
                                         />
-                                        <Line type="monotone" dataKey="total" stroke="#f88533" strokeWidth={3} dot={{ r: 4, fill: "#f88533" }} activeDot={{ r: 6 }} />
+                                        <Line type="monotone" dataKey="total" stroke="#C4773A" strokeWidth={3} dot={{ r: 4, fill: "#C4773A" }} activeDot={{ r: 6 }} />
                                         {metaVentas > 0 && (
                                             <ReferenceLine y={metaVentas} stroke="#4ade80" strokeDasharray="6 4" strokeWidth={2} label={{ value: "META", position: "right", fill: "#4ade80", fontSize: 10 }} />
                                         )}
@@ -717,7 +717,7 @@ const SelectAlmacenDash = styled.select`
     font-family: "Poppins", sans-serif;
     outline: none;
     cursor: pointer;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
 `;
 
 const Filtros = styled.div`

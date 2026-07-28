@@ -262,7 +262,7 @@ const Pagina = styled.div`
 const Marketing = styled.aside`
     flex: 1;
     background: linear-gradient(145deg, #0d1117 0%, #0f1923 50%, #111827 100%);
-    border-right: 1px solid rgba(248,133,51,0.15);
+    border-right: 1px solid rgba(196,119,58,0.15);
     display: flex; align-items: center; justify-content: center;
     padding: 48px 40px;
     position: relative; overflow: hidden;
@@ -271,7 +271,7 @@ const Marketing = styled.aside`
         content: '';
         position: absolute; top: -120px; left: -80px;
         width: 400px; height: 400px;
-        background: radial-gradient(circle, rgba(248,133,51,0.12) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(196,119,58,0.12) 0%, transparent 70%);
         pointer-events: none;
     }
 
@@ -290,7 +290,7 @@ const MktLogo = styled.div`
 
 const MktNombre = styled.span`
     font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -0.5px;
-    span { color: #f88533; }
+    span { color: #C4773A; }
 `;
 
 const MktTagline = styled.h1`
@@ -315,14 +315,14 @@ const MktFeatureRow = styled.div`
 const MktIcon = styled.span`
     display: flex; align-items: center; justify-content: center;
     width: 32px; height: 32px; border-radius: 8px;
-    background: rgba(248,133,51,0.15); color: #f88533; font-size: 16px; flex-shrink: 0;
+    background: rgba(196,119,58,0.15); color: #C4773A; font-size: 16px; flex-shrink: 0;
 `;
 
 const MktBadge = styled.div`
     display: inline-flex; align-items: center; gap: 6px;
     padding: 6px 14px; border-radius: 999px;
-    border: 1px solid rgba(248,133,51,0.35);
-    background: rgba(248,133,51,0.08); color: #f88533;
+    border: 1px solid rgba(196,119,58,0.35);
+    background: rgba(196,119,58,0.08); color: #C4773A;
     font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
     background-size: 200% auto;
     animation: ${shimmer} 3s linear infinite;
@@ -336,12 +336,12 @@ const MktMobile = styled.div`
         width: 100%;
         background: linear-gradient(160deg, #0d1117 0%, #0f1923 55%, #111827 100%);
         padding: 36px 24px 28px;
-        border-bottom: 1px solid rgba(248,133,51,0.18);
+        border-bottom: 1px solid rgba(196,119,58,0.18);
         position: relative; overflow: hidden;
         &::before {
             content: ''; position: absolute; top: -60px; right: -40px;
             width: 220px; height: 220px;
-            background: radial-gradient(circle, rgba(248,133,51,0.13) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(196,119,58,0.13) 0%, transparent 70%);
             pointer-events: none;
         }
     }
@@ -350,7 +350,7 @@ const MktMobile = styled.div`
 const MktMobileLogo = styled.div`
     display: flex; align-items: center; gap: 8px;
     img { width: 36px; height: 36px; object-fit: contain; }
-    span { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.4px; b { color: #f88533; } }
+    span { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.4px; b { color: #C4773A; } }
 `;
 
 const MktMobileTagline = styled.p`
@@ -391,7 +391,7 @@ const Card = styled.div`
 const CtaLogo = styled.div`
     display: flex; align-items: center; justify-content: center; gap: 8px;
     img { width: 30px; height: 30px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 700; color: ${({ theme }) => theme.text}; b { color: #f88533; font-weight: 900; } }
+    span { font-size: 16px; font-weight: 700; color: ${({ theme }) => theme.text}; b { color: #C4773A; font-weight: 900; } }
     @media (max-width: 768px) { display: none; }
 `;
 
@@ -411,10 +411,10 @@ const BtnBase = styled.button`
 `;
 
 const BtnNaranja = styled(BtnBase)`
-    border: 2px solid #F5A14299; background: #E8891A;
-    box-shadow: 0 4px 20px rgba(232,137,26,0.25), 4px 4px 0 #B56B12;
-    &:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 8px 28px rgba(232,137,26,0.4), 4px 4px 0 #B56B12; }
-    &:active { box-shadow: 2px 2px 0 #B56B12; }
+    border: 2px solid #F5A14299; background: #C4773A;
+    box-shadow: 0 4px 20px rgba(232,137,26,0.25), 4px 4px 0 #9A5A28;
+    &:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 8px 28px rgba(232,137,26,0.4), 4px 4px 0 #9A5A28; }
+    &:active { box-shadow: 2px 2px 0 #9A5A28; }
 `;
 
 const BtnAzul = styled(BtnBase)`
@@ -508,13 +508,13 @@ const BtnCerrar = styled.button`
     color: ${({ theme }) => theme.text}; font-size: 20px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.15s;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const DrawerLogo = styled.div`
     display: flex; align-items: center; gap: 8px; margin-top: 8px;
     img { width: 28px; height: 28px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 900; color: ${({ theme }) => theme.text}; b { color: #f88533; } }
+    span { font-size: 16px; font-weight: 900; color: ${({ theme }) => theme.text}; b { color: #C4773A; } }
 `;
 
 const DrawerTitle = styled.h2`
@@ -553,7 +553,7 @@ const InputField = styled.input`
     outline: none; box-sizing: border-box;
     transition: border-color 0.2s;
     min-height: 52px;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 
@@ -563,7 +563,7 @@ const BtnEye = styled.button`
     color: ${({ theme }) => theme.colorsubtitlecard}; font-size: 20px;
     display: flex; align-items: center;
     transition: color 0.15s;
-    &:hover { color: #f88533; }
+    &:hover { color: #C4773A; }
 `;
 
 const MsgError = styled.p`
@@ -576,19 +576,19 @@ const MsgError = styled.p`
 const BtnIngresar = styled.button`
     width: 100%; padding: 16px;
     min-height: 54px; border-radius: 14px;
-    border: 2px solid ${({ disabled }) => disabled ? "#9ca3af" : "#B56B12"};
-    background: ${({ disabled }) => disabled ? "#9ca3af" : "#E8891A"};
+    border: 2px solid ${({ disabled }) => disabled ? "#9ca3af" : "#9A5A28"};
+    background: ${({ disabled }) => disabled ? "#9ca3af" : "#C4773A"};
     color: #fff; font-size: 16px; font-weight: 800;
     cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     font-family: "Poppins", sans-serif;
-    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #B56B12"};
+    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #9A5A28"};
     transition: box-shadow 0.1s, transform 0.1s, filter 0.1s;
     &:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
-    &:active:not(:disabled) { box-shadow: 2px 2px 0 #B56B12; transform: translate(2px,2px); }
+    &:active:not(:disabled) { box-shadow: 2px 2px 0 #9A5A28; transform: translate(2px,2px); }
 `;
 
 const DrawerFootNote = styled.p`
     font-size: 13px; text-align: center;
     color: ${({ theme }) => theme.colorsubtitlecard}; margin: 0;
-    span { color: #f88533; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
+    span { color: #C4773A; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
 `;

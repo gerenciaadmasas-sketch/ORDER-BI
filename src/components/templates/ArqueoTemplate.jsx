@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+﻿import { useState, useMemo, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -116,7 +116,7 @@ export function ArqueoTemplate() {
         return map;
     }, [listaUsuarios]);
 
-    const alcanceColor = esCajero ? "#60a5fa" : esSupervisor ? "#10b981" : "#f88533";
+    const alcanceColor = esCajero ? "#60a5fa" : esSupervisor ? "#10b981" : "#C4773A";
 
     function limpiarFiltros() {
         setDesde(""); setHasta(""); setFiltroAlmacen(""); setPage(1);
@@ -329,10 +329,10 @@ const DropItem = styled.button`
     width: 100%; text-align: left; padding: 9px 12px; border-radius: 10px;
     border: none; cursor: pointer; font-size: 13px; font-weight: 600;
     font-family: "Poppins", sans-serif;
-    background: ${({ $activo, theme }) => $activo ? "rgba(248,133,51,0.12)" : "transparent"};
-    color: ${({ $activo, theme }) => $activo ? "#f88533" : theme.text};
+    background: ${({ $activo, theme }) => $activo ? "rgba(196,119,58,0.12)" : "transparent"};
+    color: ${({ $activo, theme }) => $activo ? "#C4773A" : theme.text};
     transition: background 0.12s;
-    &:hover { background: ${({ $activo }) => $activo ? "rgba(248,133,51,0.18)" : "rgba(255,255,255,0.05)"}; }
+    &:hover { background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.18)" : "rgba(255,255,255,0.05)"}; }
 `;
 
 const AlcanceTag = styled.div`

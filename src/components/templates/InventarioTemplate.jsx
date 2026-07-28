@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+﻿import { useState, useMemo, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -500,18 +500,18 @@ const EmpresaItem = styled.button`
     gap: 7px;
     padding: 9px 10px;
     border-radius: 10px;
-    border: 1.5px solid ${({ $activa, theme }) => $activa ? "rgba(248,133,51,0.4)" : theme.color2};
-    background: ${({ $activa, theme }) => $activa ? "rgba(248,133,51,0.08)" : theme.bgtotal};
+    border: 1.5px solid ${({ $activa, theme }) => $activa ? "rgba(196,119,58,0.4)" : theme.color2};
+    background: ${({ $activa, theme }) => $activa ? "rgba(196,119,58,0.08)" : theme.bgtotal};
     cursor: pointer;
     transition: all 0.15s;
     text-align: left;
     &:hover {
-        border-color: rgba(248,133,51,0.3);
-        background: rgba(248,133,51,0.05);
+        border-color: rgba(196,119,58,0.3);
+        background: rgba(196,119,58,0.05);
     }
     .icono-empresa {
         font-size: 14px;
-        color: #f88533;
+        color: #C4773A;
         flex-shrink: 0;
     }
     .nombre-empresa {
@@ -680,7 +680,7 @@ const EmpresaTag = styled.div`
     gap: 5px;
     font-size: 11px;
     font-weight: 700;
-    color: #f88533;
+    color: #C4773A;
     letter-spacing: 0.2px;
 `;
 

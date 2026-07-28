@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+﻿import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled, { keyframes } from "styled-components";
@@ -332,7 +332,7 @@ export function POSTemplate() {
                     showCancelButton: true,
                     confirmButtonText: "Continuar sin imprimir",
                     cancelButtonText: "Reintentar",
-                    confirmButtonColor: "#f88533",
+                    confirmButtonColor: "#C4773A",
                     customClass: { popup: "swal-pos" },
                 }).then((result) => {
                     if (!result.isConfirmed) window.print();
@@ -1265,7 +1265,7 @@ const ItemDropdown = styled.li`
 const ModoControl = styled.div`
     display: flex; align-items: center; gap: 8px;
     .label { font-size: 12px; font-weight: 600; color: ${({ theme }) => theme.colorsubtitlecard}; transition: all 0.2s; }
-    .label.activo { color: #f88533; font-weight: 800; }
+    .label.activo { color: #C4773A; font-weight: 800; }
 `;
 
 const Carrito = styled.div`
@@ -1373,15 +1373,15 @@ const ClienteInput = styled.input`
     border: 1px dashed ${({ theme }) => theme.color2};
     background: transparent; color: ${({ theme }) => theme.text};
     font-size: 12px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #f88533; border-style: solid; }
+    &:focus { border-color: #C4773A; border-style: solid; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 
 const ClienteBadge = styled.div`
     display: flex; align-items: center; justify-content: space-between;
     padding: 8px 14px; border-radius: 10px;
-    background: rgba(248,133,51,0.1); border: 1px solid rgba(248,133,51,0.3);
-    font-size: 12px; font-weight: 700; color: #f88533;
+    background: rgba(196,119,58,0.1); border: 1px solid rgba(196,119,58,0.3);
+    font-size: 12px; font-weight: 700; color: #C4773A;
 `;
 
 const BtnQuitarCliente = styled.button`

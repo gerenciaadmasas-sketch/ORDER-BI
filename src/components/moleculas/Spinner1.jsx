@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+﻿import styled, { keyframes } from "styled-components";
 
 export function Spinner1() {
     return (
@@ -22,7 +22,7 @@ const Ring = styled.div`
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    border: 3px solid rgba(248, 133, 51, 0.15);
-    border-top-color: #f88533;
+    border: 3px solid rgba(196, 119, 58, 0.15);
+    border-top-color: #C4773A;
     animation: ${spin} 0.85s linear infinite;
 `;

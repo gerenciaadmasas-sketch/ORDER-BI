@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
@@ -10,7 +10,7 @@ const formatCOP = (n) =>
 
 const TIERS = {
     chispa: { emoji: "⚡", nombre: "Chispa", color: "#fbbf24", glow: "rgba(251,191,36,0.35)", bg: "rgba(251,191,36,0.06)", border: "rgba(251,191,36,0.2)" },
-    fuego:  { emoji: "🔥", nombre: "Fuego",  color: "#f88533", glow: "rgba(248,133,51,0.35)", bg: "rgba(248,133,51,0.06)", border: "rgba(248,133,51,0.2)" },
+    fuego:  { emoji: "🔥", nombre: "Fuego",  color: "#C4773A", glow: "rgba(196,119,58,0.35)", bg: "rgba(196,119,58,0.06)", border: "rgba(196,119,58,0.2)" },
     cosmos: { emoji: "🌌", nombre: "Cosmos", color: "#818cf8", glow: "rgba(129,140,248,0.35)", bg: "rgba(129,140,248,0.06)", border: "rgba(129,140,248,0.2)" },
 };
 

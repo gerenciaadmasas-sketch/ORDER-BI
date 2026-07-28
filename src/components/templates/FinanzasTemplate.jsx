@@ -25,7 +25,7 @@ const COSTOS_ESCALA_COP = Math.round(COSTOS_ESCALA_USD * TRM);
 
 const PLANES_REF = [
     { nombre: "Chispa ⚡", precio: 49000,  color: "#818cf8" },
-    { nombre: "Fuego 🔥",  precio: 129000, color: "#f88533" },
+    { nombre: "Fuego 🔥",  precio: 129000, color: "#C4773A" },
     { nombre: "Cosmos 🌌", precio: 249000, color: "#34d399" },
 ];
 
@@ -34,7 +34,7 @@ const MIX = [0.30, 0.60, 0.10]; // 30% Chispa, 60% Fuego, 10% Cosmos
 const COMPETENCIA = [
     { nombre: "Siigo POS",   basico: 79000,  medio: 159000, color: "#60a5fa" },
     { nombre: "Alegra",      basico: 45000,  medio: 99000,  color: "#a78bfa" },
-    { nombre: "ORDER BI",    basico: 49000,  medio: 129000, color: "#f88533", propio: true },
+    { nombre: "ORDER BI",    basico: 49000,  medio: 129000, color: "#C4773A", propio: true },
 ];
 
 const fmtCOP = (n) =>
@@ -95,8 +95,8 @@ export function FinanzasTemplate() {
             ══════════════════════════════ */}
             <SectionLabel>📊 Estado actual</SectionLabel>
             <MetricasGrid>
-                <MetricCard $color="#f88533">
-                    <MetricIcon $color="#f88533"><RiStore2Line /></MetricIcon>
+                <MetricCard $color="#C4773A">
+                    <MetricIcon $color="#C4773A"><RiStore2Line /></MetricIcon>
                     <MetricVal>{isLoading ? "..." : clientesActivos}</MetricVal>
                     <MetricLabel>Clientes activos</MetricLabel>
                     <MetricSub>{totalClientes} total registrados</MetricSub>
@@ -150,7 +150,7 @@ export function FinanzasTemplate() {
                                 desc:   "IA para desarrollo y mantenimiento continuo",
                                 ahora:  CLAUDE_USD,
                                 escala: CLAUDE_USD,
-                                color:  "#f88533",
+                                color:  "#C4773A",
                             },
                             {
                                 nombre: "Vercel",
@@ -237,7 +237,7 @@ export function FinanzasTemplate() {
                     {
                         fase: "Fase 3",
                         rango: "50 – 100 clientes",
-                        color: "#f88533",
+                        color: "#C4773A",
                         totalUsd: 66,
                         items: [
                             { nombre: "Claude Pro",    usd: 20, estado: "activo" },
@@ -398,7 +398,7 @@ export function FinanzasTemplate() {
                         <ProyMetricLabel>Costos fijos</ProyMetricLabel>
                     </ProyMetric>
                     <ProyMetric $destacado>
-                        <ProyMetricVal $color={gananciaProy >= 0 ? "#f88533" : "#f87171"}>
+                        <ProyMetricVal $color={gananciaProy >= 0 ? "#C4773A" : "#f87171"}>
                             {fmtCOP(gananciaProy)}
                         </ProyMetricVal>
                         <ProyMetricLabel>Ganancia neta / mes</ProyMetricLabel>
@@ -697,13 +697,13 @@ const BEMain = styled.div`
 
 const BENum = styled.div`
     font-size: 56px; font-weight: 900; line-height: 1;
-    color: #f88533;
+    color: #C4773A;
 `;
 
 const BEDesc = styled.div`
     font-size: 14px; color: ${({ theme }) => theme.text}; line-height: 1.6;
     span { font-size: 12px; color: ${({ theme }) => theme.colorsubtitlecard}; }
-    b { color: #f88533; }
+    b { color: #C4773A; }
 `;
 
 const BEMiniGrid = styled.div`
@@ -741,7 +741,7 @@ const ProyectorCard = styled.div`
 const ProyHead = styled.div`
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     font-size: 15px; font-weight: 700; color: ${({ theme }) => theme.text};
-    svg { color: #f88533; font-size: 20px; }
+    svg { color: #C4773A; font-size: 20px; }
 `;
 
 const ProyMix = styled.span`
@@ -764,22 +764,22 @@ const Slider = styled.input`
     -webkit-appearance: none;
     height: 6px;
     border-radius: 999px;
-    background: linear-gradient(to right, #f88533 0%, #f88533 ${({ value }) => ((value - 1) / 199 * 100)}%, ${({ theme }) => theme.color2} ${({ value }) => ((value - 1) / 199 * 100)}%, ${({ theme }) => theme.color2} 100%);
+    background: linear-gradient(to right, #C4773A 0%, #C4773A ${({ value }) => ((value - 1) / 199 * 100)}%, ${({ theme }) => theme.color2} ${({ value }) => ((value - 1) / 199 * 100)}%, ${({ theme }) => theme.color2} 100%);
     outline: none; cursor: pointer;
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 20px; height: 20px;
         border-radius: 50%;
-        background: #f88533;
-        box-shadow: 0 0 10px rgba(248,133,51,0.6);
+        background: #C4773A;
+        box-shadow: 0 0 10px rgba(196,119,58,0.6);
         cursor: pointer;
     }
     &::-moz-range-thumb {
         width: 20px; height: 20px;
         border-radius: 50%;
-        background: #f88533; border: none;
-        box-shadow: 0 0 10px rgba(248,133,51,0.6);
+        background: #C4773A; border: none;
+        box-shadow: 0 0 10px rgba(196,119,58,0.6);
         cursor: pointer;
     }
 `;
@@ -792,8 +792,8 @@ const ProyMetrics = styled.div`
 const ProyMetric = styled.div`
     padding: 16px;
     border-radius: 14px;
-    background: ${({ $destacado, theme }) => $destacado ? "rgba(248,133,51,0.07)" : theme.bgtotal};
-    border: 1px solid ${({ $destacado, theme }) => $destacado ? "rgba(248,133,51,0.25)" : theme.color2};
+    background: ${({ $destacado, theme }) => $destacado ? "rgba(196,119,58,0.07)" : theme.bgtotal};
+    border: 1px solid ${({ $destacado, theme }) => $destacado ? "rgba(196,119,58,0.25)" : theme.color2};
     text-align: center;
 `;
 
@@ -824,8 +824,8 @@ const ETh = styled.th`
 
 const ETr = styled.tr`
     cursor: pointer;
-    background: ${({ $active, theme }) => $active ? "rgba(248,133,51,0.07)" : "transparent"};
-    border-left: ${({ $active }) => $active ? "3px solid #f88533" : "3px solid transparent"};
+    background: ${({ $active, theme }) => $active ? "rgba(196,119,58,0.07)" : "transparent"};
+    border-left: ${({ $active }) => $active ? "3px solid #C4773A" : "3px solid transparent"};
     transition: background 0.15s;
     &:hover { background: ${({ theme }) => theme.bgtotal}; }
     &:last-child td { border-bottom: none; }
@@ -862,7 +862,7 @@ const CTh = styled.th`
 `;
 
 const CTr = styled.tr`
-    background: ${({ $propio }) => $propio ? "rgba(248,133,51,0.05)" : "transparent"};
+    background: ${({ $propio }) => $propio ? "rgba(196,119,58,0.05)" : "transparent"};
     &:last-child td { border-bottom: none; }
 `;
 
@@ -906,8 +906,8 @@ const ClientesTable = styled(CompTable)``;
 
 const PlanChip = styled.span`
     font-size: 11px; font-weight: 700;
-    background: rgba(248,133,51,0.1);
-    color: #f88533;
+    background: rgba(196,119,58,0.1);
+    color: #C4773A;
     padding: 3px 10px; border-radius: 999px;
     text-transform: capitalize;
 `;

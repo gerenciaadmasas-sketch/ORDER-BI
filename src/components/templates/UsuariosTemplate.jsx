@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -645,8 +645,8 @@ const TipoBtn = styled.button`
 `;
 
 const CredPrev = styled.div`
-    border: 1px solid rgba(248,133,51,0.25);
-    background: rgba(248,133,51,0.06);
+    border: 1px solid rgba(196,119,58,0.25);
+    background: rgba(196,119,58,0.06);
     border-radius: 10px;
     padding: 12px 14px;
     display: flex; flex-direction: column; gap: 6px;
@@ -663,7 +663,7 @@ const CredLbl = styled.span`
 `;
 
 const CredVal = styled.span`
-    color: #f88533; font-weight: 800; font-size: 14px;
+    color: #C4773A; font-weight: 800; font-size: 14px;
     font-family: "Courier New", monospace;
 `;
 

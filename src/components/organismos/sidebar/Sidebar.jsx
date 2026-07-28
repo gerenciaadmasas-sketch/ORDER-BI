@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { LinksArray, SecondarylinksArray } from "../../../utils/dataEstatica";
 import { v } from "../../../styles/variables";
 import { NavLink } from "react-router-dom";
@@ -44,7 +44,7 @@ export function Sidebar({ state, setState, onNavClick }) {
                         text: "Debes cerrar tu turno antes de salir.",
                         icon: "warning",
                         confirmButtonText: "Entendido",
-                        confirmButtonColor: "#f88533",
+                        confirmButtonColor: "#C4773A",
                         customClass: { popup: "swal-pos" },
                     });
                     return;
@@ -293,16 +293,16 @@ const BtnCerrarMobile = styled.button`
         width: 38px;
         height: 38px;
         border-radius: 10px;
-        border: 1px solid rgba(248, 133, 51, 0.3);
+        border: 1px solid rgba(196, 119, 58, 0.3);
         background: rgba(255, 255, 255, 0.06);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        color: #f88533;
+        color: #C4773A;
         font-size: 20px;
         cursor: pointer;
         flex-shrink: 0;
         transition: transform 0.15s, background 0.15s, border-color 0.15s;
-        &:hover  { background: rgba(248, 133, 51, 0.12); border-color: rgba(248, 133, 51, 0.55); }
+        &:hover  { background: rgba(196, 119, 58, 0.12); border-color: rgba(196, 119, 58, 0.55); }
         &:active { transform: scale(0.9); }
     }
 `;
@@ -323,7 +323,7 @@ const LogoImg = styled.div`
 const LogoNombre = styled.span`
     font-weight: 800;
     font-size: 14px;
-    color: #f88533;
+    color: #C4773A;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -338,7 +338,7 @@ const LogoNombreMobile = styled.span`
     display: none;
     font-weight: 800;
     font-size: 14px;
-    color: #f88533;
+    color: #C4773A;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -384,8 +384,8 @@ const Nav = styled.nav`
         }
 
         &.active {
-            background: rgba(248, 133, 51, 0.12);
-            color: #f88533;
+            background: rgba(196, 119, 58, 0.12);
+            color: #C4773A;
             .icon { filter: none; }
         }
     }

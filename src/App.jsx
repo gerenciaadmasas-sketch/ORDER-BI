@@ -1,4 +1,4 @@
-import styled, { ThemeProvider, keyframes } from "styled-components";
+﻿import styled, { ThemeProvider, keyframes } from "styled-components";
 import { AuthContextProvider } from "./context/AuthContent";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { Myroutes } from "./routers/routes";
@@ -44,10 +44,10 @@ function App() {
               <MobileOverlay onClick={() => setSidebarOpen(false)} />
             )}
           </Container>
-          <BgOrb $x="-5%"  $y="-5%"  $c="rgba(248,133,51,0.18)" $s="700px" $dur="9s"  />
+          <BgOrb $x="-5%"  $y="-5%"  $c="rgba(196,119,58,0.18)" $s="700px" $dur="9s"  />
           <BgOrb $x="65%"  $y="12%"  $c="rgba(99,102,241,0.14)" $s="500px" $dur="11s" $delay="2s" />
           <BgOrb $x="25%"  $y="62%"  $c="rgba(52,211,153,0.10)" $s="450px" $dur="13s" $delay="4s" />
-          <BgOrb $x="82%"  $y="72%"  $c="rgba(248,133,51,0.12)" $s="400px" $dur="8s"  $delay="1s" />
+          <BgOrb $x="82%"  $y="72%"  $c="rgba(196,119,58,0.12)" $s="400px" $dur="8s"  $delay="1s" />
           <BgLines />
           </>
         ) : (
@@ -107,11 +107,11 @@ const HamburgerBtn = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  border: 1px solid rgba(248, 133, 51, 0.35);
+  border: 1px solid rgba(196, 119, 58, 0.35);
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: #f88533;
+  color: #C4773A;
   font-size: 22px;
   display: ${({ $hidden }) => $hidden ? "none" : "flex"};
   align-items: center;
@@ -122,8 +122,8 @@ const HamburgerBtn = styled.button`
   transition: transform 0.15s, background 0.15s, border-color 0.15s;
 
   &:hover {
-    background: rgba(248, 133, 51, 0.12);
-    border-color: rgba(248, 133, 51, 0.6);
+    background: rgba(196, 119, 58, 0.12);
+    border-color: rgba(196, 119, 58, 0.6);
   }
 
   &:active {
@@ -180,8 +180,8 @@ const BgOrb = styled.div`
 const BgLines = styled.div`
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
-        linear-gradient(rgba(248,133,51,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(248,133,51,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(196,119,58,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(196,119,58,0.03) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 80%);
 `;

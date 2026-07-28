@@ -1,4 +1,4 @@
-import { v } from "../styles/variables";
+﻿import { v } from "../styles/variables";
 import {
   AiOutlineHome,
   AiOutlineSetting,
@@ -89,7 +89,7 @@ export const LinksArray = [
     label: "Soporte",
     icon: "ri:customer-service-2-fill",
     to: "/chat",
-    color: "#f88533",
+    color: "#C4773A",
   },
 ];
 export const SecondarylinksArray = [

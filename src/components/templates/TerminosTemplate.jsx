@@ -133,7 +133,7 @@ const BtnVolver = styled.button`
     width: fit-content;
     transition: all 0.15s;
     font-family: "Poppins", sans-serif;
-    &:hover { border-color: #f88533; color: #f88533; }
+    &:hover { border-color: #C4773A; color: #C4773A; }
 `;
 
 const Header = styled.div`
@@ -253,7 +253,7 @@ const LogoBtn = styled.button`
         font-size: 16px;
         font-weight: 700;
         color: rgba(255,255,255,0.4);
-        b { color: #f88533; }
+        b { color: #C4773A; }
     }
 `;
 

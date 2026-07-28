@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { Paginacion } from "../../../index";
 import { useComprobantesStore } from "../../../store/ComprobantesStore";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
@@ -167,8 +167,8 @@ const ThContent = styled.span`
 `;
 
 const Badge = styled.span`
-    background: rgba(248, 133, 51, 0.12);
-    color: #f88533;
+    background: rgba(196, 119, 58, 0.12);
+    color: #C4773A;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 12px;
@@ -185,7 +185,7 @@ const Checkbox = styled.input`
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #f88533;
+    accent-color: #C4773A;
 `;
 
 const BtnEdit = styled.button`
@@ -201,7 +201,7 @@ const BtnEdit = styled.button`
     transition: color 0.2s, background 0.2s;
 
     &:hover {
-        color: #f88533;
-        background: rgba(248, 133, 51, 0.1);
+        color: #C4773A;
+        background: rgba(196, 119, 58, 0.1);
     }
 `;

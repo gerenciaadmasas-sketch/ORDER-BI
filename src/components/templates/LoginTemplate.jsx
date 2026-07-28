@@ -116,7 +116,7 @@ const Logo = styled.div`
         font-size: 18px;
         font-weight: 700;
         color: ${({ theme }) => theme.text};
-        b { color: #f88533; font-weight: 900; }
+        b { color: #C4773A; font-weight: 900; }
     }
 `;
 
@@ -145,7 +145,7 @@ const BtnVolver = styled.button`
     cursor: pointer;
     transition: all 0.18s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    &:hover { border-color: #f88533; color: #f88533; background: rgba(248,133,51,0.08); transform: translateX(-2px); }
+    &:hover { border-color: #C4773A; color: #C4773A; background: rgba(196,119,58,0.08); transform: translateX(-2px); }
     &:active { transform: translateX(0); }
 `;
 
@@ -168,7 +168,7 @@ const InputField = styled.input`
     box-sizing: border-box;
     transition: border-color 0.2s;
     min-height: 52px;
-    &:focus { border-color: #f88533; }
+    &:focus { border-color: #C4773A; }
     &::placeholder { color: ${({ theme }) => theme.colorSubtitle}; }
 `;
 
@@ -189,17 +189,17 @@ const BtnIngresar = styled.button`
     padding: 16px;
     min-height: 54px;
     border-radius: 14px;
-    border: 2px solid ${({ disabled }) => disabled ? "#9ca3af" : "#B56B12"};
-    background: ${({ disabled }) => disabled ? "#9ca3af" : "#E8891A"};
+    border: 2px solid ${({ disabled }) => disabled ? "#9ca3af" : "#9A5A28"};
+    background: ${({ disabled }) => disabled ? "#9ca3af" : "#C4773A"};
     color: #fff;
     font-size: 16px;
     font-weight: 800;
     cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     letter-spacing: 0.5px;
     font-family: "Poppins", sans-serif;
-    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #B56B12"};
+    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #9A5A28"};
     transition: box-shadow 0.1s, transform 0.1s;
     &:active {
-        ${({ disabled }) => !disabled && "box-shadow: 2px 2px 0 #B56B12; transform: translate(2px,2px);"}
+        ${({ disabled }) => !disabled && "box-shadow: 2px 2px 0 #9A5A28; transform: translate(2px,2px);"}
     }
 `;

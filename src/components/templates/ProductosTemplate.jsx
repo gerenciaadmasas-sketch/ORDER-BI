@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { Btn1, Buscador, RegistrarProductos, TablaProductos, Title, useProductosStore } from "../../index";
 import { v } from "../../styles/variables";
 import { useState } from "react";
@@ -32,7 +32,7 @@ export function ProductoTemplate() {
                 <Title>Productos</Title>
                 <Btn1
                     funcion={nuevoRegistro}
-                    bgcolor="#f88533"
+                    bgcolor="#C4773A"
                     titulo="nuevo"
                     icono={<v.iconoagregar />}
                 />

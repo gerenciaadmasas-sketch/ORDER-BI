@@ -45,7 +45,7 @@ export const GlobalStyles = createGlobalStyle`
     }
     .swal2-timer-progress-bar {
         opacity: 0.45 !important;
-        background: #f88533 !important;
+        background: #C4773A !important;
     }
     .toast-pos .swal2-icon {
         border: none !important;
@@ -70,14 +70,14 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     select option {
-        background: #162436;
-        color: #D8E8F5;
+        background: #1A1612;
+        color: #F0E6D3;
         padding: 10px 14px;
     }
 
     select::-webkit-scrollbar { width: 4px; }
     select::-webkit-scrollbar-thumb {
-        background: #f88533;
+        background: #C4773A;
         border-radius: 10px;
     }
 

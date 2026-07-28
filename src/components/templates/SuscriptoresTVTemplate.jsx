@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -636,10 +636,10 @@ const StatsRow = styled.div`
 `;
 const StatCard = styled.div`
     background: ${({ theme }) => theme.bgcards};
-    border: 1.5px solid ${({ $activo, $color, theme }) => $activo ? ($color ?? "#f88533") : theme.color2};
+    border: 1.5px solid ${({ $activo, $color, theme }) => $activo ? ($color ?? "#C4773A") : theme.color2};
     border-radius: 12px; padding: 12px 14px;
     cursor: pointer; transition: all 0.15s; text-align: center;
-    &:hover { border-color: ${({ $color }) => $color ?? "#f88533"}; }
+    &:hover { border-color: ${({ $color }) => $color ?? "#C4773A"}; }
 `;
 const StatNum   = styled.div`font-size: 22px; font-weight: 900; color: ${({ $color, theme }) => $color ?? theme.text};`;
 const StatLabel = styled.div`font-size: 11px; color: ${({ theme }) => theme.colorsubtitlecard}; font-weight: 600;`;

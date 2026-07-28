@@ -1,4 +1,4 @@
-import styled from "styled-components";
+﻿import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { useTicketConfigStore } from "../../store/TicketConfigStore";
 import { useEmpresaStore } from "../../store/EmpresaStore";
@@ -212,14 +212,14 @@ const LogoPlaceholder = styled.div`width: 100%; height: 100%; background: #d0d0d
 
 const EditBadge = styled.div`
     position: absolute; bottom: 2px; right: 2px;
-    background: #f88533; color: #fff; border-radius: 50%;
+    background: #C4773A; color: #fff; border-radius: 50%;
     width: 22px; height: 22px;
     display: flex; align-items: center; justify-content: center;
     font-size: 12px; opacity: 0.9; transition: opacity 0.2s;
 `;
 
 const BtnGuardar = styled.button`
-    background: #f88533; color: #fff; border: none; border-radius: 6px;
+    background: #C4773A; color: #fff; border: none; border-radius: 6px;
     padding: 8px 0; font-size: 13px; font-weight: 700; cursor: pointer;
     width: 100%; margin-bottom: 4px;
     &:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -248,7 +248,7 @@ const EditableInput = styled.input`
     box-sizing: border-box;
     text-align: ${({ $center }) => $center ? "center" : "left"};
     outline: none;
-    &:focus { border-color: #f88533; background: #fffde0; }
+    &:focus { border-color: #C4773A; background: #fffde0; }
     &::placeholder { color: #aaa; }
 `;
 
@@ -264,7 +264,7 @@ const EditableTextarea = styled.textarea`
     box-sizing: border-box;
     outline: none;
     resize: vertical;
-    &:focus { border-color: #f88533; background: #fffde0; }
+    &:focus { border-color: #C4773A; background: #fffde0; }
     &::placeholder { color: #aaa; }
 `;
 
