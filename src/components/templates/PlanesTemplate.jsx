@@ -86,6 +86,7 @@ const PLANES = [
             { icon: <RiFileListLine />,     ok: true,  txt: "Kardex y trazabilidad" },
             { icon: <RiBarChartBoxLine />,  ok: true,  txt: "Reportes en tiempo real" },
             { icon: <RiGroupLine />,        ok: true,  txt: "Multi-sucursal" },
+            { icon: <RiTeamLine />,         ok: true,  txt: "CRM de clientes" },
             { icon: <RiPrinterLine />,      ok: true,  txt: "Ticket personalizado" },
             { icon: <RiShieldCheckLine />,  ok: true,  txt: "Soporte prioritario" },
         ],
@@ -111,6 +112,7 @@ const PLANES = [
             { icon: <RiTeamLine />,                 ok: true, txt: "Hasta 12 usuarios" },
             { icon: <RiFlashlightLine />,           ok: true, txt: "Todo del plan Fuego" },
             { icon: <RiSmartphoneLine />,           ok: true, txt: "App móvil optimizada" },
+            { icon: <RiTeamLine />,                 ok: true, txt: "CRM avanzado de clientes" },
             { icon: <RiVipCrownLine />,             ok: true, txt: "Onboarding personalizado" },
             { icon: <RiCustomerService2Line />,     ok: true, txt: "Soporte dedicado 24/7" },
             { icon: <RiShieldCheckLine />,          ok: true, txt: "SLA garantizado 99.9%" },
@@ -554,7 +556,7 @@ export function PlanesTemplate() {
                             <HeroItalic>claridad.</HeroItalic>
                         </HeroTitle>
                         <HeroSub>
-                            POS · inventario · reportes · multi-sucursal.<br />
+                            POS · inventario · CRM · reportes · multi-sucursal.<br />
                             Todo lo que tu negocio necesita, en un solo lugar.
                         </HeroSub>
                         <HeroCTAsRow>
