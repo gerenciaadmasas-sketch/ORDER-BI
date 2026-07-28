@@ -173,6 +173,25 @@ export async function ReactivarCuenta({ id, plan }) {
     if (error) { toastError(error.message, "Suscripciones › Reactivar"); throw error; }
 }
 
+export async function RegenerarPassword({ id, email_admin, usuario_admin, nombre_cliente, telefono }) {
+    const { generatePassword, hashPassword } = await import("../utils/hash");
+    const password = generatePassword();
+
+    const { error: errAuth } = await supabase.rpc("admin_reset_password", {
+        p_email: email_admin,
+        p_new_password: password,
+    });
+    if (errAuth) { toastError(errAuth.message, "Contraseña › Auth"); throw errAuth; }
+
+    const { error } = await supabase
+        .from(tabla)
+        .update({ password_admin: await hashPassword(password) })
+        .eq("id", id);
+    if (error) { toastError(error.message, "Contraseña › Suscripción"); throw error; }
+
+    return { usuario: usuario_admin, password, nombre: nombre_cliente, telefono: telefono ?? "" };
+}
+
 export async function MostrarPagosCliente({ id_suscripcion }) {
     const { data, error } = await supabase
         .from("pagos_clientes")

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
-import { MostrarSuscripciones, InsertarSuscripcion, EditarSuscripcion, EliminarSuscripcion, RegistrarPago, MostrarPagosCliente, EximirPago, ReactivarCuenta } from "../../supabase/crudSuscripciones";
+import { MostrarSuscripciones, InsertarSuscripcion, EditarSuscripcion, EliminarSuscripcion, RegistrarPago, MostrarPagosCliente, EximirPago, ReactivarCuenta, RegenerarPassword } from "../../supabase/crudSuscripciones";
 import { MostrarConfigPlanes } from "../../supabase/crudConfigPlanes";
 import { RiEditLine, RiDeleteBin2Line, RiAddLine, RiCloseLine, RiShieldLine, RiPercentLine, RiRefreshLine, RiShieldCheckLine, RiArrowDownSLine, RiWhatsappLine } from "react-icons/ri";
 import { Icon } from "@iconify/react";
@@ -200,6 +200,21 @@ export function SaasTemplate() {
     const mutReactivar = useMutation({
         mutationFn: (s) => ReactivarCuenta({ id: s.id, plan: s.plan }),
         onSuccess: () => { toastExito("Cuenta reactivada correctamente"); invalidar(); },
+    });
+
+    const mutResetPwd = useMutation({
+        mutationFn: (s) => RegenerarPassword({
+            id: s.id,
+            email_admin: s.email_admin,
+            usuario_admin: s.usuario_admin,
+            nombre_cliente: s.nombre_cliente,
+            telefono: s.telefono,
+        }),
+        onSuccess: (result) => {
+            invalidar();
+            setCredNuevas(result);
+        },
+        onError: () => toastError("No se pudo regenerar la contraseña", "Reset"),
     });
 
     function getPrecioTier(tier) {
@@ -454,11 +469,34 @@ export function SaasTemplate() {
                                         </InfoFila>
                                         <InfoFila>
                                             <InfoLabel>Contraseña</InfoLabel>
-                                            <InfoVal>
+                                            <InfoVal style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                                 {s.password_admin
                                                     ? <span style={{ display: "flex", alignItems: "center", gap: 6, color: "#4ade80", fontSize: 12, fontWeight: 700 }}>🔒 Protegida (PBKDF2)</span>
                                                     : <span style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>No registrada</span>
                                                 }
+                                                {s.email_admin && (
+                                                    <BtnResetPwd
+                                                        title="Regenerar contraseña"
+                                                        disabled={mutResetPwd.isPending}
+                                                        onClick={async () => {
+                                                            const { default: Swal } = await import("sweetalert2");
+                                                            const { isConfirmed } = await Swal.fire({
+                                                                title: "¿Regenerar contraseña?",
+                                                                text: `La contraseña actual de ${s.nombre_cliente} quedará inválida. Se generará una nueva aleatoria.`,
+                                                                icon: "warning",
+                                                                showCancelButton: true,
+                                                                confirmButtonText: "Sí, regenerar",
+                                                                cancelButtonText: "Cancelar",
+                                                                background: "#111827",
+                                                                color: "#f1f5f9",
+                                                                confirmButtonColor: "#f88533",
+                                                            });
+                                                            if (isConfirmed) mutResetPwd.mutate(s);
+                                                        }}
+                                                    >
+                                                        <RiRefreshLine />
+                                                    </BtnResetPwd>
+                                                )}
                                             </InfoVal>
                                         </InfoFila>
                                     </CredencialesBox>
@@ -1241,6 +1279,16 @@ const BtnCopy = styled.button`
 
 const CredActions = styled.div`
     display: flex; gap: 10px; flex-wrap: wrap;
+`;
+
+const BtnResetPwd = styled.button`
+    display: flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 6px; border: none;
+    background: rgba(248,133,51,0.12); color: #f88533;
+    cursor: pointer; font-size: 14px; flex-shrink: 0;
+    transition: background 0.15s, transform 0.15s;
+    &:hover { background: rgba(248,133,51,0.25); transform: rotate(45deg); }
+    &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 `;
 
 const CredBtnWA = styled.button`
