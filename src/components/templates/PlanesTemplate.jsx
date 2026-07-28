@@ -107,6 +107,7 @@ const PLANES = [
         colorDark: "#2E7050",
         glow: "rgba(107,175,138,0.35)",
         popular: false,
+        oculto: true,
         features: [
             { icon: <RiStore2Line />,               ok: true, txt: "Hasta 6 almacenes" },
             { icon: <RiTeamLine />,                 ok: true, txt: "Hasta 12 usuarios" },
@@ -611,7 +612,7 @@ export function PlanesTemplate() {
 
             {/* ── Cards ── */}
             <CardsSection>
-                {PLANES.map((plan, idx) => (
+                {PLANES.filter(p => !p.oculto).map((plan, idx) => (
                     <TiltCard key={`${plan.id}-${anual}`} color={plan.color} idx={idx} popular={plan.popular}>
                     <PlanCard
                         id={plan.id}

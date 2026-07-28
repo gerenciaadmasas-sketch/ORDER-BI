@@ -6,7 +6,11 @@ export async function MostrarConfigPlanes() {
         .from("config_planes")
         .select()
         .order("id");
-    if (error) { toastError(error.message, "Planes › Mostrar"); return []; }
+    if (error) {
+        if (error.name === "AbortError" || error.message?.includes("aborted")) return [];
+        toastError(error.message, "Planes › Mostrar");
+        return [];
+    }
     return data ?? [];
 }
 
