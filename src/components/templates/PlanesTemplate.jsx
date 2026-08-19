@@ -13,6 +13,8 @@ import { ObtenerEmailPorUsuario } from "../../supabase/crudUsuarios";
 import { CrearProspecto } from "../../supabase/crudProspectos";
 import { supabase } from "../../supabase/supabase.config";
 import ConfettiExplosion from "react-confetti-explosion";
+import iconoGold from "../../assets/caballero.png";
+import iconoPro from "../../assets/rey.png";
 import {
     RiCheckLine, RiCloseLine,
     RiFlashlightLine, RiFireLine, RiPlanetLine,
@@ -46,11 +48,12 @@ const PLANES = [
         id: "chispa",
         nombre: "Gold",
         emoji: "🪨",
+        iconImg: iconoGold,
         icon: <RiFlashlightLine />,
         tagline: "La base que no falla",
         sub: "Un punto de venta completo para empezar bien. Sin curva de aprendizaje.",
         para: "negocios que arrancan o trabajan solos",
-        ctaText: "Empezar con Gold",
+        ctaText: "Comenzar con Gold",
         precio_mes: 49000,
         precio_ano: 42000,
         color: "#C4A882",
@@ -71,6 +74,7 @@ const PLANES = [
         id: "fuego",
         nombre: "Pro",
         emoji: "🌿",
+        iconImg: iconoPro,
         icon: <RiFireLine />,
         tagline: "El más elegido en Colombia",
         sub: "Multi-almacén, múltiples usuarios, trazabilidad completa y reportes en tiempo real.",
@@ -268,11 +272,10 @@ function TiltCard({ children, color, idx, popular }) {
                 whileInView={{ rotateY: 0, opacity: 1, scale: popular ? 1.03 : 1 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.7, delay: idx * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                style={{ transformStyle: "preserve-3d" }}
             >
                 <motion.div
                     ref={cardRef}
-                    style={{ rotateX, rotateY, transformStyle: "preserve-3d", position: "relative" }}
+                    style={{ rotateX, rotateY, position: "relative" }}
                     onMouseMove={onMove}
                     onMouseLeave={onLeave}
                 >
@@ -656,7 +659,7 @@ export function PlanesTemplate() {
                             {/* Cabecera */}
                             <PlanTopRow>
                                 <PlanEmojiBox $color={plan.color} $glow={plan.glow}>
-                                    {plan.emoji}
+                                    {plan.iconImg ? <img src={plan.iconImg} alt={plan.nombre} /> : plan.emoji}
                                 </PlanEmojiBox>
                                 <PlanInfo>
                                     <PlanNombre $color={plan.color}>{plan.nombre}</PlanNombre>
@@ -1777,6 +1780,8 @@ const PlanEmojiBox = styled.div`
     display: flex; align-items: center; justify-content: center;
     font-size: 24px;
     box-shadow: 0 0 18px ${({ $glow }) => $glow};
+    overflow: hidden;
+    img { width: 30px; height: 30px; object-fit: contain; }
 `;
 
 const PlanInfo = styled.div`
