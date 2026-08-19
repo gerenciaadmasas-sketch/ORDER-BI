@@ -586,19 +586,8 @@ export function PlanesTemplate() {
                 </motion.div>
             </HeroScene>
 
-            {/* ── Stats + Toggle ── */}
+            {/* ── Toggle ── */}
             <StatsToggleSection>
-                <StatsBar>
-                    {STATS.map((s, i) => (
-                        <motion.div key={i} style={{ flex: 1 }}
-                            initial={{ opacity: 0, y: 14 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.45, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <CounterStat val={s.val} label={s.label} borderRight={i < STATS.length - 1} />
-                        </motion.div>
-                    ))}
-                </StatsBar>
                 <ToggleWrap>
                     <ToggleOpt $active={!anual} onClick={() => setAnual(false)}>Mensual</ToggleOpt>
                     <TogglePill onClick={() => setAnual(!anual)} $on={anual}>
