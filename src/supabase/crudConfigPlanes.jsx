@@ -8,6 +8,7 @@ export async function MostrarConfigPlanes() {
         .order("id");
     if (error) {
         if (error.name === "AbortError" || error.message?.includes("aborted")) return [];
+        if (error.message?.includes("Failed to fetch") || error.message?.includes("fetch")) return [];
         toastError(error.message, "Planes › Mostrar");
         return [];
     }

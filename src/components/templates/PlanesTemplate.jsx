@@ -1007,16 +1007,6 @@ export function PlanesTemplate() {
                             <WebBtnBadge>Recomendado</WebBtnBadge>
                         </BtnWA>
                     </motion.a>
-                    <motion.a
-                        href="mailto:gerencia.adma.sas@gmail.com?subject=Quiero%20información%20sobre%20ORDER BI"
-                        whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                        style={{ textDecoration: "none" }}
-                    >
-                        <WebBtnEmail>
-                            <RiMailLine size={18} /> Correo
-                        </WebBtnEmail>
-                    </motion.a>
                     <motion.div
                         whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
                         transition={{ type: "spring", stiffness: 300, damping: 18 }}
@@ -1912,7 +1902,7 @@ const PlanIncluye = styled.div`
 `;
 
 const PlanParaWrap = styled.div`
-    margin-top: 4px;
+    margin-top: auto;
     padding: 10px 14px;
     border-radius: 10px;
     background: rgba(255,255,255,0.03);
@@ -2139,18 +2129,21 @@ const LaptopBase = styled.div`
 const CardsSection = styled.div`
     position: relative; z-index: 1;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 28px;
-    width: 100%; max-width: 1100px;
+    width: 100%; max-width: 860px;
     padding: 0 24px;
+    align-items: stretch;
 
-    @media (max-width: 960px) { grid-template-columns: 1fr; max-width: 460px; padding: 0 16px; gap: 20px; }
+    @media (max-width: 760px) { grid-template-columns: 1fr; max-width: 460px; padding: 0 16px; gap: 20px; }
 `;
 
 const PlanCard = styled.div`
     position: relative;
     border-radius: 28px;
     overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 100%;
     opacity: ${({ $visible }) => $visible ? 1 : 0};
     transform: ${({ $visible }) => $visible ? "translateY(0)" : "translateY(32px)"};
     transition: opacity 0.6s ${({ $delay }) => $delay} ease, transform 0.6s ${({ $delay }) => $delay} ease,
@@ -2205,6 +2198,7 @@ const CardInner = styled.div`
     padding: 28px 26px 26px;
     display: flex; flex-direction: column; gap: 18px;
     backdrop-filter: blur(4px);
+    flex: 1;
 `;
 
 const PlanHeader = styled.div`
