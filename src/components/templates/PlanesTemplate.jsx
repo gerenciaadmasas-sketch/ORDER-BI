@@ -490,24 +490,23 @@ export function PlanesTemplate() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!usuario || !password) return;
+        if (!usuario || !password) {
+            setErrorMsg("Usuario o contraseña errada");
+            return;
+        }
         setCargando(true);
         setErrorMsg("");
         try {
             const resultado = await ObtenerEmailPorUsuario(usuario.trim());
             if (!resultado?.email) {
-                setErrorMsg("Usuario no encontrado. Verifica con tu administrador.");
+                setErrorMsg("Usuario o contraseña errada");
+                setCargando(false);
                 return;
             }
             await loginEmail({ email: resultado.email, password });
             window.location.href = "/home";
-        } catch (err) {
-            const msg = err?.message ?? "";
-            if (msg.includes("Invalid login") || msg.includes("invalid_credentials") || msg.includes("Wrong")) {
-                setErrorMsg("Contraseña incorrecta. Intenta de nuevo.");
-            } else {
-                setErrorMsg("Error al iniciar sesión. Verifica tu conexión e intenta de nuevo.");
-            }
+        } catch {
+            setErrorMsg("Usuario o contraseña errada");
             setCargando(false);
         }
     };
