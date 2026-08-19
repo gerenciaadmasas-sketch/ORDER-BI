@@ -4,14 +4,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
 import { toastExito } from "../../utils/toast";
 import { RiEditLine, RiCheckLine, RiCloseLine } from "react-icons/ri";
+import iconoGold from "../../assets/caballero.png";
+import iconoPro  from "../../assets/rey.png";
 
 const formatCOP = (n) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n ?? 0);
 
 const TIERS = {
-    chispa: { emoji: "⚡", nombre: "Gold", color: "#fbbf24", glow: "rgba(251,191,36,0.35)", bg: "rgba(251,191,36,0.06)", border: "rgba(251,191,36,0.2)" },
-    fuego:  { emoji: "🔥", nombre: "Pro",  color: "#3C6E9E", glow: "rgba(60,110,158,0.35)", bg: "rgba(60,110,158,0.06)", border: "rgba(60,110,158,0.2)" },
-    cosmos: { emoji: "🌌", nombre: "Cosmos", color: "#818cf8", glow: "rgba(129,140,248,0.35)", bg: "rgba(129,140,248,0.06)", border: "rgba(129,140,248,0.2)" },
+    chispa: { img: iconoGold, nombre: "Gold",   color: "#fbbf24", glow: "rgba(251,191,36,0.35)",   bg: "rgba(251,191,36,0.06)",   border: "rgba(251,191,36,0.2)"   },
+    fuego:  { img: iconoPro,  nombre: "Pro",    color: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   bg: "rgba(60,110,158,0.06)",   border: "rgba(60,110,158,0.2)"   },
+    cosmos: { emoji: "🌌",   nombre: "Cosmos", color: "#818cf8", glow: "rgba(129,140,248,0.35)",  bg: "rgba(129,140,248,0.06)",  border: "rgba(129,140,248,0.2)"  },
 };
 
 export function PlanesConfigTemplate() {
@@ -65,14 +67,18 @@ export function PlanesConfigTemplate() {
             </TopBar>
 
             <Grid>
-                {planes.map(plan => {
+                {planes.filter(p => p.tier !== "cosmos").map(plan => {
                     const cfg = TIERS[plan.tier] ?? TIERS.chispa;
                     const enEdicion = editando === plan.id;
                     const precios   = calcularPrecios(Number(bases[plan.id]) || plan.precio_base || 0);
 
                     return (
                         <TierCard key={plan.id} $color={cfg.color} $glow={cfg.glow} $bg={cfg.bg} $border={cfg.border}>
-                            <TierEmoji>{cfg.emoji}</TierEmoji>
+                            <TierEmoji>
+                                {cfg.img
+                                    ? <img src={cfg.img} alt={cfg.nombre} style={{ width: 52, height: 52, objectFit: "contain" }} />
+                                    : cfg.emoji}
+                            </TierEmoji>
                             <TierNombre $color={cfg.color}>{cfg.nombre}</TierNombre>
 
                             {/* Precio base editable */}
@@ -172,11 +178,11 @@ const TopBar = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    max-width: 860px;
+    max-width: 580px;
     margin: 0 auto;
-    @media (max-width: 780px) { grid-template-columns: 1fr; }
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
 `;
 
 /* ── Tier Card ── */

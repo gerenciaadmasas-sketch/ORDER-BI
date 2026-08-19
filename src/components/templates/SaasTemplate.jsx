@@ -8,6 +8,8 @@ import { RiEditLine, RiDeleteBin2Line, RiAddLine, RiCloseLine, RiShieldLine, RiP
 import { Icon } from "@iconify/react";
 import { toastExito, confirmar } from "../../utils/toast";
 import ConfettiExplosion from "react-confetti-explosion";
+import iconoGold from "../../assets/caballero.png";
+import iconoPro  from "../../assets/rey.png";
 
 const formatCOP = (n) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n ?? 0);
 
@@ -26,9 +28,8 @@ const PLANES = [
 ];
 
 const TIPOS_PLAN = [
-    { key: "chispa", label: "⚡ Gold — 1 almacén, 2 usuarios" },
-    { key: "fuego",  label: "🔥 Pro  — 3 almacenes, 10 usuarios" },
-    { key: "cosmos", label: "🌌 Cosmos — Ilimitado" },
+    { key: "chispa", label: "Gold", img: iconoGold },
+    { key: "fuego",  label: "Pro",  img: iconoPro  },
 ];
 
 const ACTIVIDADES = [
@@ -440,7 +441,7 @@ export function SaasTemplate() {
                                         {PLANES.find(p => p.key === s.plan)?.label ?? s.plan}
                                         {" · "}
                                         <TipoPlanPill $tipo={s.tipo_plan}>
-                                            {TIPOS_PLAN.find(t => t.key === s.tipo_plan)?.label.split("—")[0].trim() ?? s.tipo_plan}
+                                            {(() => { const t = TIPOS_PLAN.find(tp => tp.key === s.tipo_plan); return t ? <><img src={t.img} alt="" style={{width:13,height:13,objectFit:"contain",marginRight:4,verticalAlign:"middle"}} />{t.label}</> : s.tipo_plan; })()}
                                         </TipoPlanPill>
                                     </InfoVal>
                                 </InfoFila>
@@ -732,7 +733,8 @@ export function SaasTemplate() {
                                             $activo={form.tipo_plan === t.key}
                                             onClick={() => setForm({ ...form, tipo_plan: t.key, valor_mensual: getPrecioTier(t.key) })}
                                         >
-                                            {t.label.split("—")[0].trim()}
+                                            <img src={t.img} alt="" style={{width:16,height:16,objectFit:"contain",marginRight:5,verticalAlign:"middle"}} />
+                                            {t.label}
                                         </PlanBadge>
                                     ))}
                                 </PlanBadgeWrap>
@@ -1165,7 +1167,6 @@ const PlanBadgeWrap = styled.div`
 const PLAN_COLORS = {
     chispa: { bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.5)", text: "#fbbf24",  activeBg: "rgba(251,191,36,0.25)" },
     fuego:  { bg: "rgba(60,110,158,0.12)", border: "rgba(60,110,158,0.5)", text: "#3C6E9E",  activeBg: "rgba(60,110,158,0.25)" },
-    cosmos: { bg: "rgba(129,140,248,0.12)", border: "rgba(129,140,248,0.5)", text: "#818cf8", activeBg: "rgba(129,140,248,0.25)" },
 };
 
 const PlanBadge = styled.button`
@@ -1191,11 +1192,6 @@ const PlanBadge = styled.button`
         background:   ${({ $activo }) => $activo ? "rgba(60,110,158,0.2)"  : "transparent"};
         color:        ${({ $activo }) => $activo ? "#3C6E9E" : "rgba(60,110,158,0.5)"};
     }
-    &[data-tipo="cosmos"] {
-        border-color: ${({ $activo }) => $activo ? "rgba(129,140,248,0.8)" : "rgba(129,140,248,0.25)"};
-        background:   ${({ $activo }) => $activo ? "rgba(129,140,248,0.2)"  : "transparent"};
-        color:        ${({ $activo }) => $activo ? "#818cf8" : "rgba(129,140,248,0.5)"};
-    }
     &:hover { filter: brightness(1.2); }
 `;
 
@@ -1203,7 +1199,6 @@ const PlanBadge = styled.button`
 const TIPO_COLORS = {
     chispa: { color: "#fbbf24", bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.3)" },
     fuego:  { color: "#3C6E9E", bg: "rgba(60,110,158,0.12)",  border: "rgba(60,110,158,0.3)"  },
-    cosmos: { color: "#818cf8", bg: "rgba(129,140,248,0.12)", border: "rgba(129,140,248,0.3)" },
 };
 
 const TipoPlanPill = styled.span`
