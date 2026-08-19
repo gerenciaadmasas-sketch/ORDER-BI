@@ -8,6 +8,14 @@ function generatePassword(length = 12): string {
   return Array.from(bytes).map((b) => chars[b % chars.length]).join("");
 }
 
+// Compara dos strings en tiempo constante (evita timing attacks al validar la firma)
+function iguales(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 // PBKDF2 con sal aleatoria — formato: "pbkdf2:<sal_hex>:<hash_hex>"
 async function hashPassword(plain: string): Promise<string> {
   const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -48,7 +56,7 @@ serve(async (req) => {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 
-    if (computed !== event.signature?.checksum) {
+    if (!event.signature?.checksum || !iguales(computed, event.signature.checksum)) {
       console.error("[wompi-webhook] Firma inválida");
       return new Response("Unauthorized", { status: 401 });
     }

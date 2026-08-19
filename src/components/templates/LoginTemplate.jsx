@@ -23,7 +23,7 @@ export function LoginTemplate() {
         try {
             const resultado = await ObtenerEmailPorUsuario(email.trim());
             if (!resultado || !resultado.email) {
-                setErrorMsg("Usuario no encontrado. Verifica con tu administrador.");
+                setErrorMsg("Credenciales incorrectas. Verifica con tu administrador.");
                 return;
             }
             await loginEmail({ email: resultado.email, password });
