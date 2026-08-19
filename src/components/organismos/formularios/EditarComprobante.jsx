@@ -93,12 +93,12 @@ const Field = styled.div`
         color: ${({ theme }) => theme.text};
         font-size: 14px;
         outline: none;
-        &:focus { border-color: #C4773A; }
+        &:focus { border-color: #3C6E9E; }
     }
 `;
 const BtnGuardar = styled.button`
     width: 100%; padding: 12px;
-    background: linear-gradient(135deg, #C4773A, #A66030);
+    background: linear-gradient(135deg, #3C6E9E, #2E5A80);
     color: #fff; border: none; border-radius: 12px;
     font-size: 14px; font-weight: 700; cursor: pointer;
     margin-top: 4px;

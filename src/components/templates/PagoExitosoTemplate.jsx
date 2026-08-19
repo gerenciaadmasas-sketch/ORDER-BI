@@ -60,7 +60,7 @@ export function PagoExitosoTemplate() {
 
     return (
         <Pagina>
-            <BgOrb $x="-10%" $y="-5%"  $size="500px" $color="rgba(196,119,58,0.12)" $dur="9s" />
+            <BgOrb $x="-10%" $y="-5%"  $size="500px" $color="rgba(60,110,158,0.12)" $dur="9s" />
             <BgOrb $x="70%"  $y="60%"  $size="400px" $color="rgba(52,211,153,0.10)" $dur="11s" $delay="2s" />
             <BgLines />
 
@@ -211,8 +211,8 @@ const BgOrb = styled.div`
 const BgLines = styled.div`
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
-        linear-gradient(rgba(196,119,58,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(196,119,58,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(60,110,158,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60,110,158,0.03) 1px, transparent 1px);
     background-size: 56px 56px;
 `;
 
@@ -226,7 +226,7 @@ const Logo = styled.button`
     display: flex; align-items: center; gap: 10px;
     background: none; border: none; cursor: pointer;
     img { width: 32px; height: 32px; object-fit: contain; }
-    span { font-size: 17px; font-weight: 900; color: #fff; b { color: #C4773A; } }
+    span { font-size: 17px; font-weight: 900; color: #fff; b { color: #3C6E9E; } }
 `;
 
 const Card = styled.div`
@@ -254,7 +254,7 @@ const Sub = styled.p`
 
 /* ── Íconos de estado ── */
 const SpinIcon = styled(RiLoader4Line)`
-    font-size: 56px; color: #C4773A;
+    font-size: 56px; color: #3C6E9E;
     animation: ${spin} 1s linear infinite;
 `;
 
@@ -274,7 +274,7 @@ const BarWrap = styled.div`
 
 const BarFill = styled.div`
     height: 100%; border-radius: 999px;
-    background: linear-gradient(90deg, #C4773A, #fbbf24);
+    background: linear-gradient(90deg, #3C6E9E, #fbbf24);
     animation: ${progress} 55s linear forwards;
 `;
 
@@ -300,18 +300,18 @@ const CredLabel = styled.span`
 `;
 
 const CredVal = styled.span`
-    font-size: 15px; font-weight: 700; color: #C4773A;
+    font-size: 15px; font-weight: 700; color: #3C6E9E;
     flex: 1; text-align: left; font-family: "Courier New", monospace;
     letter-spacing: 0.5px;
 `;
 
 const CopyBtn = styled.button`
-    border: none; background: rgba(196,119,58,0.12);
-    color: #C4773A; font-size: 11px; font-weight: 700;
+    border: none; background: rgba(60,110,158,0.12);
+    color: #3C6E9E; font-size: 11px; font-weight: 700;
     padding: 5px 12px; border-radius: 8px; cursor: pointer;
     white-space: nowrap;
     transition: background 0.15s;
-    &:hover { background: rgba(196,119,58,0.22); }
+    &:hover { background: rgba(60,110,158,0.22); }
 `;
 
 const CredDivider = styled.div`
@@ -326,13 +326,13 @@ const CredNota = styled.p`
 const BtnPrimario = styled.button`
     display: flex; align-items: center; justify-content: center; gap: 8px;
     width: 100%; padding: 16px; border-radius: 14px;
-    border: 2px solid #9A5A28; background: #C4773A;
+    border: 2px solid #1F3F59; background: #3C6E9E;
     color: #fff; font-size: 15px; font-weight: 800;
     font-family: "Poppins", sans-serif; cursor: pointer;
-    box-shadow: 4px 4px 0 #9A5A28;
+    box-shadow: 4px 4px 0 #1F3F59;
     transition: filter 0.15s, transform 0.1s, box-shadow 0.1s;
     &:hover  { filter: brightness(1.1); transform: translateY(-1px); }
-    &:active { box-shadow: 2px 2px 0 #9A5A28; transform: translate(2px,2px); }
+    &:active { box-shadow: 2px 2px 0 #1F3F59; transform: translate(2px,2px); }
 `;
 
 const BtnSecundario = styled.button`
@@ -341,7 +341,7 @@ const BtnSecundario = styled.button`
     font-size: 14px; font-weight: 600; font-family: "Poppins", sans-serif;
     cursor: pointer; width: 100%;
     transition: border-color 0.15s, color 0.15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const BtnWA = styled.button`

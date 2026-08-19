@@ -489,7 +489,7 @@ export function KardexTemplate() {
                     <Modal onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
                         <ModalHeader>
                             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                <RiLockPasswordLine style={{ color: "#C4773A" }} />
+                                <RiLockPasswordLine style={{ color: "#3C6E9E" }} />
                                 Autorización requerida
                             </span>
                             <BtnCerrarModal onClick={() => { setModalPassword(false); setPasswordInput(""); }}>
@@ -498,7 +498,7 @@ export function KardexTemplate() {
                         </ModalHeader>
                         <ModalBody>
                             <AuthInfo>
-                                <RiLockPasswordLine style={{ color: "#C4773A", flexShrink: 0, fontSize: 18 }} />
+                                <RiLockPasswordLine style={{ color: "#3C6E9E", flexShrink: 0, fontSize: 18 }} />
                                 <span>
                                     Para registrar movimientos en <strong>{almacenObj?.nombre ?? "este almacén"}</strong> se requiere autorización. Ingresa la contraseña del <strong>administrador</strong>.
                                 </span>
@@ -722,11 +722,11 @@ const GrupoEmpresa = styled.div`
 const EmpresaItem = styled.button`
     width: 100%; display: flex; align-items: center; gap: 7px;
     padding: 9px 10px; border-radius: 10px;
-    border: 1.5px solid ${({ $activa, theme }) => $activa ? "rgba(196,119,58,0.4)" : theme.color2};
-    background: ${({ $activa, theme }) => $activa ? "rgba(196,119,58,0.08)" : theme.bgtotal};
+    border: 1.5px solid ${({ $activa, theme }) => $activa ? "rgba(60,110,158,0.4)" : theme.color2};
+    background: ${({ $activa, theme }) => $activa ? "rgba(60,110,158,0.08)" : theme.bgtotal};
     cursor: pointer; transition: all 0.15s; text-align: left;
-    &:hover { border-color: rgba(196,119,58,0.3); background: rgba(196,119,58,0.05); }
-    .icono-empresa { font-size: 13px; color: #C4773A; flex-shrink: 0; }
+    &:hover { border-color: rgba(60,110,158,0.3); background: rgba(60,110,158,0.05); }
+    .icono-empresa { font-size: 13px; color: #3C6E9E; flex-shrink: 0; }
     .nombre-empresa {
         flex: 1; font-size: 12px; font-weight: 800; color: ${({ theme }) => theme.text};
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.1px;
@@ -808,7 +808,7 @@ const AlmacenHeader = styled.div`
 const HeaderLeft = styled.div`display: flex; flex-direction: column; gap: 3px;`;
 const EmpresaTag = styled.div`
     display: flex; align-items: center; gap: 5px;
-    font-size: 11px; font-weight: 700; color: #C4773A; letter-spacing: 0.2px;
+    font-size: 11px; font-weight: 700; color: #3C6E9E; letter-spacing: 0.2px;
 `;
 const AlmacenNombre = styled.div`font-size: 18px; font-weight: 900; color: ${({ theme }) => theme.text};`;
 const AlmacenSucursal = styled.div`font-size: 12px; font-weight: 600; color: ${({ theme }) => theme.colorsubtitlecard};`;
@@ -1001,8 +1001,8 @@ const BtnCancelar = styled.button`
 const AuthInfo = styled.div`
     display: flex; align-items: flex-start; gap: 10px;
     padding: 12px 14px; border-radius: 10px;
-    background: rgba(196,119,58,0.07);
-    border: 1px solid rgba(196,119,58,0.2);
+    background: rgba(60,110,158,0.07);
+    border: 1px solid rgba(60,110,158,0.2);
     font-size: 13px; color: ${({ theme }) => theme.colorsubtitlecard};
     line-height: 1.5;
     strong { color: ${({ theme }) => theme.text}; }

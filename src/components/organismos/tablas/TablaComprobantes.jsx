@@ -167,8 +167,8 @@ const ThContent = styled.span`
 `;
 
 const Badge = styled.span`
-    background: rgba(196, 119, 58, 0.12);
-    color: #C4773A;
+    background: rgba(60,110,158, 0.12);
+    color: #3C6E9E;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 12px;
@@ -185,7 +185,7 @@ const Checkbox = styled.input`
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #C4773A;
+    accent-color: #3C6E9E;
 `;
 
 const BtnEdit = styled.button`
@@ -201,7 +201,7 @@ const BtnEdit = styled.button`
     transition: color 0.2s, background 0.2s;
 
     &:hover {
-        color: #C4773A;
-        background: rgba(196, 119, 58, 0.1);
+        color: #3C6E9E;
+        background: rgba(60,110,158, 0.1);
     }
 `;

@@ -47,8 +47,8 @@ import { FaSearch } from "react-icons/fa";
 
 export const v = {
   
-  colorPrincipal: `#C4773A`,
-  colorSecundario: `#D4A96A`,
+  colorPrincipal: `#3C6E9E`,
+  colorSecundario: `#C2A46B`,
   iconobuscar:FaSearch,
   iconoagregar:GrAdd,
   iconoimagenvacia: FcImageFile,

@@ -45,7 +45,7 @@ export const GlobalStyles = createGlobalStyle`
     }
     .swal2-timer-progress-bar {
         opacity: 0.45 !important;
-        background: #C4773A !important;
+        background: #3C6E9E !important;
     }
     .toast-pos .swal2-icon {
         border: none !important;
@@ -77,7 +77,7 @@ export const GlobalStyles = createGlobalStyle`
 
     select::-webkit-scrollbar { width: 4px; }
     select::-webkit-scrollbar-thumb {
-        background: #C4773A;
+        background: #3C6E9E;
         border-radius: 10px;
     }
 

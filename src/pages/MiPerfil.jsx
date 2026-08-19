@@ -14,12 +14,12 @@ import { usePlan, LIMITES_PLAN } from "../hooks/usePlan";
 
 const PLAN_COLORS = {
     chispa: { bg: "rgba(96,165,250,0.12)",  color: "#60a5fa", glow: "rgba(96,165,250,0.25)"  },
-    fuego:  { bg: "rgba(196,119,58,0.12)",  color: "#C4773A", glow: "rgba(196,119,58,0.25)"  },
+    fuego:  { bg: "rgba(60,110,158,0.12)",  color: "#3C6E9E", glow: "rgba(60,110,158,0.25)"  },
     cosmos: { bg: "rgba(167,139,250,0.12)", color: "#a78bfa", glow: "rgba(167,139,250,0.25)" },
 };
 
 const TIPO_COLORS = {
-    superadmin:    { bg: "rgba(196,119,58,0.12)",  color: "#C4773A" },
+    superadmin:    { bg: "rgba(60,110,158,0.12)",  color: "#3C6E9E" },
     cajero:        { bg: "rgba(96,165,250,0.12)",  color: "#60a5fa" },
     administrador: { bg: "rgba(167,139,250,0.12)", color: "#a78bfa" },
     supervisor:    { bg: "rgba(74,222,128,0.12)",  color: "#4ade80" },

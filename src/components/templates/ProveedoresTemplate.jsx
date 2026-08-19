@@ -218,10 +218,10 @@ const HeaderLeft = styled.div`
 const PageIcon = styled.div`
     width: 46px; height: 46px;
     border-radius: 14px;
-    background: rgba(196,119,58,.15);
-    border: 1px solid rgba(196,119,58,.3);
+    background: rgba(60,110,158,.15);
+    border: 1px solid rgba(60,110,158,.3);
     display: flex; align-items: center; justify-content: center;
-    font-size: 24px; color: #C4773A; flex-shrink: 0;
+    font-size: 24px; color: #3C6E9E; flex-shrink: 0;
 `;
 
 const Stats = styled.div`
@@ -250,7 +250,7 @@ const StatDiv = styled.div`
 
 const NuevoBtn = styled.button`
     display: flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #C4773A, #f59e0b);
+    background: linear-gradient(135deg, #3C6E9E, #f59e0b);
     color: #fff; border: none; border-radius: 12px;
     padding: 11px 18px;
     font-size: 13px; font-weight: 700;
@@ -298,12 +298,12 @@ const Chips = styled.div`
 const Chip = styled.button`
     padding: 8px 16px;
     border-radius: 10px;
-    border: 1px solid ${p => p.$active ? "#C4773A" : "rgba(255,255,255,.1)"};
-    background: ${p => p.$active ? "rgba(196,119,58,.15)" : "rgba(255,255,255,.04)"};
-    color: ${p => p.$active ? "#C4773A" : "rgba(255,255,255,.4)"};
+    border: 1px solid ${p => p.$active ? "#3C6E9E" : "rgba(255,255,255,.1)"};
+    background: ${p => p.$active ? "rgba(60,110,158,.15)" : "rgba(255,255,255,.04)"};
+    color: ${p => p.$active ? "#3C6E9E" : "rgba(255,255,255,.4)"};
     font-size: 12px; font-weight: 700; font-family: "Poppins", sans-serif;
     cursor: pointer; transition: .15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const Grid = styled.div`
@@ -324,7 +324,7 @@ const Card = styled.div`
     gap: 8px;
     transition: border-color .2s, transform .2s;
     &:hover {
-        border-color: rgba(196,119,58,.3);
+        border-color: rgba(60,110,158,.3);
         transform: translateY(-2px);
     }
 `;
@@ -360,9 +360,9 @@ const ActBtn = styled.button`
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: .15s;
     &:hover {
-        background: ${p => p.$edit ? "rgba(196,119,58,.12)" : "rgba(248,113,113,.12)"};
-        color: ${p => p.$edit ? "#C4773A" : "#f87171"};
-        border-color: ${p => p.$edit ? "rgba(196,119,58,.3)" : "rgba(248,113,113,.3)"};
+        background: ${p => p.$edit ? "rgba(60,110,158,.12)" : "rgba(248,113,113,.12)"};
+        color: ${p => p.$edit ? "#3C6E9E" : "#f87171"};
+        border-color: ${p => p.$edit ? "rgba(60,110,158,.3)" : "rgba(248,113,113,.3)"};
     }
 `;
 

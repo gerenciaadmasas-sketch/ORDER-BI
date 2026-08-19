@@ -18,7 +18,7 @@ const formatCOP = (n) =>
 const TIPOS_PROYECTO = [
     { key: "remodelacion",  label: "Remodelación",        icon: "mdi:wrench",                             color: "#f59e0b" },
     { key: "reparacion",    label: "Reparación locativa",  icon: "mdi:toolbox",                           color: "#60a5fa" },
-    { key: "construccion",  label: "Construcción",         icon: "mdi:hard-hat",                          color: "#C4773A" },
+    { key: "construccion",  label: "Construcción",         icon: "mdi:hard-hat",                          color: "#3C6E9E" },
     { key: "administracion",label: "Administración",       icon: "solar:clipboard-list-bold-duotone",     color: "#a78bfa" },
 ];
 

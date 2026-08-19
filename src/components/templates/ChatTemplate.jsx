@@ -251,7 +251,7 @@ const ListaSub = styled.div`
 `;
 
 const UnreadGlobal = styled.span`
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 10px; font-weight: 800;
     padding: 1px 7px; border-radius: 20px;
     margin-left: 4px;
@@ -272,14 +272,14 @@ const ClienteItem = styled.div`
     display: flex; align-items: center; gap: 12px;
     padding: 14px 18px; cursor: pointer; transition: background 0.15s;
     border-bottom: 1px solid ${({ theme }) => theme.color2};
-    background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.08)" : "transparent"};
-    border-left: 3px solid ${({ $activo }) => $activo ? "#C4773A" : "transparent"};
-    &:hover { background: rgba(196,119,58,0.05); }
+    background: ${({ $activo }) => $activo ? "rgba(60,110,158,0.08)" : "transparent"};
+    border-left: 3px solid ${({ $activo }) => $activo ? "#3C6E9E" : "transparent"};
+    &:hover { background: rgba(60,110,158,0.05); }
 `;
 
 const ClienteAvatar = styled.div`
     width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-    background: rgba(196,119,58,0.12); color: #C4773A;
+    background: rgba(60,110,158,0.12); color: #3C6E9E;
     font-size: 15px; font-weight: 800;
     display: flex; align-items: center; justify-content: center;
 `;
@@ -309,7 +309,7 @@ const ClienteUltimo = styled.span`
 `;
 
 const UnreadBadge = styled.span`
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 10px; font-weight: 900;
     width: 20px; height: 20px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -353,7 +353,7 @@ const BtnVolver = styled.button`
 
 const ThreadAvatar = styled.div`
     width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-    background: rgba(196,119,58,0.15); color: #C4773A;
+    background: rgba(60,110,158,0.15); color: #3C6E9E;
     font-size: 14px; font-weight: 900;
     display: flex; align-items: center; justify-content: center;
 `;
@@ -415,11 +415,11 @@ const BubbleWrap = styled.div`
 const Bubble = styled.div`
     padding: 10px 14px;
     border-radius: ${({ $right }) => $right ? "16px 16px 4px 16px" : "16px 16px 16px 4px"};
-    background: ${({ $right }) => $right ? "#C4773A" : ({ theme }) => theme.bgcards};
+    background: ${({ $right }) => $right ? "#3C6E9E" : ({ theme }) => theme.bgcards};
     border: ${({ $right, theme }) => $right ? "none" : `1px solid ${theme.color2}`};
     color: ${({ $right }) => $right ? "#fff" : ({ theme }) => theme.text};
     font-size: 14px; line-height: 1.5; word-break: break-word;
-    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(196,119,58,0.25)" : "none"};
+    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(60,110,158,0.25)" : "none"};
 `;
 
 const BubbleTime = styled.span`
@@ -446,13 +446,13 @@ const InputMsg = styled.textarea`
     color: ${({ theme }) => theme.text};
     font-size: 14px; font-family: "Poppins", sans-serif;
     outline: none; line-height: 1.5;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 
 const BtnEnviar = styled.button`
     width: 46px; height: 46px; border-radius: 14px; border: none; flex-shrink: 0;
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 20px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.15s;

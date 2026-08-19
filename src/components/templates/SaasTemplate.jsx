@@ -26,8 +26,8 @@ const PLANES = [
 ];
 
 const TIPOS_PLAN = [
-    { key: "chispa", label: "⚡ Chispa — 1 almacén, 2 usuarios" },
-    { key: "fuego",  label: "🔥 Fuego  — 3 almacenes, 10 usuarios" },
+    { key: "chispa", label: "⚡ Gold — 1 almacén, 2 usuarios" },
+    { key: "fuego",  label: "🔥 Pro  — 3 almacenes, 10 usuarios" },
     { key: "cosmos", label: "🌌 Cosmos — Ilimitado" },
 ];
 
@@ -489,7 +489,7 @@ export function SaasTemplate() {
                                                                 cancelButtonText: "Cancelar",
                                                                 background: "#111827",
                                                                 color: "#f1f5f9",
-                                                                confirmButtonColor: "#C4773A",
+                                                                confirmButtonColor: "#3C6E9E",
                                                             });
                                                             if (isConfirmed) mutResetPwd.mutate(s);
                                                         }}
@@ -559,7 +559,7 @@ export function SaasTemplate() {
                                             customClass: { popup: "swal-pos" },
                                             didOpen: () => {
                                                 document.querySelectorAll(".swal-metodo").forEach(btn => {
-                                                    btn.addEventListener("mouseenter", () => { btn.style.borderColor = "#C4773A"; btn.style.background = "rgba(196,119,58,0.1)"; });
+                                                    btn.addEventListener("mouseenter", () => { btn.style.borderColor = "#3C6E9E"; btn.style.background = "rgba(60,110,158,0.1)"; });
                                                     btn.addEventListener("mouseleave", () => { btn.style.borderColor = "#1e3347"; btn.style.background = "#162436"; });
                                                     btn.addEventListener("click", () => {
                                                         Swal.getInput().value = btn.dataset.metodo;
@@ -778,7 +778,7 @@ const TopBar = styled.div`
 const BtnNuevo = styled.button`
     display: flex; align-items: center; gap: 8px;
     padding: 10px 20px; border-radius: 10px; border: none;
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 13px; font-weight: 700; cursor: pointer;
     font-family: "Poppins", sans-serif;
     &:hover { background: #e07020; }
@@ -878,7 +878,7 @@ const BtnHistorial = styled.button`
     font-size: 11px; font-weight: 700; cursor: pointer;
     font-family: "Poppins", sans-serif;
     transition: all 0.15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const HistorialBox = styled.div`
@@ -1050,7 +1050,7 @@ const Input = styled.input`
     border: 1.5px solid ${({ theme }) => theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const slideDown = keyframes`from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}`;
@@ -1060,12 +1060,12 @@ const DropWrap = styled.div`position: relative; width: 100%;`;
 const SelectorBtn = styled.button`
     width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
     padding: 10px 14px; border-radius: 10px; cursor: pointer;
-    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#C4773A" : theme.color2};
+    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#3C6E9E" : theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 13px; font-weight: 600; font-family: "Poppins", sans-serif;
     transition: border-color 0.15s;
-    &:hover { border-color: #C4773A; }
-    .chevron { font-size: 18px; color: #C4773A; transition: transform 0.2s; flex-shrink: 0; }
+    &:hover { border-color: #3C6E9E; }
+    .chevron { font-size: 18px; color: #3C6E9E; transition: transform 0.2s; flex-shrink: 0; }
     .chevron.abierto { transform: rotate(180deg); }
 `;
 
@@ -1083,10 +1083,10 @@ const DropItem = styled.button`
     width: 100%; text-align: left; padding: 9px 12px; border-radius: 8px;
     border: none; cursor: pointer; font-size: 13px; font-weight: 600;
     font-family: "Poppins", sans-serif;
-    background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.12)" : "transparent"};
-    color: ${({ $activo, theme }) => $activo ? "#C4773A" : theme.text};
+    background: ${({ $activo }) => $activo ? "rgba(60,110,158,0.12)" : "transparent"};
+    color: ${({ $activo, theme }) => $activo ? "#3C6E9E" : theme.text};
     transition: background 0.12s;
-    &:hover { background: rgba(196,119,58,0.08); }
+    &:hover { background: rgba(60,110,158,0.08); }
 `;
 
 const Textarea = styled.textarea`
@@ -1094,7 +1094,7 @@ const Textarea = styled.textarea`
     border: 1.5px solid ${({ theme }) => theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none; resize: vertical;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const InputReadonly = styled.div`
@@ -1107,7 +1107,7 @@ const InputReadonly = styled.div`
 
 const BtnGuardar = styled.button`
     padding: 12px; border-radius: 12px; border: none;
-    background: linear-gradient(135deg, #C4773A, #A66030);
+    background: linear-gradient(135deg, #3C6E9E, #2E5A80);
     color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
     font-family: "Poppins", sans-serif;
     &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -1133,7 +1133,7 @@ const RetencionTitulo = styled.div`
 const SliderWrap = styled.div`
     padding: 6px 0;
     input[type="range"] {
-        width: 100%; cursor: pointer; accent-color: #C4773A;
+        width: 100%; cursor: pointer; accent-color: #3C6E9E;
         height: 4px; border-radius: 4px;
     }
 `;
@@ -1143,8 +1143,8 @@ const SliderTrack = styled.div`
     border-radius: 4px;
     background: linear-gradient(
         to right,
-        #C4773A 0%,
-        #C4773A ${({ $pct }) => $pct ?? 0}%,
+        #3C6E9E 0%,
+        #3C6E9E ${({ $pct }) => $pct ?? 0}%,
         rgba(255,255,255,0.12) ${({ $pct }) => $pct ?? 0}%,
         rgba(255,255,255,0.12) 100%
     );
@@ -1164,7 +1164,7 @@ const PlanBadgeWrap = styled.div`
 
 const PLAN_COLORS = {
     chispa: { bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.5)", text: "#fbbf24",  activeBg: "rgba(251,191,36,0.25)" },
-    fuego:  { bg: "rgba(196,119,58,0.12)", border: "rgba(196,119,58,0.5)", text: "#C4773A",  activeBg: "rgba(196,119,58,0.25)" },
+    fuego:  { bg: "rgba(60,110,158,0.12)", border: "rgba(60,110,158,0.5)", text: "#3C6E9E",  activeBg: "rgba(60,110,158,0.25)" },
     cosmos: { bg: "rgba(129,140,248,0.12)", border: "rgba(129,140,248,0.5)", text: "#818cf8", activeBg: "rgba(129,140,248,0.25)" },
 };
 
@@ -1187,9 +1187,9 @@ const PlanBadge = styled.button`
         color:        ${({ $activo }) => $activo ? "#fbbf24" : "rgba(251,191,36,0.5)"};
     }
     &[data-tipo="fuego"] {
-        border-color: ${({ $activo }) => $activo ? "rgba(196,119,58,0.8)" : "rgba(196,119,58,0.25)"};
-        background:   ${({ $activo }) => $activo ? "rgba(196,119,58,0.2)"  : "transparent"};
-        color:        ${({ $activo }) => $activo ? "#C4773A" : "rgba(196,119,58,0.5)"};
+        border-color: ${({ $activo }) => $activo ? "rgba(60,110,158,0.8)" : "rgba(60,110,158,0.25)"};
+        background:   ${({ $activo }) => $activo ? "rgba(60,110,158,0.2)"  : "transparent"};
+        color:        ${({ $activo }) => $activo ? "#3C6E9E" : "rgba(60,110,158,0.5)"};
     }
     &[data-tipo="cosmos"] {
         border-color: ${({ $activo }) => $activo ? "rgba(129,140,248,0.8)" : "rgba(129,140,248,0.25)"};
@@ -1202,7 +1202,7 @@ const PlanBadge = styled.button`
 /* ── Tipo plan pill en tarjeta ── */
 const TIPO_COLORS = {
     chispa: { color: "#fbbf24", bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.3)" },
-    fuego:  { color: "#C4773A", bg: "rgba(196,119,58,0.12)",  border: "rgba(196,119,58,0.3)"  },
+    fuego:  { color: "#3C6E9E", bg: "rgba(60,110,158,0.12)",  border: "rgba(60,110,158,0.3)"  },
     cosmos: { color: "#818cf8", bg: "rgba(129,140,248,0.12)", border: "rgba(129,140,248,0.3)" },
 };
 
@@ -1284,10 +1284,10 @@ const CredActions = styled.div`
 const BtnResetPwd = styled.button`
     display: flex; align-items: center; justify-content: center;
     width: 24px; height: 24px; border-radius: 6px; border: none;
-    background: rgba(196,119,58,0.12); color: #C4773A;
+    background: rgba(60,110,158,0.12); color: #3C6E9E;
     cursor: pointer; font-size: 14px; flex-shrink: 0;
     transition: background 0.15s, transform 0.15s;
-    &:hover { background: rgba(196,119,58,0.25); transform: rotate(45deg); }
+    &:hover { background: rgba(60,110,158,0.25); transform: rotate(45deg); }
     &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 `;
 

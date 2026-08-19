@@ -22,7 +22,7 @@ const Ring = styled.div`
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    border: 3px solid rgba(196, 119, 58, 0.15);
-    border-top-color: #C4773A;
+    border: 3px solid rgba(60,110,158, 0.15);
+    border-top-color: #3C6E9E;
     animation: ${spin} 0.85s linear infinite;
 `;

@@ -42,7 +42,7 @@ function AnimatedNumber({ value }) {
 
 /* ── role colors ── */
 const ROL_STYLE = {
-    superadmin:    { color: "#C4773A", bg: "rgba(196,119,58,0.10)",  glow: "rgba(196,119,58,0.35)"  },
+    superadmin:    { color: "#3C6E9E", bg: "rgba(60,110,158,0.10)",  glow: "rgba(60,110,158,0.35)"  },
     administrador: { color: "#a78bfa", bg: "rgba(167,139,250,0.10)", glow: "rgba(167,139,250,0.35)" },
     supervisor:    { color: "#4ade80", bg: "rgba(74,222,128,0.10)",  glow: "rgba(74,222,128,0.35)"  },
     cajero:        { color: "#60a5fa", bg: "rgba(96,165,250,0.10)",  glow: "rgba(96,165,250,0.35)"  },
@@ -50,15 +50,15 @@ const ROL_STYLE = {
 
 /* ── accesos por rol ── */
 const ACCESOS_SUPERADMIN = [
-    { key: "saas",       icon: "solar:users-group-rounded-bold-duotone", label: "SaaS",        sub: "Gestión de clientes", to: "/saas",       accent: "#C4773A", glow: "rgba(196,119,58,0.35)",   big: true  },
+    { key: "saas",       icon: "solar:users-group-rounded-bold-duotone", label: "SaaS",        sub: "Gestión de clientes", to: "/saas",       accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: true  },
     { key: "reportes",   icon: "solar:chart-square-bold-duotone",        label: "Clientes",    sub: "Ver reportes",        to: "/reportes",   accent: "#60a5fa", glow: "rgba(96,165,250,0.35)",   big: false },
     { key: "finanzas",   icon: "solar:dollar-minimalistic-bold-duotone", label: "Finanzas",    sub: "Rentabilidad",        to: "/finanzas",   accent: "#34d399", glow: "rgba(52,211,153,0.35)",   big: false },
     { key: "prospectos", icon: "solar:user-speak-bold-duotone",          label: "Leads",       sub: "Seguimiento",         to: "/prospectos", accent: "#818cf8", glow: "rgba(129,140,248,0.35)",  big: false },
-    { key: "chat",       icon: "solar:chat-round-bold-duotone",          label: "Chat",        sub: "Mensajes",            to: "/chat",       accent: "#C4773A", glow: "rgba(196,119,58,0.35)",   big: false },
+    { key: "chat",       icon: "solar:chat-round-bold-duotone",          label: "Chat",        sub: "Mensajes",            to: "/chat",       accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: false },
 ];
 
 const ACCESOS_ADMIN = [
-    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#C4773A", glow: "rgba(196,119,58,0.35)",   big: true  },
+    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: true  },
     { key: "inv",        icon: "solar:box-bold-duotone",                 label: "Inventario",  sub: "Gestionar stock",     to: "/inventario", accent: "#4ade80", glow: "rgba(74,222,128,0.35)",   big: false },
     { key: "reportes",   icon: "solar:chart-square-bold-duotone",        label: "Reportes",    sub: "Ver estadísticas",    to: "/reportes",   accent: "#60a5fa", glow: "rgba(96,165,250,0.35)",   big: false },
     { key: "kardex",     icon: "solar:clipboard-list-bold-duotone",      label: "Kardex",      sub: "Movimientos",         to: "/kardex",     accent: "#f59e0b", glow: "rgba(245,158,11,0.35)",   big: false },
@@ -67,7 +67,7 @@ const ACCESOS_ADMIN = [
 ];
 
 const ACCESOS_SUPERVISOR = [
-    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#C4773A", glow: "rgba(196,119,58,0.35)",   big: true  },
+    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: true  },
     { key: "inv",        icon: "solar:box-bold-duotone",                 label: "Inventario",  sub: "Gestionar stock",     to: "/inventario", accent: "#4ade80", glow: "rgba(74,222,128,0.35)",   big: false },
     { key: "reportes",   icon: "solar:chart-square-bold-duotone",        label: "Reportes",    sub: "Ver estadísticas",    to: "/reportes",   accent: "#60a5fa", glow: "rgba(96,165,250,0.35)",   big: false },
     { key: "kardex",     icon: "solar:clipboard-list-bold-duotone",      label: "Kardex",      sub: "Movimientos",         to: "/kardex",     accent: "#f59e0b", glow: "rgba(245,158,11,0.35)",   big: false },
@@ -75,7 +75,7 @@ const ACCESOS_SUPERVISOR = [
 ];
 
 const ACCESOS_CAJERO = [
-    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#C4773A", glow: "rgba(196,119,58,0.35)",   big: true  },
+    { key: "pos",        icon: "solar:cart-large-2-bold-duotone",        label: "Vender",      sub: "Punto de venta",      to: "/pos",        accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: true  },
     { key: "inv",        icon: "solar:box-bold-duotone",                 label: "Inventario",  sub: "Ver stock",           to: "/inventario", accent: "#4ade80", glow: "rgba(74,222,128,0.35)",   big: false },
     { key: "reportes",   icon: "solar:chart-square-bold-duotone",        label: "Reportes",    sub: "Ver estadísticas",    to: "/reportes",   accent: "#60a5fa", glow: "rgba(96,165,250,0.35)",   big: false },
 ];

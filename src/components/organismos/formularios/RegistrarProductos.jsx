@@ -471,7 +471,7 @@ const ZonaImagen = styled.div`
     justify-content: center;
     margin-bottom: 18px;
     transition: border-color 0.2s;
-    &:hover { border-color: #C4773A; }
+    &:hover { border-color: #3C6E9E; }
 `;
 
 const FotoProducto = styled.img`
@@ -499,7 +499,7 @@ const BadgeCamara = styled.div`
     position: absolute;
     bottom: 10px;
     right: 10px;
-    background: rgba(196,119,58,0.9);
+    background: rgba(60,110,158,0.9);
     border-radius: 8px;
     padding: 5px 8px;
     display: flex;

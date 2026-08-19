@@ -9,8 +9,8 @@ const formatCOP = (n) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n ?? 0);
 
 const TIERS = {
-    chispa: { emoji: "⚡", nombre: "Chispa", color: "#fbbf24", glow: "rgba(251,191,36,0.35)", bg: "rgba(251,191,36,0.06)", border: "rgba(251,191,36,0.2)" },
-    fuego:  { emoji: "🔥", nombre: "Fuego",  color: "#C4773A", glow: "rgba(196,119,58,0.35)", bg: "rgba(196,119,58,0.06)", border: "rgba(196,119,58,0.2)" },
+    chispa: { emoji: "⚡", nombre: "Gold", color: "#fbbf24", glow: "rgba(251,191,36,0.35)", bg: "rgba(251,191,36,0.06)", border: "rgba(251,191,36,0.2)" },
+    fuego:  { emoji: "🔥", nombre: "Pro",  color: "#3C6E9E", glow: "rgba(60,110,158,0.35)", bg: "rgba(60,110,158,0.06)", border: "rgba(60,110,158,0.2)" },
     cosmos: { emoji: "🌌", nombre: "Cosmos", color: "#818cf8", glow: "rgba(129,140,248,0.35)", bg: "rgba(129,140,248,0.06)", border: "rgba(129,140,248,0.2)" },
 };
 

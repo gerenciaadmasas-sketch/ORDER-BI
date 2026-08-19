@@ -25,7 +25,7 @@ const TIPO_COLOR = {
     cajero:        "#60a5fa",
     supervisor:    "#4ade80",
     administrador: "#a78bfa",
-    superadmin:    "#C4773A",
+    superadmin:    "#3C6E9E",
 };
 
 const inicial = (u) => (u?.nombres ?? u?.usuario ?? "?")[0]?.toUpperCase() ?? "?";
@@ -359,10 +359,10 @@ const EmptyLista = styled.div`
 const ItemUsuario = styled.div`
     display: flex; align-items: center; gap: 12px;
     padding: 14px 16px; cursor: pointer;
-    background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.08)" : "transparent"};
-    border-left: 3px solid ${({ $activo }) => $activo ? "#C4773A" : "transparent"};
+    background: ${({ $activo }) => $activo ? "rgba(60,110,158,0.08)" : "transparent"};
+    border-left: 3px solid ${({ $activo }) => $activo ? "#3C6E9E" : "transparent"};
     transition: background 0.12s;
-    &:hover { background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.1)" : "rgba(255,255,255,0.04)"}; }
+    &:hover { background: ${({ $activo }) => $activo ? "rgba(60,110,158,0.1)" : "rgba(255,255,255,0.04)"}; }
 `;
 
 const AvatarItem = styled.div`
@@ -391,7 +391,7 @@ const ItemDer = styled.div`
 const ItemHora = styled.span`font-size: 10px; color: ${({ theme }) => theme.colorsubtitlecard};`;
 const UnreadBadge = styled.span`
     min-width: 18px; height: 18px; border-radius: 10px; padding: 0 4px;
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 10px; font-weight: 900; font-family: "Poppins", sans-serif;
     display: flex; align-items: center; justify-content: center;
 `;
@@ -492,11 +492,11 @@ const BubbleWrap = styled.div`
 const Bubble = styled.div`
     padding: 10px 14px;
     border-radius: ${({ $right }) => $right ? "16px 16px 4px 16px" : "16px 16px 16px 4px"};
-    background: ${({ $right, theme }) => $right ? "#C4773A" : theme.bgcards};
+    background: ${({ $right, theme }) => $right ? "#3C6E9E" : theme.bgcards};
     border: ${({ $right, theme }) => $right ? "none" : `1px solid ${theme.color2}`};
     color: ${({ $right, theme }) => $right ? "#fff" : theme.text};
     font-size: 14px; line-height: 1.5; word-break: break-word;
-    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(196,119,58,0.22)" : "none"};
+    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(60,110,158,0.22)" : "none"};
 `;
 const BubbleTime = styled.span`
     font-size: 10px; color: ${({ theme }) => theme.colorsubtitlecard};
@@ -517,12 +517,12 @@ const InputMsg = styled.textarea`
     max-height: 120px; border: 1.5px solid ${({ theme }) => theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 14px; font-family: "Poppins", sans-serif; outline: none; line-height: 1.5;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 const BtnEnviar = styled.button`
     width: 44px; height: 44px; border-radius: 13px; border: none; flex-shrink: 0;
-    background: #C4773A; color: #fff; font-size: 18px; cursor: pointer;
+    background: #3C6E9E; color: #fff; font-size: 18px; cursor: pointer;
     display: flex; align-items: center; justify-content: center; transition: all 0.15s;
     &:hover:not(:disabled) { background: #e07020; transform: scale(1.05); }
     &:disabled { opacity: 0.35; cursor: not-allowed; }

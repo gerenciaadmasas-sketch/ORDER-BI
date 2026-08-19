@@ -10,7 +10,7 @@ const SECCIONES = [
     },
     {
         titulo: "2. Planes y precios",
-        texto: `El servicio se ofrece en tres planes:\n\n• Chispa ⚡ — Plan básico para negocios pequeños. Incluye 2 usuarios y 1 almacén.\n• Fuego 🔥 — Plan intermedio. Incluye hasta 10 usuarios, 3 almacenes y módulo de Kardex.\n• Cosmos 🌌 — Plan avanzado. Incluye hasta 12 usuarios y 6 almacenes.\n\nLos precios están expresados en pesos colombianos (COP) e incluyen todos los impuestos aplicables. ADMA BI se reserva el derecho de modificar los precios con un aviso previo de 30 días.`,
+        texto: `El servicio se ofrece en tres planes:\n\n• Gold ⚡ — Plan básico para negocios pequeños. Incluye 2 usuarios y 1 almacén.\n• Pro 🔥 — Plan intermedio. Incluye hasta 10 usuarios, 3 almacenes y módulo de Kardex.\n• Cosmos 🌌 — Plan avanzado. Incluye hasta 12 usuarios y 6 almacenes.\n\nLos precios están expresados en pesos colombianos (COP) e incluyen todos los impuestos aplicables. ADMA BI se reserva el derecho de modificar los precios con un aviso previo de 30 días.`,
     },
     {
         titulo: "3. Forma de pago",
@@ -133,7 +133,7 @@ const BtnVolver = styled.button`
     width: fit-content;
     transition: all 0.15s;
     font-family: "Poppins", sans-serif;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const Header = styled.div`
@@ -253,7 +253,7 @@ const LogoBtn = styled.button`
         font-size: 16px;
         font-weight: 700;
         color: rgba(255,255,255,0.4);
-        b { color: #C4773A; }
+        b { color: #3C6E9E; }
     }
 `;
 

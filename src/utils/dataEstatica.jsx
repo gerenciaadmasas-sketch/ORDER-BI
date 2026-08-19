@@ -89,7 +89,7 @@ export const LinksArray = [
     label: "Soporte",
     icon: "ri:customer-service-2-fill",
     to: "/chat",
-    color: "#C4773A",
+    color: "#3C6E9E",
   },
 ];
 export const SecondarylinksArray = [

@@ -199,7 +199,7 @@ const Input = styled.input`
     border: 1.5px solid ${({ theme }) => theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const Textarea = styled.textarea`
@@ -207,12 +207,12 @@ const Textarea = styled.textarea`
     border: 1.5px solid ${({ theme }) => theme.color2};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none; resize: vertical;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const BtnGuardar = styled.button`
     padding: 12px; border-radius: 12px; border: none;
-    background: linear-gradient(135deg, #C4773A, #A66030);
+    background: linear-gradient(135deg, #3C6E9E, #2E5A80);
     color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
     font-family: "Poppins", sans-serif;
     &:disabled { opacity: 0.5; cursor: not-allowed; }

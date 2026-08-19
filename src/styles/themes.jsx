@@ -1,30 +1,30 @@
 /* ─────────────────────────────────────────────────────────────
-   TEMA CLARO  —  "Clean Slate"
-   Fondo: blanco cálido neutro   Acento: terracota #C4773A
+   TEMA CLARO  —  "Slate & Signal"
+   Fondo: blanco fresco neutro   Acento: azul acero #3C6E9E
 ───────────────────────────────────────────────────────────── */
 export const Light = {
   /* Fondos */
-  bgtotal:      "#F5F0EB",      /* página: crema muy suave            */
-  bgcards:      "#FFFFFF",      /* cards: blanco puro con sombra      */
-  bgtgderecha:  "#EDE8E2",      /* área secundaria                    */
+  bgtotal:      "#F3F5F7",      /* página: gris muy suave              */
+  bgcards:      "#FFFFFF",      /* cards: blanco puro con sombra       */
+  bgtgderecha:  "#E7EBEF",      /* área secundaria                     */
   bg:           "#FFFFFF",
-  bg2:          "#F5F0EB",
+  bg2:          "#F3F5F7",
   bg3:          "#FFFFFF",
-  bg4:          "#E0D8CF",
-  bg5:          "#C4773A",
-  bg6:          "rgba(196,119,58,0.12)",
-  bgAlpha:      "rgba(60,40,20,0.05)",
+  bg4:          "#DCE2E8",
+  bg5:          "#3C6E9E",
+  bg6:          "rgba(60,110,158,0.12)",
+  bgAlpha:      "rgba(20,30,40,0.05)",
 
   /* Texto */
-  text:             "#1A1108",   /* casi negro cálido                  */
-  colortitlecard:   "#1A1108",
-  colorsubtitlecard:"#6B5A4A",   /* marrón medio, no tan negro         */
+  text:             "#12151A",   /* casi negro frío                    */
+  colortitlecard:   "#12151A",
+  colorsubtitlecard:"#5B6570",   /* gris azulado medio                 */
 
   /* Bordes y decoración */
-  color1:       "#C4773A",
-  color2:       "#D8CEBE",       /* borde muy sutil, cálido            */
-  colorScroll:  "#B8A898",
-  colorToggle:  "#C4773A",
+  color1:       "#3C6E9E",
+  color2:       "#D8DEE4",       /* borde muy sutil, frío               */
+  colorScroll:  "#B8C0C8",
+  colorToggle:  "#3C6E9E",
   translateToggle: "-12px",
 
   /* Tipografía */
@@ -35,48 +35,48 @@ export const Light = {
   navHeight: "5rem",
 
   /* Misc */
-  body:         "#F5F0EB",
-  bodyRgba:     "245,240,235",
-  textRgba:     "26,17,8",
-  carouselColor:"#C4773A",
-  whiteBg:      "#D4A96A",
-  primary:      "#C4773A",
+  body:         "#F3F5F7",
+  bodyRgba:     "243,245,247",
+  textRgba:     "18,21,26",
+  carouselColor:"#3C6E9E",
+  whiteBg:      "#C2A46B",
+  primary:      "#3C6E9E",
   logorotate:   "360deg",
   slideroffset: "0.3em",
   sizeoficon:   "1.4em",
-  colorSubtitle:"#6B5A4A",
-  rgbafondoanimado:"rgba(196,119,58,0.12)",
-  colorselector:"#D4A96A",
-  rgbafondos:   "rgba(196,119,58,0.1)",
+  colorSubtitle:"#5B6570",
+  rgbafondoanimado:"rgba(60,110,158,0.12)",
+  colorselector:"#C2A46B",
+  rgbafondos:   "rgba(60,110,158,0.1)",
 };
 
 /* ─────────────────────────────────────────────────────────────
-   TEMA OSCURO  —  "Earth"
-   Fondo: carbón cálido   Acento: terracota #C4773A
+   TEMA OSCURO  —  "Slate & Signal"
+   Fondo: grafito frío   Acento: azul acero #3C6E9E
 ───────────────────────────────────────────────────────────── */
 export const Dark = {
-  /* Fondos — capas cálidas con profundidad real */
-  bgtotal:      "#0D0B09",      /* página: carbón cálido               */
-  bgcards:      "#1A1612",      /* cards: marrón oscuro                */
-  bgtgderecha:  "#231E18",      /* área secundaria                     */
-  bg:           "#1A1612",
-  bg2:          "#0D0B09",
-  bg3:          "#231E18",
-  bg4:          "#2A2218",
-  bg5:          "#D4A96A",
-  bg6:          "rgba(212,169,106,0.08)",
+  /* Fondos — capas frías con profundidad real */
+  bgtotal:      "#0B0D10",      /* página: grafito casi negro           */
+  bgcards:      "#141820",      /* cards: carbón azulado                */
+  bgtgderecha:  "#1B212B",      /* área secundaria                      */
+  bg:           "#141820",
+  bg2:          "#0B0D10",
+  bg3:          "#1B212B",
+  bg4:          "#232B37",
+  bg5:          "#C2A46B",
+  bg6:          "rgba(60,110,158,0.08)",
   bgAlpha:      "rgba(255,255,255,0.04)",
 
-  /* Texto — crema cálida, no blanco frío */
-  text:             "#F0E6D3",   /* crema cálida, no agresiva          */
-  colortitlecard:   "#B8A898",   /* warm gray medio                    */
-  colorsubtitlecard:"#7A6A5A",   /* muted warm                         */
+  /* Texto — blanco frío suave, no blanco puro */
+  text:             "#EDEFF2",   /* blanco fresco, no agresivo          */
+  colortitlecard:   "#AEB4BD",   /* gris azulado medio                  */
+  colorsubtitlecard:"#7C8794",   /* gris azulado apagado                */
 
   /* Bordes y decoración */
-  color1:       "#C4773A",
-  color2:       "#2A2218",       /* borde cálido oscuro                */
-  colorScroll:  "#2A2218",
-  colorToggle:  "#C4773A",
+  color1:       "#3C6E9E",
+  color2:       "#232B37",       /* borde frío oscuro                   */
+  colorScroll:  "#232B37",
+  colorToggle:  "#3C6E9E",
   translateToggle: "26px",
 
   /* Tipografía */
@@ -87,17 +87,17 @@ export const Dark = {
   navHeight: "5rem",
 
   /* Misc */
-  body:         "#0D0B09",
-  bodyRgba:     "13,11,9",
-  textRgba:     "240,230,211",
-  carouselColor:"#C4773A",
-  whiteBg:      "#D4A96A",
-  primary:      "#C4773A",
+  body:         "#0B0D10",
+  bodyRgba:     "11,13,16",
+  textRgba:     "237,239,242",
+  carouselColor:"#3C6E9E",
+  whiteBg:      "#C2A46B",
+  primary:      "#3C6E9E",
   logorotate:   "-360deg",
   slideroffset: "0.3em",
   sizeoficon:   "1.4em",
-  colorSubtitle:"#7A6A5A",
-  rgbafondoanimado:"rgba(196,119,58,0.06)",
-  colorselector:"#D4A96A",
-  rgbafondos:   "rgba(196,119,58,0.1)",
+  colorSubtitle:"#7C8794",
+  rgbafondoanimado:"rgba(60,110,158,0.06)",
+  colorselector:"#C2A46B",
+  rgbafondos:   "rgba(60,110,158,0.1)",
 };

@@ -213,7 +213,7 @@ function DashboardSaaS() {
                         <StatCard $loading={loadV}>
                             <StatTop>
                                 <StatLabel>Ventas</StatLabel>
-                                <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#C4773A" }} />
+                                <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#3C6E9E" }} />
                             </StatTop>
                             <StatVal>{formatCOP(totalVentas)}</StatVal>
                         </StatCard>
@@ -254,7 +254,7 @@ function DashboardSaaS() {
                                         <XAxis dataKey="dia" tick={{ fontSize: 10, fill: "#94a3b8" }} />
                                         <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
                                         <Tooltip formatter={(v) => [formatCOP(v), "Ventas"]} contentStyle={{ background: "#1C2E42", border: "1px solid #2d4a66", borderRadius: 10, fontSize: 12 }} />
-                                        <Line type="monotone" dataKey="total" stroke="#C4773A" strokeWidth={3} dot={{ r: 4, fill: "#C4773A" }} />
+                                        <Line type="monotone" dataKey="total" stroke="#3C6E9E" strokeWidth={3} dot={{ r: 4, fill: "#3C6E9E" }} />
                                     </LineChart>
                                 </ResponsiveContainer>
                             )}
@@ -310,7 +310,7 @@ const BtnVolver = styled.button`
 const ActividadBadge = styled.span`
     font-size: 11px; font-weight: 700; text-transform: capitalize;
     padding: 4px 12px; border-radius: 20px;
-    background: rgba(196,119,58,0.1); color: #C4773A;
+    background: rgba(60,110,158,0.1); color: #3C6E9E;
 `;
 
 /* ── Dashboard POS (admin/supervisor/cajero) ───── */
@@ -498,7 +498,7 @@ export function DashboardTemplate() {
                             <StatCard $loading={loading}>
                                 <StatTop>
                                     <StatLabel>Ventas</StatLabel>
-                                    <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#C4773A" }} />
+                                    <Icon icon="solar:cart-large-2-bold-duotone" style={{ fontSize: 20, color: "#3C6E9E" }} />
                                 </StatTop>
                                 <StatVal>{loading ? "—" : formatCOP(totalVentas)}</StatVal>
                                 <PctBadge pct={filtro === "todo" ? null : calcPct(totalVentas, totalVentasPrev)} />
@@ -557,7 +557,7 @@ export function DashboardTemplate() {
                                             contentStyle={{ background: "#1C2E42", border: "1px solid #2d4a66", borderRadius: 10, fontSize: 12 }}
                                             labelStyle={{ color: "#94a3b8" }}
                                         />
-                                        <Line type="monotone" dataKey="total" stroke="#C4773A" strokeWidth={3} dot={{ r: 4, fill: "#C4773A" }} activeDot={{ r: 6 }} />
+                                        <Line type="monotone" dataKey="total" stroke="#3C6E9E" strokeWidth={3} dot={{ r: 4, fill: "#3C6E9E" }} activeDot={{ r: 6 }} />
                                         {metaVentas > 0 && (
                                             <ReferenceLine y={metaVentas} stroke="#4ade80" strokeDasharray="6 4" strokeWidth={2} label={{ value: "META", position: "right", fill: "#4ade80", fontSize: 10 }} />
                                         )}
@@ -717,7 +717,7 @@ const SelectAlmacenDash = styled.select`
     font-family: "Poppins", sans-serif;
     outline: none;
     cursor: pointer;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const Filtros = styled.div`

@@ -21,7 +21,7 @@ const fmtCOP  = (n) => new Intl.NumberFormat("es-CO", { style: "currency", curre
 const TIPOS_PROY = [
     { key: "remodelacion",  label: "Remodelación",  icon: "mdi:wrench",                          color: "#f59e0b" },
     { key: "reparacion",    label: "Reparación",    icon: "mdi:toolbox",                         color: "#60a5fa" },
-    { key: "construccion",  label: "Construcción",  icon: "mdi:hard-hat",                        color: "#C4773A" },
+    { key: "construccion",  label: "Construcción",  icon: "mdi:hard-hat",                        color: "#3C6E9E" },
     { key: "administracion",label: "Administración",icon: "solar:clipboard-list-bold-duotone",   color: "#a78bfa" },
 ];
 const ESTADOS_PROY = [
@@ -41,7 +41,7 @@ const ESTADOS_ACT = [
 const CATEGORIAS_EGRESO = [
     { key: "materiales",   label: "Materiales",       icon: "solar:box-bold-duotone",               color: "#f59e0b" },
     { key: "mano_obra",    label: "Mano de obra",     icon: "mdi:hard-hat",                         color: "#60a5fa" },
-    { key: "equipos",      label: "Equipos / Maquinaria", icon: "mdi:excavator",                    color: "#C4773A" },
+    { key: "equipos",      label: "Equipos / Maquinaria", icon: "mdi:excavator",                    color: "#3C6E9E" },
     { key: "transporte",   label: "Transporte",       icon: "solar:bus-bold-duotone",               color: "#a78bfa" },
     { key: "honorarios",   label: "Honorarios",       icon: "solar:diploma-bold-duotone",           color: "#34d399" },
     { key: "otros",        label: "Otros gastos",     icon: "solar:widget-bold-duotone",            color: "#94a3b8" },

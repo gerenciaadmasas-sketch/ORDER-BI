@@ -100,7 +100,7 @@ export function SoporteTemplate() {
                     <EmptyWrap><span>Conectando...</span></EmptyWrap>
                 ) : mensajes.length === 0 ? (
                     <EmptyWrap>
-                        <Icon icon="ri:customer-service-2-fill" style={{ fontSize: 44, opacity: 0.15, color: "#C4773A" }} />
+                        <Icon icon="ri:customer-service-2-fill" style={{ fontSize: 44, opacity: 0.15, color: "#3C6E9E" }} />
                         <span>Aún no hay mensajes.<br />¡Escríbenos, estamos aquí para ayudarte!</span>
                     </EmptyWrap>
                 ) : (() => {
@@ -169,8 +169,8 @@ const ChatHeader = styled.div`
 
 const AvatarSoporte = styled.div`
     width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
-    background: rgba(196,119,58,0.15); border: 1.5px solid rgba(196,119,58,0.35);
-    color: #C4773A; font-size: 22px;
+    background: rgba(60,110,158,0.15); border: 1.5px solid rgba(60,110,158,0.35);
+    color: #3C6E9E; font-size: 22px;
     display: flex; align-items: center; justify-content: center;
 `;
 
@@ -223,7 +223,7 @@ const BubbleRow = styled.div`
 
 const BubbleAvatar = styled.div`
     width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
-    background: rgba(196,119,58,0.15); color: #C4773A;
+    background: rgba(60,110,158,0.15); color: #3C6E9E;
     font-size: 11px; font-weight: 900;
     display: flex; align-items: center; justify-content: center;
 `;
@@ -236,11 +236,11 @@ const BubbleWrap = styled.div`
 
 const Bubble = styled.div`
     padding: 10px 14px; border-radius: ${({ $right }) => $right ? "16px 16px 4px 16px" : "16px 16px 16px 4px"};
-    background: ${({ $right }) => $right ? "#C4773A" : ({ theme }) => theme.bgcards};
+    background: ${({ $right }) => $right ? "#3C6E9E" : ({ theme }) => theme.bgcards};
     border: ${({ $right }) => $right ? "none" : `1px solid ${({ theme }) => theme.color2}`};
     color: ${({ $right }) => $right ? "#fff" : ({ theme }) => theme.text};
     font-size: 14px; line-height: 1.5; word-break: break-word;
-    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(196,119,58,0.25)" : "none"};
+    box-shadow: ${({ $right }) => $right ? "0 2px 8px rgba(60,110,158,0.25)" : "none"};
 `;
 
 const BubbleTime = styled.span`
@@ -267,13 +267,13 @@ const InputMsg = styled.textarea`
     color: ${({ theme }) => theme.text};
     font-size: 14px; font-family: "Poppins", sans-serif;
     outline: none; line-height: 1.5;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; }
 `;
 
 const BtnEnviar = styled.button`
     width: 46px; height: 46px; border-radius: 14px; border: none; flex-shrink: 0;
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 20px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.15s;

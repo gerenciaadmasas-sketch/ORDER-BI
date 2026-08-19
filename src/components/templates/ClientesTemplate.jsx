@@ -260,9 +260,9 @@ const Card = styled.div`
 const CardTop = styled.div`display:flex;align-items:center;justify-content:space-between;`;
 const DocBadge = styled.div`
     display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;
-    background:${p=>p.$nit?"rgba(196,119,58,.12)":"rgba(96,165,250,.12)"};
-    border:1px solid ${p=>p.$nit?"rgba(196,119,58,.3)":"rgba(96,165,250,.3)"};
-    color:${p=>p.$nit?"#C4773A":"#60a5fa"};font-size:11px;font-weight:700;
+    background:${p=>p.$nit?"rgba(60,110,158,.12)":"rgba(96,165,250,.12)"};
+    border:1px solid ${p=>p.$nit?"rgba(60,110,158,.3)":"rgba(96,165,250,.3)"};
+    color:${p=>p.$nit?"#3C6E9E":"#60a5fa"};font-size:11px;font-weight:700;
     svg{font-size:13px;}
 `;
 const CardActions = styled.div`display:flex;gap:6px;`;
@@ -280,9 +280,9 @@ const ActBtn = styled.button`
 `;
 const CardAvatar = styled.div`
     width:48px;height:48px;border-radius:14px;margin:4px 0 0;
-    background:${p=>p.$nit?"rgba(196,119,58,.15)":"rgba(96,165,250,.15)"};
-    border:1px solid ${p=>p.$nit?"rgba(196,119,58,.25)":"rgba(96,165,250,.25)"};
-    color:${p=>p.$nit?"#C4773A":"#60a5fa"};
+    background:${p=>p.$nit?"rgba(60,110,158,.15)":"rgba(96,165,250,.15)"};
+    border:1px solid ${p=>p.$nit?"rgba(60,110,158,.25)":"rgba(96,165,250,.25)"};
+    color:${p=>p.$nit?"#3C6E9E":"#60a5fa"};
     font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;
 `;
 const CardName = styled.p`font-size:15px;font-weight:800;color:#fff;margin:0;`;

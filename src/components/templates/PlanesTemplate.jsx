@@ -2,17 +2,19 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useScroll } from "motion/react";
 import styled, { keyframes, css } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { v } from "../../styles/variables";
 import { useQuery } from "@tanstack/react-query";
 import { MostrarConfigPlanes } from "../../supabase/crudConfigPlanes";
 import { useAuthStore } from "../../store/AuthStore";
 import { ObtenerEmailPorUsuario } from "../../supabase/crudUsuarios";
 import { CrearProspecto } from "../../supabase/crudProspectos";
-import { VerificarDescuentoWeb, calcularPreciosConDescuento, PRECIOS_WEB } from "../../supabase/crudWebService";
 import { supabase } from "../../supabase/supabase.config";
 import ConfettiExplosion from "react-confetti-explosion";
 import {
-    RiArrowLeftSLine, RiCheckLine, RiCloseLine,
+    RiCheckLine, RiCloseLine,
     RiFlashlightLine, RiFireLine, RiPlanetLine,
     RiShieldCheckLine, RiCustomerService2Line,
     RiRocketLine, RiWhatsappLine, RiStore2Line,
@@ -22,7 +24,10 @@ import {
     RiTimeLine, RiGroupLine, RiEyeLine, RiEyeOffLine,
     RiPhoneLine, RiLockLine, RiCheckboxCircleFill,
     RiShieldLine, RiMailLine, RiArrowDownSLine, RiStoreLine,
+    RiArrowRightLine,
 } from "react-icons/ri";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ACTIVIDADES = [
     { key: "retail_ropa",           label: "Retail — Ropa y accesorios",   emoji: "👗" },
@@ -39,13 +44,13 @@ const ACTIVIDADES = [
 const PLANES = [
     {
         id: "chispa",
-        nombre: "Raíz",
+        nombre: "Gold",
         emoji: "🪨",
         icon: <RiFlashlightLine />,
         tagline: "La base que no falla",
         sub: "Un punto de venta completo para empezar bien. Sin curva de aprendizaje.",
         para: "negocios que arrancan o trabajan solos",
-        ctaText: "Empezar con Raíz",
+        ctaText: "Empezar con Gold",
         precio_mes: 49000,
         precio_ano: 42000,
         color: "#C4A882",
@@ -64,19 +69,19 @@ const PLANES = [
     },
     {
         id: "fuego",
-        nombre: "Monte",
+        nombre: "Pro",
         emoji: "🌿",
         icon: <RiFireLine />,
         tagline: "El más elegido en Colombia",
         sub: "Multi-almacén, múltiples usuarios, trazabilidad completa y reportes en tiempo real.",
         para: "negocios en crecimiento con varios puntos de venta",
-        ctaText: "Comenzar con Monte",
+        ctaText: "Comenzar con Pro",
         precio_mes: 129000,
         precio_ano: 110000,
-        color: "#C4773A",
-        colorAlt: "#A66030",
+        color: "#3C6E9E",
+        colorAlt: "#2E5A80",
         colorDark: "#8A4A20",
-        glow: "rgba(196,119,58,0.5)",
+        glow: "rgba(60,110,158,0.5)",
         popular: true,
         features: [
             { icon: <RiStore2Line />,       ok: true,  txt: "Hasta 3 almacenes" },
@@ -111,7 +116,7 @@ const PLANES = [
         features: [
             { icon: <RiStore2Line />,               ok: true, txt: "Hasta 6 almacenes" },
             { icon: <RiTeamLine />,                 ok: true, txt: "Hasta 12 usuarios" },
-            { icon: <RiFlashlightLine />,           ok: true, txt: "Todo el plan Monte incluido" },
+            { icon: <RiFlashlightLine />,           ok: true, txt: "Todo el plan Pro incluido" },
             { icon: <RiSmartphoneLine />,           ok: true, txt: "App móvil optimizada" },
             { icon: <RiTeamLine />,                 ok: true, txt: "CRM avanzado de clientes" },
             { icon: <RiVipCrownLine />,             ok: true, txt: "Onboarding personalizado" },
@@ -157,21 +162,21 @@ function useMouseParallax() {
 
 const STONES = [
     { id:1, depth:0.18, left:"5%",  top:"15%", w:220, h:180, rot:-18,
-      shape:"polygon(0 30%,38% 0,100% 8%,96% 68%,62% 100%,8% 88%)",   color:"#2A1A10" },
+      shape:"polygon(0 30%,38% 0,100% 8%,96% 68%,62% 100%,8% 88%)",   color:"#1A2029" },
     { id:2, depth:0.22, left:"72%", top:"8%",  w:260, h:200, rot:22,
-      shape:"polygon(18% 0,92% 4%,100% 42%,82% 100%,28% 96%,0 52%)",  color:"#1E1208" },
+      shape:"polygon(18% 0,92% 4%,100% 42%,82% 100%,28% 96%,0 52%)",  color:"#12161D" },
     { id:3, depth:0.38, left:"60%", top:"60%", w:180, h:150, rot:-8,
-      shape:"polygon(12% 0,88% 6%,100% 50%,78% 100%,20% 94%,0 48%)",  color:"#3D2010" },
+      shape:"polygon(12% 0,88% 6%,100% 50%,78% 100%,20% 94%,0 48%)",  color:"#232B37" },
     { id:4, depth:0.45, left:"18%", top:"65%", w:150, h:130, rot:14,
-      shape:"polygon(0 40%,45% 0,100% 15%,90% 72%,55% 100%,5% 85%)",  color:"#4A2A18" },
+      shape:"polygon(0 40%,45% 0,100% 15%,90% 72%,55% 100%,5% 85%)",  color:"#1B212B" },
     { id:5, depth:0.42, left:"82%", top:"45%", w:120, h:110, rot:-22,
-      shape:"polygon(20% 0,100% 20%,88% 90%,10% 100%,0 55%)",         color:"#2E1A0C" },
+      shape:"polygon(20% 0,100% 20%,88% 90%,10% 100%,0 55%)",         color:"#161B23" },
     { id:6, depth:0.68, left:"3%",  top:"50%", w:90,  h:80,  rot:30,
-      shape:"polygon(0 35%,55% 0,100% 25%,85% 100%,20% 95%)",         color:"#5A3520" },
+      shape:"polygon(0 35%,55% 0,100% 25%,85% 100%,20% 95%)",         color:"#2A3341" },
     { id:7, depth:0.75, left:"88%", top:"72%", w:100, h:90,  rot:-12,
-      shape:"polygon(15% 0,100% 10%,95% 75%,45% 100%,0 60%)",         color:"#3A2015" },
+      shape:"polygon(15% 0,100% 10%,95% 75%,45% 100%,0 60%)",         color:"#1E2530" },
     { id:8, depth:0.70, left:"45%", top:"82%", w:80,  h:70,  rot:8,
-      shape:"polygon(0 20%,60% 0,100% 40%,70% 100%,5% 90%)",          color:"#4A2A1A" },
+      shape:"polygon(0 20%,60% 0,100% 40%,70% 100%,5% 90%)",          color:"#242C38" },
 ];
 
 function StoneItem({ stone, mouseX, mouseY }) {
@@ -335,6 +340,47 @@ export function PlanesTemplate() {
         return () => window.removeEventListener("scroll", h);
     }, []);
 
+    /* ── Smooth-scroll + scroll-reveals (Lenis + GSAP ScrollTrigger), scopeados a esta ruta ── */
+    const pageRef = useRef(null);
+    const heroTitleRef = useRef(null);
+    useEffect(() => {
+        const lenis = new Lenis({
+            duration: 1.1,
+            easing: (t) => 1 - Math.pow(1 - t, 3),
+        });
+        lenis.on("scroll", ScrollTrigger.update);
+        const raf = (time) => lenis.raf(time * 1000);
+        gsap.ticker.add(raf);
+        gsap.ticker.lagSmoothing(0);
+
+        const ctx = gsap.context(() => {
+            if (heroTitleRef.current) {
+                const words = heroTitleRef.current.querySelectorAll(".gsap-word");
+                gsap.fromTo(
+                    words,
+                    { y: "110%", opacity: 0 },
+                    { y: "0%", opacity: 1, duration: 1.1, ease: "power4.out", stagger: 0.07, delay: 0.15 }
+                );
+            }
+
+            gsap.set(".gsap-reveal", { opacity: 0, y: 32 });
+            ScrollTrigger.batch(".gsap-reveal", {
+                start: "top 87%",
+                once: true,
+                onEnter: (batch) => gsap.to(batch, {
+                    opacity: 1, y: 0, duration: 0.65, ease: "power3.out", stagger: 0.09,
+                }),
+            });
+        }, pageRef);
+
+        return () => {
+            ctx.revert();
+            gsap.ticker.remove(raf);
+            lenis.destroy();
+            ScrollTrigger.getAll().forEach((t) => t.kill());
+        };
+    }, []);
+
     /* ── Estado del modal de registro ── */
     const [registroOpen, setRegistroOpen] = useState(false);
     const [regForm, setRegForm]           = useState({ nombre: "", apellido: "", telefono: "", contacto_preferido: "whatsapp", negocio: "" });
@@ -352,33 +398,6 @@ export function PlanesTemplate() {
     const [aceptaTerminos, setAceptaTerminos] = useState(false);
     const [dropActPago, setDropActPago] = useState(false);
     const dropActPagoRef                = useRef(null);
-
-    /* ── Verificador de descuento web ── */
-    const [webDescOpen,    setWebDescOpen]    = useState(false);
-    const [webUsuario,     setWebUsuario]     = useState("");
-    const [webVerificando, setWebVerificando] = useState(false);
-    const [webResult,      setWebResult]      = useState(null); // null | { encontrado, tiene_descuento, plan, porcentaje }
-    const [webDescError,   setWebDescError]   = useState("");
-
-    const handleVerificarDescuento = async (e) => {
-        e.preventDefault();
-        if (!webUsuario.trim()) return;
-        setWebVerificando(true);
-        setWebResult(null);
-        setWebDescError("");
-        try {
-            const r = await VerificarDescuentoWeb(webUsuario);
-            setWebResult(r);
-        } catch {
-            setWebDescError("No pudimos verificar. Intenta de nuevo.");
-        } finally {
-            setWebVerificando(false);
-        }
-    };
-
-    const webPrecios = webResult?.tiene_descuento
-        ? calcularPreciosConDescuento(webResult.porcentaje)
-        : calcularPreciosConDescuento(0);
 
     useEffect(() => {
         const handler = (e) => {
@@ -518,24 +537,39 @@ export function PlanesTemplate() {
             style={{
                 position: "fixed", top: 0, left: 0, right: 0,
                 height: 2,
-                background: "linear-gradient(90deg, #C4773A, #fbbf24, #A66030)",
+                background: "linear-gradient(90deg, #3C6E9E, #C2A46B, #2E5A80)",
                 zIndex: 998, scaleX: scrollYProgress, transformOrigin: "0%",
                 pointerEvents: "none",
             }}
         />
 
-        <Pagina>
+        <Pagina ref={pageRef}>
             {/* ── Navbar ── */}
             <Navbar $visible={visible} $scrolled={scrolled}>
-                <NavLogo onClick={() => navigate("/")}>
+                <NavLogo onClick={() => navigate("/")} aria-label="ORDER BI">
                     <img src={v.logo} alt="logo" />
-                    <span>ORDER <b>BI</b></span>
                 </NavLogo>
 
-                <BtnIniciarSesion onClick={abrirLogin}>
-                    Inicia sesión 👑
-                </BtnIniciarSesion>
+                <NavCenter>
+                    <NavLink onClick={() => document.getElementById("chispa")?.scrollIntoView({ behavior: "smooth" })}>Planes</NavLink>
+                    <NavLink onClick={() => document.getElementById("por-que")?.scrollIntoView({ behavior: "smooth" })}>Por qué elegirnos</NavLink>
+                    <NavLink onClick={() => document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" })}>FAQ</NavLink>
+                </NavCenter>
+
+                <NavRight>
+                    <NavCTA onClick={abrirLogin}>
+                        <span>Iniciar sesión</span>
+                        <NavCTAArrow><RiArrowRightLine /></NavCTAArrow>
+                    </NavCTA>
+                </NavRight>
             </Navbar>
+
+            {/* ── Badge lateral fijo (ref. dialedweb "W. Honors") ── */}
+            <SideBadge $visible={visible}>
+                <SideBadgeLine />
+                <SideBadgeText>ORDER <b>BI</b></SideBadgeText>
+                <SideBadgeLine />
+            </SideBadge>
 
             {/* ── Hero Inmersivo ── */}
             <HeroScene>
@@ -551,9 +585,10 @@ export function PlanesTemplate() {
                             <HeroBadgeDot />
                             El SaaS a tu medida · Colombia 🇨🇴
                         </HeroBadge>
-                        <HeroTitle>
-                            Del caos,<br />
-                            <HeroItalic>claridad.</HeroItalic>
+                        <HeroTitle ref={heroTitleRef}>
+                            <HeroWordWrap><span className="gsap-word">Del</span></HeroWordWrap>{" "}
+                            <HeroWordWrap><span className="gsap-word">caos,</span></HeroWordWrap><br />
+                            <HeroItalic><HeroWordWrap><span className="gsap-word">claridad.</span></HeroWordWrap></HeroItalic>
                         </HeroTitle>
                         <HeroSub>
                             POS · inventario · CRM · reportes · multi-sucursal.<br />
@@ -689,7 +724,7 @@ export function PlanesTemplate() {
             </CardsSection>
 
             {/* ── Por qué ORDER BI ── */}
-            <CompareSection $visible={visible}>
+            <CompareSection id="por-que" $visible={visible}>
                 <CompareEyebrow>Por qué elegirnos</CompareEyebrow>
                 <CompareTitulo>Tu negocio, en control.</CompareTitulo>
                 <CompareSub>No somos software genérico. Cada módulo fue construido para el comercio colombiano.</CompareSub>
@@ -720,26 +755,18 @@ export function PlanesTemplate() {
                             desc: "Lo que ves es lo que pagas. Sin costos ocultos, sin permanencia forzada, sin sorpresas al final del mes.",
                         },
                     ].map((item, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 32 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: 0.5, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                            whileHover={{ borderColor: "rgba(196,119,58,0.3)", background: "rgba(196,119,58,0.04)", y: -5, transition: { type: "spring", stiffness: 300, damping: 22 } }}
-                            style={{ padding: "28px 24px", borderRadius: 20, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", display: "flex", flexDirection: "column", gap: 12, textAlign: "left", position: "relative", overflow: "hidden" }}
-                        >
+                        <CompareCard key={i} className="gsap-reveal">
                             <CompareNum>{item.num}</CompareNum>
                             <CompareIcon>{item.icon}</CompareIcon>
                             <CompareItemTitle>{item.title}</CompareItemTitle>
                             <CompareItemDesc>{item.desc}</CompareItemDesc>
-                        </motion.div>
+                        </CompareCard>
                     ))}
                 </CompareGrid>
             </CompareSection>
 
             {/* ── Preguntas frecuentes — accordion interactivo ── */}
-            <FaqSection $visible={visible}>
+            <FaqSection id="faq" $visible={visible}>
                 <CompareTitulo>Preguntas frecuentes</CompareTitulo>
                 {[
                     { q: "¿Puedo cambiar de plan después?", a: "Sí, en cualquier momento. Sube o baja de plan sin perder ningún dato y el cambio se aplica de inmediato." },
@@ -755,19 +782,19 @@ export function PlanesTemplate() {
                         viewport={{ once: true, margin: "-30px" }}
                         transition={{ duration: 0.4, delay: i * 0.08, ease: "easeOut" }}
                         animate={{
-                            background: faqOpen === i ? "rgba(196,119,58,0.05)" : "rgba(255,255,255,0.03)",
-                            borderColor: faqOpen === i ? "rgba(196,119,58,0.35)" : "rgba(255,255,255,0.06)",
-                            outline: faqOpen === i ? "1px solid rgba(196,119,58,0.35)" : "1px solid rgba(255,255,255,0.06)",
+                            background: faqOpen === i ? "rgba(60,110,158,0.05)" : "rgba(255,255,255,0.03)",
+                            borderColor: faqOpen === i ? "rgba(60,110,158,0.35)" : "rgba(255,255,255,0.06)",
+                            outline: faqOpen === i ? "1px solid rgba(60,110,158,0.35)" : "1px solid rgba(255,255,255,0.06)",
                         }}
                         onClick={() => setFaqOpen(faqOpen === i ? null : i)}
-                        whileHover={{ outline: "1px solid rgba(196,119,58,0.28)" }}
+                        whileHover={{ outline: "1px solid rgba(60,110,158,0.28)" }}
                     >
                         <FaqHeader>
                             <FaqQ style={{ margin: 0 }}>{faq.q}</FaqQ>
                             <motion.div
                                 animate={{ rotate: faqOpen === i ? 180 : 0 }}
                                 transition={{ duration: 0.25, ease: "easeInOut" }}
-                                style={{ display: "flex", alignItems: "center", color: faqOpen === i ? "#C4773A" : "rgba(255,255,255,0.3)", fontSize: 22, flexShrink: 0 }}
+                                style={{ display: "flex", alignItems: "center", color: faqOpen === i ? "#3C6E9E" : "rgba(255,255,255,0.3)", fontSize: 22, flexShrink: 0 }}
                             >
                                 <RiArrowDownSLine />
                             </motion.div>
@@ -791,181 +818,6 @@ export function PlanesTemplate() {
                     </motion.div>
                 ))}
             </FaqSection>
-
-            {/* ── Servicio Web — temporalmente oculto ── */}
-            {false && <WebServiceSection>
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                    style={{ width: "100%" }}
-                >
-                <WebServiceCard>
-                    {/* Glow de fondo */}
-                    <WebCardGlow />
-
-                    {/* Decoración — browser mockup */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.88, rotateY: -8 }}
-                        whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                        viewport={{ once: true, margin: "-60px" }}
-                        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-                        style={{ perspective: 800 }}
-                    >
-                    <WebBrowserMock>
-                        <WebBrowserBar>
-                            <WebBrowserDot $c="#f87171" /><WebBrowserDot $c="#fbbf24" /><WebBrowserDot $c="#34d399" />
-                            <WebBrowserUrl>tu-negocio.com</WebBrowserUrl>
-                        </WebBrowserBar>
-                        <WebBrowserBody>
-                            <WebBrowserHero />
-                            <WebBrowserLines>
-                                <WebBrowserLine $w="70%" /><WebBrowserLine $w="45%" /><WebBrowserLine $w="55%" />
-                            </WebBrowserLines>
-                            <WebBrowserGrid>
-                                {[0,1,2].map(i => <WebBrowserBlock key={i} />)}
-                            </WebBrowserGrid>
-                        </WebBrowserBody>
-                    </WebBrowserMock>
-                    </motion.div>
-
-                    {/* Contenido */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.96 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true, margin: "-60px" }}
-                        transition={{ duration: 0.65, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                    <WebCardContent>
-                        <WebCardEyebrow>
-                            <WebCardDot />
-                            Nuevo servicio · Presencia digital
-                        </WebCardEyebrow>
-
-                        <WebCardTitle>
-                            Tu negocio merece<br />
-                            <WebCardTitleGrad>una página web</WebCardTitleGrad>
-                        </WebCardTitle>
-
-                        <WebCardDesc>
-                            Diseño profesional, único y con animaciones. Sin plantillas genéricas.
-                            Entregado en días, no en meses.
-                        </WebCardDesc>
-
-                        <WebCardFeatures>
-                            {[
-                                "Diseño 100% personalizado",
-                                "Responsive — móvil y desktop",
-                                "Animaciones y efectos modernos",
-                                "SEO básico incluido",
-                                "Formulario de contacto integrado",
-                                "1 mes de soporte post-entrega",
-                            ].map((f, i) => (
-                                <motion.div key={i}
-                                    initial={{ opacity: 0, x: -12 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.32, delay: 0.1 + i * 0.06, ease: "easeOut" }}
-                                    style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13, color: "rgba(255,255,255,0.75)", fontWeight: 500 }}
-                                >
-                                    <WebFeatCheck><RiCheckLine /></WebFeatCheck>
-                                    {f}
-                                </motion.div>
-                            ))}
-                        </WebCardFeatures>
-
-                        <WebPriceRow style={{ flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
-                            <WebPriceFrom>Inversión según tu proyecto</WebPriceFrom>
-                            <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-                                <WebPrice>$600.000</WebPrice>
-                                <span style={{ color: "rgba(56,182,255,0.5)", fontSize: 20, fontWeight: 700 }}>→</span>
-                                <WebPrice>$3.800.000</WebPrice>
-                            </div>
-                            <WebPriceCop>COP · sin costos ocultos</WebPriceCop>
-                        </WebPriceRow>
-
-                        {/* Verificador de descuento POS */}
-                        <WebDescWrap>
-                            <WebDescToggle onClick={() => { setWebDescOpen(v => !v); setWebResult(null); setWebUsuario(""); setWebDescError(""); }}>
-                                {webDescOpen ? "▲" : "▼"} ¿Ya eres cliente POS? Ver mi descuento
-                            </WebDescToggle>
-
-                            <AnimatePresence>
-                            {webDescOpen && (
-                                <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: "auto", opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.28, ease: [0.4,0,0.2,1] }}
-                                    style={{ overflow: "hidden" }}
-                                >
-                                    <WebDescForm onSubmit={handleVerificarDescuento}>
-                                        <WebDescInput
-                                            type="text"
-                                            placeholder="Tu usuario POS"
-                                            value={webUsuario}
-                                            onChange={e => { setWebUsuario(e.target.value); setWebResult(null); }}
-                                            autoComplete="off"
-                                        />
-                                        <WebDescBtn type="submit" disabled={webVerificando || !webUsuario.trim()}>
-                                            {webVerificando ? "..." : "Verificar"}
-                                        </WebDescBtn>
-                                    </WebDescForm>
-
-                                    {webDescError && <WebDescMsg $type="error">{webDescError}</WebDescMsg>}
-
-                                    {webResult && !webResult.encontrado && (
-                                        <WebDescMsg $type="warn">Usuario no encontrado. Verifica que esté bien escrito.</WebDescMsg>
-                                    )}
-
-                                    {webResult?.encontrado && !webResult.tiene_descuento && (
-                                        <WebDescMsg $type="warn">Tu plan Chispa no incluye descuento en diseño web aún. ¡Considera subir a Fuego o Cosmos!</WebDescMsg>
-                                    )}
-
-                                    {webResult?.tiene_descuento && (
-                                        <WebDescMsg $type="ok">
-                                            {webResult.plan === "cosmos" ? "🌌" : "🔥"} ¡Tienes <strong>{webResult.porcentaje}% de descuento</strong> por tu plan {webResult.plan === "cosmos" ? "Cosmos" : "Fuego"}
-                                        </WebDescMsg>
-                                    )}
-                                </motion.div>
-                            )}
-                            </AnimatePresence>
-                        </WebDescWrap>
-
-                        {/* Tipos de página */}
-                        <WebCardTypes>
-                            {[
-                                { emoji: "🚀", label: "Landing page",  desde: "desde $600.000"   },
-                                { emoji: "🖼️", label: "Portafolio",    desde: "desde $1.200.000" },
-                                { emoji: "🛒", label: "Tienda virtual", desde: "desde $2.500.000" },
-                            ].map((t, i) => (
-                                <WebTypeChip key={i} $descuento={webResult?.tiene_descuento}>
-                                    <span>{t.emoji}</span>
-                                    <div>
-                                        <WebTypeLabel>{t.label}</WebTypeLabel>
-                                        <WebTypePrice $descuento={webResult?.tiene_descuento}>
-                                            {webResult?.tiene_descuento ? "✓ Con tu descuento" : t.desde}
-                                        </WebTypePrice>
-                                    </div>
-                                </WebTypeChip>
-                            ))}
-                        </WebCardTypes>
-
-                        {webResult?.tiene_descuento && (
-                            <WebDescBanner $plan={webResult.plan}>
-                                {webResult.plan === "cosmos" ? "🌌" : "🔥"} Precio con {webResult.porcentaje}% de descuento aplicado · Plan {webResult.plan === "cosmos" ? "Cosmos" : "Fuego"}
-                            </WebDescBanner>
-                        )}
-
-                        <WebMantNote>
-                            + Mantenimiento mensual disponible · cotización según alcance
-                        </WebMantNote>
-                    </WebCardContent>
-                    </motion.div>
-                </WebServiceCard>
-                </motion.div>
-            </WebServiceSection>}
 
             {/* ── CTA Final ── */}
             <CtaFinal
@@ -1039,7 +891,7 @@ export function PlanesTemplate() {
                 <RegExitoWrap>
                     <ConfettiCenter>
                         <ConfettiExplosion force={0.65} duration={3200} particleCount={180} width={600}
-                            colors={['#C4773A','#fbbf24','#34d399','#818cf8','#fff','#f87171']} />
+                            colors={['#3C6E9E','#fbbf24','#34d399','#818cf8','#fff','#f87171']} />
                     </ConfettiCenter>
                     <RegExitoCirculo>🚀</RegExitoCirculo>
                     <DrawerTitle style={{ textAlign:"center" }}>¡Listo! Te contactamos pronto</DrawerTitle>
@@ -1392,7 +1244,7 @@ const auroraMove = keyframes`
 ═══════════════════════════════════════ */
 const Pagina = styled.div`
     min-height: 100vh;
-    background: #0D0B09;
+    background: #0B0D10;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -1400,6 +1252,9 @@ const Pagina = styled.div`
     position: relative;
     overflow-x: hidden;
     font-family: "Poppins", sans-serif;
+
+    /* Reserva una franja izquierda para el badge fijo (SideBadge) */
+    @media (min-width: 640px) { padding-left: 64px; }
 `;
 
 /* ── Rayos de aurora ── */
@@ -1441,78 +1296,124 @@ const BgLines = styled.div`
     pointer-events: none;
     z-index: 0;
     background-image:
-        linear-gradient(rgba(196,119,58,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(196,119,58,0.035) 1px, transparent 1px);
+        linear-gradient(rgba(60,110,158,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60,110,158,0.035) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 80%);
 `;
 
-/* ── Navbar ── */
+/* ── Navbar — barra flotante tipo píldora (ref. dialedweb.com) ── */
 const Navbar = styled.nav`
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    width: 100%;
-    max-width: 100%;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    z-index: 900;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: ${({ $scrolled }) => $scrolled ? "14px 32px" : "22px 32px"};
+    gap: 36px;
+    padding: 8px 8px 8px 22px;
+    border-radius: 999px;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0) 100%),
+        rgba(18,21,28,0.45);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+    max-width: calc(100vw - 32px);
     opacity: ${({ $visible }) => $visible ? 1 : 0};
-    transform: ${({ $visible }) => $visible ? "none" : "translateY(-16px)"};
-    transition: opacity 0.5s ease, transform 0.5s ease, padding 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
-    background: ${({ $scrolled }) => $scrolled ? "rgba(7,9,15,0.82)" : "transparent"};
-    backdrop-filter: ${({ $scrolled }) => $scrolled ? "blur(22px) saturate(1.4)" : "none"};
-    border-bottom: 1px solid ${({ $scrolled }) => $scrolled ? "rgba(255,255,255,0.07)" : "transparent"};
+    transform: ${({ $visible }) => !$visible ? "translate(-50%, -18px)" : "translate(-50%, 0)"};
+    transition: opacity 0.5s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, border-color 0.3s ease;
 
-    @media (max-width: 767px) { padding: ${({ $scrolled }) => $scrolled ? "12px 18px" : "18px 18px"}; }
+    @media (max-width: 767px) { gap: 14px; padding: 6px 6px 6px 16px; top: 12px; }
 `;
 
 const NavLogo = styled.button`
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center;
     background: none; border: none; cursor: pointer;
-    img { width: 34px; height: 34px; object-fit: contain; }
-    span { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.3px; b { color: #C4773A; } }
+    flex-shrink: 0;
+    img { width: 30px; height: 30px; object-fit: contain; }
+`;
+
+/* ── Badge lateral fijo ── */
+const SideBadge = styled.div`
+    position: fixed;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+    opacity: ${({ $visible }) => $visible ? 1 : 0};
+    transition: opacity 0.6s ease 0.2s;
+
+    @media (max-width: 639px) { display: none; }
+`;
+
+const SideBadgeLine = styled.div`
+    width: 1px; height: 46px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0));
+`;
+
+const SideBadgeText = styled.span`
+    writing-mode: vertical-rl;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.4);
+    font-family: "Poppins", sans-serif;
+    b { color: #3C6E9E; }
 `;
 
 const NavCenter = styled.div`
-    display: flex; gap: 6px;
+    display: flex; align-items: center; gap: 28px;
 
-    @media (max-width: 767px) { display: none; }
+    @media (max-width: 900px) { display: none; }
 `;
 
-const NavDot = styled.button`
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.55);
-    font-size: 12px; font-weight: 700;
+const NavLink = styled.button`
+    background: none; border: none; cursor: pointer; padding: 0;
+    color: rgba(255,255,255,0.6);
+    font-size: 13px; font-weight: 600;
     font-family: "Poppins", sans-serif;
-    padding: 6px 14px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.18s;
-    &:hover { background: ${({ $color }) => `${$color}22`}; border-color: ${({ $color }) => $color}66; color: ${({ $color }) => $color}; }
-`;
-
-const BtnIniciarSesion = styled.button`
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 20px;
-    border-radius: 999px;
-    border: 2px solid #9A5A28;
-    background: #C4773A;
-    color: #fff;
-    font-size: 13px; font-weight: 800;
-    font-family: "Poppins", sans-serif;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(232,137,26,0.35), 3px 3px 0 #9A5A28;
-    transition: all 0.18s;
     white-space: nowrap;
-    &:hover  { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(232,137,26,0.45), 3px 3px 0 #9A5A28; }
-    &:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #9A5A28; }
+    transition: color 0.18s;
+    &:hover { color: #EDEFF2; }
+`;
 
-    @media (max-width: 767px) {
-        font-size: 12px; padding: 9px 16px;
-    }
+const NavRight = styled.div`
+    display: flex; align-items: center; gap: 16px;
+    flex-shrink: 0;
+`;
+
+const NavCTA = styled.button`
+    display: flex; align-items: center; gap: 10px;
+    padding: 4px 4px 4px 18px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 13px; font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.18s;
+    &:hover { background: rgba(255,255,255,0.12); }
+    &:hover svg { transform: rotate(-45deg) scale(1.06); }
+
+    @media (max-width: 767px) { padding: 4px 4px 4px 14px; font-size: 12px; }
+`;
+
+const NavCTAArrow = styled.span`
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #3C6E9E;
+    color: #fff; font-size: 16px;
+    flex-shrink: 0;
+    svg { transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
 `;
 
 /* ── Styled modal de login ── */
@@ -1528,13 +1429,13 @@ const Overlay = styled.div`
 
 const LoginDrawer = styled.div`
     position: fixed; z-index: 301;
-    background: #0d1117;
+    background: #141820;
     display: flex; flex-direction: column; gap: 18px;
 
     @media (min-width: 769px) {
         top: 0; right: 0; bottom: 0; width: 420px;
         padding: 40px 36px;
-        border-left: 1px solid rgba(196,119,58,0.2);
+        border-left: 1px solid rgba(60,110,158,0.2);
         box-shadow: -12px 0 48px rgba(0,0,0,0.6);
         transform: ${({ $open }) => $open ? "translateX(0)" : "translateX(100%)"};
         opacity: ${({ $open }) => $open ? 1 : 0};
@@ -1546,7 +1447,7 @@ const LoginDrawer = styled.div`
         left: 0; right: 0; bottom: 0;
         border-radius: 28px 28px 0 0;
         padding: 12px 24px 40px;
-        border-top: 1px solid rgba(196,119,58,0.2);
+        border-top: 1px solid rgba(60,110,158,0.2);
         box-shadow: 0 -12px 48px rgba(0,0,0,0.7);
         transform: ${({ $open }) => $open ? "translateY(0)" : "translateY(100%)"};
         opacity: ${({ $open }) => $open ? 1 : 0};
@@ -1570,13 +1471,13 @@ const BtnCerrar = styled.button`
     color: rgba(255,255,255,0.6); font-size: 20px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const DrawerLogo = styled.div`
     display: flex; align-items: center; gap: 8px; margin-top: 8px;
     img { width: 28px; height: 28px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 900; color: #fff; b { color: #C4773A; } }
+    span { font-size: 16px; font-weight: 900; color: #fff; b { color: #3C6E9E; } }
 `;
 
 const DrawerTitle = styled.h2`
@@ -1612,7 +1513,7 @@ const InputField = styled.input`
     font-size: 16px; font-family: "Poppins", sans-serif;
     outline: none; box-sizing: border-box; min-height: 52px;
     transition: border-color 0.2s;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: rgba(255,255,255,0.25); }
 `;
 
@@ -1633,7 +1534,7 @@ const ActDropBtn = styled.button`
 
 const ActDropMenu = styled.div`
     position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 500;
-    background: #0f1520;
+    background: #141820;
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 14px; padding: 6px;
     box-shadow: 0 16px 48px rgba(0,0,0,0.5);
@@ -1657,7 +1558,7 @@ const BtnEye = styled.button`
     color: rgba(255,255,255,0.35); font-size: 20px;
     display: flex; align-items: center;
     transition: color 0.15s;
-    &:hover { color: #C4773A; }
+    &:hover { color: #3C6E9E; }
 `;
 
 const MsgError = styled.p`
@@ -1669,20 +1570,20 @@ const MsgError = styled.p`
 
 const BtnIngresar = styled.button`
     width: 100%; padding: 16px; min-height: 54px; border-radius: 14px;
-    border: 2px solid ${({ disabled }) => disabled ? "rgba(255,255,255,0.1)" : "#9A5A28"};
-    background: ${({ disabled }) => disabled ? "rgba(255,255,255,0.06)" : "#C4773A"};
+    border: 2px solid ${({ disabled }) => disabled ? "rgba(255,255,255,0.1)" : "#1F3F59"};
+    background: ${({ disabled }) => disabled ? "rgba(255,255,255,0.06)" : "#3C6E9E"};
     color: ${({ disabled }) => disabled ? "rgba(255,255,255,0.35)" : "#fff"};
     font-size: 16px; font-weight: 800; cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     font-family: "Poppins", sans-serif;
-    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #9A5A28"};
+    box-shadow: ${({ disabled }) => disabled ? "none" : "4px 4px 0 #1F3F59"};
     transition: box-shadow 0.1s, transform 0.1s, filter 0.1s;
     &:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
-    &:active:not(:disabled) { box-shadow: 2px 2px 0 #9A5A28; transform: translate(2px,2px); }
+    &:active:not(:disabled) { box-shadow: 2px 2px 0 #1F3F59; transform: translate(2px,2px); }
 `;
 
 const DrawerFootNote = styled.p`
     font-size: 13px; text-align: center; color: rgba(255,255,255,0.35); margin: 0;
-    span { color: #C4773A; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
+    span { color: #3C6E9E; font-weight: 700; cursor: pointer; &:hover { text-decoration: underline; } }
 `;
 
 const RegRow = styled.div`
@@ -1698,10 +1599,10 @@ const ContactoOpt = styled.button`
     flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
     padding: 11px; border-radius: 12px; font-size: 13px; font-weight: 700;
     font-family: "Poppins", sans-serif; cursor: pointer; transition: all 0.15s;
-    border: 2px solid ${({ $active }) => $active ? "#C4773A" : "rgba(255,255,255,0.1)"};
-    background: ${({ $active }) => $active ? "rgba(196,119,58,0.15)" : "rgba(255,255,255,0.04)"};
-    color: ${({ $active }) => $active ? "#C4773A" : "rgba(255,255,255,0.5)"};
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    border: 2px solid ${({ $active }) => $active ? "#3C6E9E" : "rgba(255,255,255,0.1)"};
+    background: ${({ $active }) => $active ? "rgba(60,110,158,0.15)" : "rgba(255,255,255,0.04)"};
+    color: ${({ $active }) => $active ? "#3C6E9E" : "rgba(255,255,255,0.5)"};
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const RegTextarea = styled.textarea`
@@ -1711,7 +1612,7 @@ const RegTextarea = styled.textarea`
     color: #fff; font-size: 15px; font-family: "Poppins", sans-serif;
     outline: none; resize: none; box-sizing: border-box; line-height: 1.5;
     transition: border-color 0.2s;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: rgba(255,255,255,0.25); }
 `;
 
@@ -1719,9 +1620,9 @@ const HeroBadge = styled.div`
     display: inline-flex; align-items: center; gap: 8px;
     padding: 7px 18px;
     border-radius: 999px;
-    border: 1px solid rgba(196,119,58,0.3);
-    background: rgba(196,119,58,0.07);
-    color: #C4773A;
+    border: 1px solid rgba(60,110,158,0.3);
+    background: rgba(60,110,158,0.07);
+    color: #3C6E9E;
     font-size: 12px; font-weight: 700;
     letter-spacing: 0.3px;
     margin-bottom: 24px;
@@ -1731,7 +1632,7 @@ const HeroBadge = styled.div`
 const HeroBadgeDot = styled.div`
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: #C4773A;
+    background: #3C6E9E;
     animation: ${blink} 1.8s ease-in-out infinite;
 `;
 
@@ -1742,11 +1643,24 @@ const HeroTitle = styled.h1`
     line-height: 1.08;
     margin: 0 0 4px;
     letter-spacing: -2px;
-    color: #F0E6D3;
+    color: #EDEFF2;
+`;
+
+const HeroWordWrap = styled.span`
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+
+    .gsap-word {
+        display: inline-block;
+        will-change: transform, opacity;
+    }
 `;
 
 const TitleGrad = styled.span`
-    background: linear-gradient(90deg, #C4773A 0%, #fbbf24 40%, #A66030 70%, #C4773A 100%);
+    background: linear-gradient(90deg, #3C6E9E 0%, #C2A46B 40%, #2E5A80 70%, #3C6E9E 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1788,7 +1702,7 @@ const StatItem = styled.div`
 
 const StatVal = styled.span`
     font-size: 20px; font-weight: 900;
-    background: linear-gradient(90deg, #C4773A, #fbbf24);
+    background: linear-gradient(90deg, #3C6E9E, #C2A46B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1814,8 +1728,8 @@ const ToggleOpt = styled.span`
 const TogglePill = styled.div`
     width: 52px; height: 28px;
     border-radius: 999px;
-    background: ${({ $on }) => $on ? "linear-gradient(90deg, #C4773A, #A66030)" : "rgba(255,255,255,0.1)"};
-    border: 1.5px solid ${({ $on }) => $on ? "#A6603088" : "rgba(255,255,255,0.15)"};
+    background: ${({ $on }) => $on ? "linear-gradient(90deg, #3C6E9E, #2E5A80)" : "rgba(255,255,255,0.1)"};
+    border: 1.5px solid ${({ $on }) => $on ? "#2E5A8088" : "rgba(255,255,255,0.15)"};
     position: relative; cursor: pointer;
     transition: background 0.28s, border-color 0.28s;
 `;
@@ -1844,7 +1758,7 @@ const PlanAccentBar = styled.div`
 `;
 
 const PopularBand = styled.div`
-    background: ${({ theme }) => theme?.primary ?? "#C4773A"};
+    background: ${({ theme }) => theme?.primary ?? "#3C6E9E"};
     color: #fff;
     text-align: center;
     font-size: 11px; font-weight: 800;
@@ -1907,14 +1821,14 @@ const PlanParaText = styled.span`
 /* ── Compare section extras ── */
 const CompareEyebrow = styled.div`
     font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
-    text-transform: uppercase; color: #C4773A;
+    text-transform: uppercase; color: #3C6E9E;
     margin-bottom: 8px;
 `;
 
 const CompareNum = styled.div`
     font-family: "Playfair Display", Georgia, serif;
     font-size: 52px; font-weight: 900;
-    color: rgba(196,119,58,0.08);
+    color: rgba(60,110,158,0.08);
     line-height: 1;
     position: absolute; top: 16px; right: 20px;
     pointer-events: none;
@@ -1946,7 +1860,7 @@ const HeroGlow = styled.div`
     top: 35%; left: 50%;
     transform: translate(-50%, -50%);
     width: 600px; height: 500px;
-    background: radial-gradient(ellipse at center, rgba(196,119,58,0.09) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(60,110,158,0.09) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 `;
@@ -1981,7 +1895,7 @@ const HeroText = styled.div`
 
 const HeroItalic = styled.span`
     font-style: italic;
-    color: #C4773A;
+    color: #3C6E9E;
 `;
 
 const HeroCTAsRow = styled.div`
@@ -1992,29 +1906,29 @@ const HeroCTAsRow = styled.div`
 const HeroCTA = styled.button`
     display: inline-flex; align-items: center; gap: 8px;
     padding: 15px 36px; border-radius: 999px;
-    background: #C4773A;
-    border: 2px solid #9A5A28;
+    background: #3C6E9E;
+    border: 2px solid #1F3F59;
     color: #fff;
     font-size: 16px; font-weight: 800;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
-    box-shadow: 4px 4px 0 #9A5A28;
+    box-shadow: 4px 4px 0 #1F3F59;
     transition: filter 0.15s, transform 0.1s, box-shadow 0.1s;
-    &:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 4px 6px 0 #9A5A28; }
-    &:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #9A5A28; }
+    &:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 4px 6px 0 #1F3F59; }
+    &:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #1F3F59; }
 `;
 
 const HeroCTASecondary = styled.button`
     display: inline-flex; align-items: center; gap: 8px;
     padding: 15px 32px; border-radius: 999px;
     background: transparent;
-    border: 1.5px solid rgba(196,119,58,0.4);
+    border: 1.5px solid rgba(60,110,158,0.4);
     color: rgba(240,230,211,0.7);
     font-size: 16px; font-weight: 700;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
     transition: border-color 0.2s, color 0.2s, background 0.2s;
-    &:hover { border-color: #C4773A; color: #F0E6D3; background: rgba(196,119,58,0.08); }
+    &:hover { border-color: #3C6E9E; color: #EDEFF2; background: rgba(60,110,158,0.08); }
 `;
 
 const HeroTrust = styled.div`
@@ -2034,23 +1948,23 @@ const HeroTrustDot = styled.div`
 /* ── Laptop Mockup ── */
 const LaptopFrame = styled.div`
     display: flex; flex-direction: column; align-items: center;
-    filter: drop-shadow(0 40px 70px rgba(0,0,0,0.65)) drop-shadow(0 0 60px rgba(196,119,58,0.13));
+    filter: drop-shadow(0 40px 70px rgba(0,0,0,0.65)) drop-shadow(0 0 60px rgba(60,110,158,0.13));
 `;
 
 const LaptopScreen = styled.div`
     width: min(460px, 88vw);
     border-radius: 14px 14px 0 0;
-    background: #0D0B09;
-    border: 2.5px solid rgba(196,119,58,0.4);
+    background: #0B0D10;
+    border: 2.5px solid rgba(60,110,158,0.4);
     border-bottom: none;
     overflow: hidden;
 `;
 
 const ScreenHeader = styled.div`
-    background: #1A1612;
+    background: #141820;
     padding: 8px 14px;
     display: flex; align-items: center; gap: 6px;
-    border-bottom: 1px solid rgba(196,119,58,0.15);
+    border-bottom: 1px solid rgba(60,110,158,0.15);
 `;
 
 const ScreenDot = styled.div`
@@ -2073,7 +1987,7 @@ const ScreenBody = styled.div`
 const BigStat = styled.div`
     font-size: clamp(28px, 6vw, 44px);
     font-weight: 900; line-height: 1;
-    background: linear-gradient(90deg, #C4773A, #D4A96A);
+    background: linear-gradient(90deg, #3C6E9E, #C2A46B);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -1.5px;
@@ -2094,22 +2008,22 @@ const MiniCharts = styled.div`
 const MiniBar = styled.div`
     flex: 1; border-radius: 3px 3px 0 0;
     height: ${({ $h }) => $h}%;
-    background: linear-gradient(180deg, #C4773A 0%, rgba(196,119,58,0.25) 100%);
+    background: linear-gradient(180deg, #3C6E9E 0%, rgba(60,110,158,0.25) 100%);
 `;
 
 const LaptopBase = styled.div`
     width: 100%;
     height: 14px;
-    background: linear-gradient(180deg, #231E18 0%, #1A1612 100%);
+    background: linear-gradient(180deg, #1B212B 0%, #141820 100%);
     border-radius: 0 0 8px 8px;
-    border: 2.5px solid rgba(196,119,58,0.3);
+    border: 2.5px solid rgba(60,110,158,0.3);
     border-top: none;
     position: relative;
     &::after {
         content: '';
         position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
         width: 20%; height: 3px; border-radius: 0 0 4px 4px;
-        background: rgba(196,119,58,0.35);
+        background: rgba(60,110,158,0.35);
     }
 `;
 
@@ -2157,7 +2071,7 @@ const PlanCard = styled.div`
 const RotatingBorder = styled.div`
     position: absolute; inset: -2px;
     border-radius: 30px;
-    background: conic-gradient(from 0deg, ${({ $color }) => $color}, ${({ $colorAlt }) => $colorAlt}, #fbbf24, ${({ $color }) => $color});
+    background: conic-gradient(from 0deg, ${({ $color }) => $color}, ${({ $colorAlt }) => $colorAlt}, #C2A46B, ${({ $color }) => $color});
     z-index: 0;
     animation: ${rotateFull} 4s linear infinite;
 
@@ -2171,7 +2085,7 @@ const RotatingBorder = styled.div`
 
 const PopularStrip = styled.div`
     position: relative; z-index: 2;
-    background: linear-gradient(90deg, #C4773A, #A66030, #fbbf24, #C4773A);
+    background: linear-gradient(90deg, #3C6E9E, #2E5A80, #C2A46B, #3C6E9E);
     background-size: 200% auto;
     animation: ${shimmer} 2.5s linear infinite;
     color: #fff;
@@ -2313,7 +2227,39 @@ const CompareSub = styled.p`
 const CompareGrid = styled.div`
     display: grid; grid-template-columns: repeat(4,1fr); gap: 16px;
     @media (max-width: 900px) { grid-template-columns: repeat(2,1fr); }
-    @media (max-width: 520px) { grid-template-columns: 1fr; }
+
+    @media (max-width: 767px) {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 14px;
+        margin: 0 -16px;
+        padding: 4px 16px 10px;
+        &::-webkit-scrollbar { display: none; }
+    }
+`;
+
+const CompareCard = styled.div`
+    padding: 28px 24px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    display: flex; flex-direction: column; gap: 12px;
+    text-align: left; position: relative; overflow: hidden;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+
+    &:hover {
+        border-color: rgba(60,110,158,0.3);
+        background: rgba(60,110,158,0.04);
+        transform: translateY(-5px);
+    }
+
+    @media (max-width: 767px) {
+        flex: 0 0 82%;
+        scroll-snap-align: center;
+    }
 `;
 
 const CompareItem = styled.div`
@@ -2324,14 +2270,14 @@ const CompareItem = styled.div`
     display: flex; flex-direction: column; gap: 10px;
     text-align: left;
     transition: border-color 0.2s, background 0.2s;
-    &:hover { border-color: rgba(196,119,58,0.3); background: rgba(196,119,58,0.04); }
+    &:hover { border-color: rgba(60,110,158,0.3); background: rgba(60,110,158,0.04); }
 `;
 
 const CompareIcon = styled.span`
     display: flex; align-items: center; justify-content: center;
     width: 44px; height: 44px; border-radius: 12px;
-    background: rgba(196,119,58,0.12);
-    color: #C4773A; font-size: 22px;
+    background: rgba(60,110,158,0.12);
+    color: #3C6E9E; font-size: 22px;
 `;
 
 const CompareItemTitle = styled.h4`
@@ -2363,7 +2309,7 @@ const FaqItem = styled.div`
     border: 1px solid rgba(255,255,255,0.06);
     margin-bottom: 12px;
     transition: border-color 0.2s;
-    &:hover { border-color: rgba(196,119,58,0.25); }
+    &:hover { border-color: rgba(60,110,158,0.25); }
 `;
 
 const FaqHeader = styled.div`
@@ -2402,7 +2348,7 @@ const CtaFinal = styled.section`
 const CtaGlow = styled.div`
     position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
     width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(196,119,58,0.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(60,110,158,0.18) 0%, transparent 70%);
     pointer-events: none; z-index: -1;
 `;
 
@@ -2439,15 +2385,34 @@ const BtnWA = styled.button`
     &:active { transform: translate(2px,2px); }
 `;
 
+const WebBtnBadge = styled.span`
+    position: absolute; top: -10px; right: -10px;
+    background: linear-gradient(90deg,#3C6E9E,#2E5A80);
+    color: #fff; font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 999px; letter-spacing: .03em;
+    white-space: nowrap;
+`;
+
+const WebBtnForm = styled.button`
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 12px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    &:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.22); }
+`;
+
 const BtnLogin = styled.button`
     padding: 15px 28px; border-radius: 14px;
-    border: 2px solid rgba(196,119,58,0.5);
-    background: rgba(196,119,58,0.08);
-    color: #C4773A; font-size: 15px; font-weight: 800;
+    border: 2px solid rgba(60,110,158,0.5);
+    background: rgba(60,110,158,0.08);
+    color: #3C6E9E; font-size: 15px; font-weight: 800;
     font-family: "Poppins", sans-serif; cursor: pointer;
     backdrop-filter: blur(8px);
     transition: all 0.18s;
-    &:hover { background: rgba(196,119,58,0.15); border-color: #C4773A; transform: translateY(-2px); }
+    &:hover { background: rgba(60,110,158,0.15); border-color: #3C6E9E; transform: translateY(-2px); }
 `;
 
 /* ── Footer ── */
@@ -2461,7 +2426,7 @@ const FooterLogo = styled.button`
     display: flex; align-items: center; gap: 8px;
     background: none; border: none; cursor: pointer; margin-bottom: 4px;
     img { width: 28px; height: 28px; object-fit: contain; }
-    span { font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.4); b { color: #C4773A55; } }
+    span { font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.4); b { color: #3C6E9E55; } }
 `;
 
 const FooterTexto = styled.span`
@@ -2477,7 +2442,7 @@ const FooterLink = styled.button`
     font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.35);
     font-family: "Poppins", sans-serif; padding: 0;
     transition: color 0.15s;
-    &:hover { color: #C4773A; }
+    &:hover { color: #3C6E9E; }
 `;
 
 const FooterSep = styled.span`
@@ -2493,7 +2458,7 @@ const TerminosCheck = styled.div`
 
     input[type="checkbox"] {
         width: 16px; height: 16px; flex-shrink: 0;
-        accent-color: #C4773A; margin-top: 2px; cursor: pointer;
+        accent-color: #3C6E9E; margin-top: 2px; cursor: pointer;
     }
 
     label {
@@ -2504,329 +2469,10 @@ const TerminosCheck = styled.div`
 
 const TerminosLink = styled.button`
     background: none; border: none; padding: 0;
-    font-size: 12px; font-weight: 700; color: #C4773A;
+    font-size: 12px; font-weight: 700; color: #3C6E9E;
     cursor: pointer; font-family: "Poppins", sans-serif;
     text-decoration: underline; text-underline-offset: 2px;
-    &:hover { color: #ffa05c; }
-`;
-
-/* ══════════════════════════════════════
-   SERVICIO WEB
-══════════════════════════════════════ */
-const webGlow = keyframes`
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50%       { opacity: 0.9; transform: scale(1.06); }
-`;
-
-const WebServiceSection = styled.section`
-    position: relative; z-index: 1;
-    width: 100%; max-width: 1100px;
-    padding: 80px 24px 0;
-    @media (max-width: 767px) { padding: 60px 16px 0; }
-`;
-
-const WebServiceCard = styled.div`
-    position: relative;
-    border-radius: 32px;
-    padding: 0;
-    background: linear-gradient(135deg, #0a0f1e 0%, #0d1520 50%, #0a1218 100%);
-    border: 1px solid rgba(99,202,255,0.18);
-    box-shadow: 0 0 80px rgba(56,182,255,0.07), 0 32px 80px rgba(0,0,0,0.55);
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 0;
-    @media (max-width: 820px) { grid-template-columns: 1fr; }
-`;
-
-const WebCardGlow = styled.div`
-    position: absolute; top: -60px; left: 20%; width: 60%; height: 200px;
-    background: radial-gradient(ellipse, rgba(56,182,255,0.12) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-    animation: ${webGlow} 5s ease-in-out infinite;
-`;
-
-/* ── Browser mockup ── */
-const WebBrowserMock = styled.div`
-    position: relative; z-index: 1;
-    margin: 32px 0 32px 32px;
-    border-radius: 16px;
-    background: #0b1120;
-    border: 1px solid rgba(255,255,255,0.1);
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,182,255,0.08);
-    align-self: center;
-    @media (max-width: 820px) { margin: 28px 24px 0; }
-`;
-
-const WebBrowserBar = styled.div`
-    background: #111827;
-    padding: 10px 14px;
-    display: flex; align-items: center; gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-`;
-
-const WebBrowserDot = styled.div`
-    width: 10px; height: 10px; border-radius: 50%;
-    background: ${({ $c }) => $c}; opacity: 0.8; flex-shrink: 0;
-`;
-
-const WebBrowserUrl = styled.div`
-    flex: 1; margin: 0 8px;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px; padding: 4px 10px;
-    font-size: 11px; color: rgba(255,255,255,0.3);
-    font-family: 'SF Mono','Fira Code',monospace;
-`;
-
-const WebBrowserBody = styled.div`
-    padding: 16px;
-    display: flex; flex-direction: column; gap: 12px;
-`;
-
-const WebBrowserHero = styled.div`
-    height: 72px; border-radius: 10px;
-    background: linear-gradient(135deg, rgba(56,182,255,0.18) 0%, rgba(99,102,241,0.15) 50%, rgba(52,211,153,0.12) 100%);
-    border: 1px solid rgba(56,182,255,0.15);
-    position: relative;
-    &::after {
-        content: '';
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-        width: 40%; height: 8px; border-radius: 4px;
-        background: rgba(255,255,255,0.12);
-    }
-`;
-
-const WebBrowserLines = styled.div`
-    display: flex; flex-direction: column; gap: 7px;
-    padding: 0 4px;
-`;
-
-const WebBrowserLine = styled.div`
-    height: 7px; border-radius: 4px;
-    width: ${({ $w }) => $w};
-    background: rgba(255,255,255,0.07);
-`;
-
-const WebBrowserGrid = styled.div`
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-`;
-
-const WebBrowserBlock = styled.div`
-    height: 44px; border-radius: 8px;
-    background: rgba(255,255,255,0.045);
-    border: 1px solid rgba(255,255,255,0.07);
-`;
-
-/* ── Contenido ── */
-const WebCardContent = styled.div`
-    position: relative; z-index: 1;
-    padding: 36px 36px 36px 32px;
-    display: flex; flex-direction: column; gap: 18px;
-    @media (max-width: 820px) { padding: 24px 24px 32px; }
-`;
-
-const WebCardEyebrow = styled.div`
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
-    color: #38b6ff; padding: 5px 14px;
-    border: 1px solid rgba(56,182,255,0.28);
-    background: rgba(56,182,255,0.08);
-    border-radius: 999px; width: fit-content;
-`;
-
-const WebCardDot = styled.div`
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #38b6ff;
-    animation: ${blink} 1.8s ease-in-out infinite;
-`;
-
-const WebCardTitle = styled.h2`
-    font-size: clamp(22px, 3vw, 32px); font-weight: 900;
-    line-height: 1.15; margin: 0; letter-spacing: -0.5px;
-`;
-
-const WebCardTitleGrad = styled.span`
-    background: linear-gradient(90deg, #38b6ff 0%, #818cf8 50%, #34d399 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    animation: ${gradAnim} 4s ease infinite;
-`;
-
-const WebCardDesc = styled.p`
-    font-size: 13.5px; color: rgba(255,255,255,0.45); margin: 0; line-height: 1.65;
-`;
-
-const WebCardFeatures = styled.div`
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px;
-    @media (max-width: 500px) { grid-template-columns: 1fr; }
-`;
-
-const WebFeatCheck = styled.span`
-    display: flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
-    background: rgba(56,182,255,0.15); color: #38b6ff; font-size: 12px;
-`;
-
-const WebPriceRow = styled.div`
-    display: flex; align-items: baseline; gap: 8px;
-    padding: 14px 18px;
-    background: rgba(56,182,255,0.07);
-    border: 1px solid rgba(56,182,255,0.18);
-    border-radius: 14px; width: fit-content;
-`;
-
-const WebPriceFrom = styled.span`
-    font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 600;
-`;
-
-const WebPrice = styled.span`
-    font-size: 26px; font-weight: 900; color: #38b6ff; letter-spacing: -0.5px;
-    font-variant-numeric: tabular-nums;
-`;
-
-const WebPriceCop = styled.span`
-    font-size: 13px; color: rgba(255,255,255,0.3); font-weight: 700;
-`;
-
-const WebCardTypes = styled.div`
-    display: flex; gap: 8px; flex-wrap: wrap;
-`;
-
-const WebTypeChip = styled.div`
-    display: flex; align-items: center; gap: 9px;
-    padding: 9px 14px; border-radius: 12px;
-    background: ${({ $descuento }) => $descuento ? "rgba(52,211,153,0.06)" : "rgba(255,255,255,0.04)"};
-    border: 1px solid ${({ $descuento }) => $descuento ? "rgba(52,211,153,0.22)" : "rgba(255,255,255,0.08)"};
-    font-size: 13px;
-    flex: 1; min-width: 140px;
-    transition: border-color 0.3s, background 0.3s;
-    &:hover { border-color: rgba(56,182,255,0.3); background: rgba(56,182,255,0.06); }
-`;
-
-const WebTypeLabel = styled.div`
-    font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.8);
-`;
-
-const WebTypePrice = styled.div`
-    font-size: 11px; margin-top: 1px;
-    color: ${({ $descuento }) => $descuento ? "#34d399" : "rgba(255,255,255,0.35)"};
-    font-weight: ${({ $descuento }) => $descuento ? "700" : "400"};
-    transition: color 0.3s;
-`;
-
-const WebContactTitle = styled.p`
-    font-size: 12px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .05em; color: rgba(255,255,255,0.3); margin: 0;
-`;
-
-const WebContactBtns = styled.div`
-    display: flex; gap: 10px; flex-wrap: wrap;
-    a { text-decoration: none; }
-`;
-
-const WebBtnWA = styled.button`
-    display: flex; align-items: center; gap: 8px; position: relative;
-    padding: 12px 20px; border-radius: 12px; cursor: pointer;
-    border: 2px solid #16a34a88;
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    color: #fff; font-size: 14px; font-weight: 800;
-    font-family: "Poppins", sans-serif;
-    box-shadow: 0 4px 20px rgba(22,163,74,0.35), 3px 3px 0 #14532d;
-    transition: filter 0.15s;
-    &:hover { filter: brightness(1.1); }
-`;
-
-const WebBtnBadge = styled.span`
-    position: absolute; top: -10px; right: -10px;
-    background: linear-gradient(90deg,#C4773A,#A66030);
-    color: #fff; font-size: 9px; font-weight: 800;
-    padding: 2px 7px; border-radius: 999px; letter-spacing: .03em;
-    white-space: nowrap;
-`;
-
-const WebBtnEmail = styled.button`
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 20px; border-radius: 12px; cursor: pointer;
-    border: 1px solid rgba(56,182,255,0.3);
-    background: rgba(56,182,255,0.08);
-    color: #38b6ff; font-size: 14px; font-weight: 700;
-    font-family: "Poppins", sans-serif;
-    transition: background 0.15s, border-color 0.15s;
-    &:hover { background: rgba(56,182,255,0.14); border-color: rgba(56,182,255,0.5); }
-`;
-
-const WebBtnForm = styled.button`
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 20px; border-radius: 12px; cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 700;
-    font-family: "Poppins", sans-serif;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-    &:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.22); }
-`;
-
-const WebMantNote = styled.p`
-    font-size: 12px; color: rgba(255,255,255,0.28); margin: 0; line-height: 1.5;
-    strong { color: rgba(255,255,255,0.5); }
-`;
-
-/* ── Verificador de descuento ── */
-const WebDescWrap = styled.div`
-    display: flex; flex-direction: column; gap: 10px;
-`;
-
-const WebDescToggle = styled.button`
-    background: none; border: none; cursor: pointer; padding: 0;
-    font-size: 12px; font-weight: 700; font-family: "Poppins", sans-serif;
-    color: rgba(56,182,255,0.7); text-align: left; letter-spacing: .02em;
-    transition: color 0.15s;
-    &:hover { color: #38b6ff; }
-`;
-
-const WebDescForm = styled.form`
-    display: flex; gap: 8px; margin-top: 8px;
-`;
-
-const WebDescInput = styled.input`
-    flex: 1; padding: 10px 14px; border-radius: 10px;
-    border: 1.5px solid rgba(56,182,255,0.25);
-    background: rgba(56,182,255,0.06);
-    color: #fff; font-size: 14px; font-family: "Poppins", sans-serif;
-    outline: none;
-    &::placeholder { color: rgba(255,255,255,0.25); }
-    &:focus { border-color: #38b6ff; }
-`;
-
-const WebDescBtn = styled.button`
-    padding: 10px 18px; border-radius: 10px;
-    border: 1.5px solid rgba(56,182,255,0.4);
-    background: rgba(56,182,255,0.12);
-    color: #38b6ff; font-size: 13px; font-weight: 700;
-    font-family: "Poppins", sans-serif; cursor: pointer;
-    transition: background 0.15s;
-    &:disabled { opacity: 0.4; cursor: not-allowed; }
-    &:not(:disabled):hover { background: rgba(56,182,255,0.22); }
-`;
-
-const WebDescMsg = styled.div`
-    margin-top: 8px; padding: 10px 14px; border-radius: 10px;
-    font-size: 13px; font-weight: 600; line-height: 1.5;
-    strong { font-weight: 900; }
-    ${({ $type }) => $type === "ok"   && `background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.25);`}
-    ${({ $type }) => $type === "warn" && `background: rgba(251,191,36,0.08); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2);`}
-    ${({ $type }) => $type === "error"&& `background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.2);`}
-`;
-
-const WebDescBanner = styled.div`
-    padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 700;
-    background: ${({ $plan }) => $plan === "cosmos"
-        ? "linear-gradient(90deg, rgba(52,211,153,0.12), rgba(99,102,241,0.12))"
-        : "linear-gradient(90deg, rgba(196,119,58,0.12), rgba(196,119,58,0.06))"};
-    border: 1px solid ${({ $plan }) => $plan === "cosmos" ? "rgba(52,211,153,0.25)" : "rgba(196,119,58,0.25)"};
-    color: ${({ $plan }) => $plan === "cosmos" ? "#34d399" : "#C4773A"};
-    text-align: center;
+    &:hover { color: #6FA0C9; }
 `;
 
 /* ══════════════════════════════════════
@@ -2864,7 +2510,7 @@ const slideCard = keyframes`
 
 const PagoDrawerWrap = styled.div`
     position: fixed; z-index: 301;
-    background: #080b12;
+    background: #0B0D10;
     display: flex; flex-direction: column; gap: 16px;
 
     @media (min-width: 769px) {

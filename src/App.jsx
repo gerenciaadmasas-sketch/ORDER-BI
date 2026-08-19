@@ -5,10 +5,35 @@ import { Myroutes } from "./routers/routes";
 import { useThemeStore } from "./store/ThemeStore";
 import { Device } from "./styles/breakpoints";
 import { Sidebar } from "./components/organismos/sidebar/Sidebar";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { blurin } from "./styles/keyframes";
 import { RiMenuLine } from "react-icons/ri";
+
+const COOKIE_KEY = "orderbi_cookies_ok";
+
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem(COOKIE_KEY)) setVisible(true);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <CookieBar>
+      <CookieText>
+        Usamos cookies esenciales para que ORDER BI funcione correctamente. Más info en nuestra{" "}
+        <CookieLink onClick={() => navigate("/privacidad")}>Política de Privacidad</CookieLink>.
+      </CookieText>
+      <CookieAcceptBtn onClick={() => { localStorage.setItem(COOKIE_KEY, "1"); setVisible(false); }}>
+        Aceptar
+      </CookieAcceptBtn>
+    </CookieBar>
+  );
+}
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,15 +69,16 @@ function App() {
               <MobileOverlay onClick={() => setSidebarOpen(false)} />
             )}
           </Container>
-          <BgOrb $x="-5%"  $y="-5%"  $c="rgba(196,119,58,0.18)" $s="700px" $dur="9s"  />
+          <BgOrb $x="-5%"  $y="-5%"  $c="rgba(60,110,158,0.18)" $s="700px" $dur="9s"  />
           <BgOrb $x="65%"  $y="12%"  $c="rgba(99,102,241,0.14)" $s="500px" $dur="11s" $delay="2s" />
           <BgOrb $x="25%"  $y="62%"  $c="rgba(52,211,153,0.10)" $s="450px" $dur="13s" $delay="4s" />
-          <BgOrb $x="82%"  $y="72%"  $c="rgba(196,119,58,0.12)" $s="400px" $dur="8s"  $delay="1s" />
+          <BgOrb $x="82%"  $y="72%"  $c="rgba(60,110,158,0.12)" $s="400px" $dur="8s"  $delay="1s" />
           <BgLines />
           </>
         ) : (
           <Myroutes />
         )}
+        {isLoginRoute && <CookieBanner />}
       </AuthContextProvider>
     </ThemeProvider>
   );
@@ -107,11 +133,11 @@ const HamburgerBtn = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  border: 1px solid rgba(196, 119, 58, 0.35);
+  border: 1px solid rgba(60, 110, 158, 0.35);
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: #C4773A;
+  color: #3C6E9E;
   font-size: 22px;
   display: ${({ $hidden }) => $hidden ? "none" : "flex"};
   align-items: center;
@@ -122,8 +148,8 @@ const HamburgerBtn = styled.button`
   transition: transform 0.15s, background 0.15s, border-color 0.15s;
 
   &:hover {
-    background: rgba(196, 119, 58, 0.12);
-    border-color: rgba(196, 119, 58, 0.6);
+    background: rgba(60, 110, 158, 0.12);
+    border-color: rgba(60, 110, 158, 0.6);
   }
 
   &:active {
@@ -177,11 +203,68 @@ const BgOrb = styled.div`
     animation-delay: ${({ $delay }) => $delay ?? "0s"};
 `;
 
+const cookieSlideUp = keyframes`
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+`;
+
+const CookieBar = styled.div`
+    position: fixed;
+    left: 16px; right: 16px; bottom: 16px;
+    z-index: 500;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(20,24,32,0.92);
+    border: 1px solid rgba(60,110,158,0.25);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    animation: ${cookieSlideUp} 0.4s cubic-bezier(0.22,1,0.36,1);
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+`;
+
+const CookieText = styled.p`
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.65);
+    font-family: "Poppins", sans-serif;
+`;
+
+const CookieLink = styled.button`
+    background: none; border: none; padding: 0; cursor: pointer;
+    color: #3C6E9E; font-size: 12.5px; font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    text-decoration: underline; text-underline-offset: 2px;
+`;
+
+const CookieAcceptBtn = styled.button`
+    flex-shrink: 0;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: none;
+    background: #3C6E9E;
+    color: #fff;
+    font-size: 13px; font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.15s;
+    &:hover { filter: brightness(1.1); }
+    &:active { transform: scale(0.96); }
+`;
+
 const BgLines = styled.div`
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
-        linear-gradient(rgba(196,119,58,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(196,119,58,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(60,110,158,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60,110,158,0.03) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 80%);
 `;

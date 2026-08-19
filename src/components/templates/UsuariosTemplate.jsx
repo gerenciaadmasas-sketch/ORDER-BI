@@ -645,8 +645,8 @@ const TipoBtn = styled.button`
 `;
 
 const CredPrev = styled.div`
-    border: 1px solid rgba(196,119,58,0.25);
-    background: rgba(196,119,58,0.06);
+    border: 1px solid rgba(60,110,158,0.25);
+    background: rgba(60,110,158,0.06);
     border-radius: 10px;
     padding: 12px 14px;
     display: flex; flex-direction: column; gap: 6px;
@@ -663,7 +663,7 @@ const CredLbl = styled.span`
 `;
 
 const CredVal = styled.span`
-    color: #C4773A; font-weight: 800; font-size: 14px;
+    color: #3C6E9E; font-weight: 800; font-size: 14px;
     font-family: "Courier New", monospace;
 `;
 

@@ -17,7 +17,7 @@ export function SuspensionOverlay() {
     return (
         <Fondo>
             <Orb $x="10%" $y="20%" $c="rgba(248,113,113,0.18)" $s="500px" />
-            <Orb $x="70%" $y="60%" $c="rgba(196,119,58,0.12)"  $s="400px" />
+            <Orb $x="70%" $y="60%" $c="rgba(60,110,158,0.12)"  $s="400px" />
 
             <Caja>
                 <Logo>
@@ -127,7 +127,7 @@ const Caja = styled.div`
 
 const Logo = styled.div`
     display: flex; align-items: center; gap: 8px;
-    span { font-size: 17px; font-weight: 900; color: #fff; b { color: #C4773A; } }
+    span { font-size: 17px; font-weight: 900; color: #fff; b { color: #3C6E9E; } }
 `;
 
 const IconoLock = styled.div`
@@ -194,12 +194,12 @@ const BtnWA = styled.button`
 const BtnPagar = styled.button`
     flex: 1; display: flex; align-items: center; justify-content: center;
     padding: 14px 18px; border-radius: 14px;
-    border: 2px solid #9A5A28;
-    background: #C4773A;
+    border: 2px solid #1F3F59;
+    background: #3C6E9E;
     color: #fff; font-size: 14px; font-weight: 800;
     font-family: "Poppins", sans-serif; cursor: pointer;
     text-decoration: none;
-    box-shadow: 0 6px 24px rgba(232,137,26,0.4), 3px 3px 0 #9A5A28;
+    box-shadow: 0 6px 24px rgba(60,110,158,0.4), 3px 3px 0 #1F3F59;
     transition: transform 0.15s, filter 0.15s;
     &:hover { filter: brightness(1.1); transform: translateY(-2px); }
 `;

@@ -221,7 +221,7 @@ const TopBar = styled.div`
 `;
 const TitleGroup = styled.div`
     display: flex; align-items: center; gap: 14px;
-    .icono { font-size: 36px; color: #C4773A; }
+    .icono { font-size: 36px; color: #3C6E9E; }
     h1 { font-size: 22px; font-weight: 900; color: ${({ theme }) => theme.text}; margin: 0 0 3px; }
     p  { font-size: 13px; color: ${({ theme }) => theme.colorsubtitlecard}; margin: 0; }
 `;
@@ -252,7 +252,7 @@ const SeccionCard = styled.div`
 const SeccionHeader = styled.div`
     display: flex; align-items: center; gap: 8px;
     font-size: 14px; font-weight: 800; color: ${({ theme }) => theme.text};
-    svg { font-size: 18px; color: #C4773A; }
+    svg { font-size: 18px; color: #3C6E9E; }
 `;
 
 const Campo = styled.div`
@@ -268,7 +268,7 @@ const Input = styled.input`
     background: ${({ theme }) => theme.bgtotal};
     color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
     &::placeholder { color: ${({ theme }) => theme.colorsubtitlecard}; opacity: 0.6; }
 `;
 const Hint = styled.span`
@@ -278,18 +278,18 @@ const OpcionesRow = styled.div`display: flex; gap: 8px; flex-wrap: wrap;`;
 const OpcionBtn = styled.button`
     padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 700;
     cursor: pointer; font-family: "Poppins", sans-serif;
-    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#C4773A" : theme.color2};
-    background: ${({ $activo }) => $activo ? "rgba(196,119,58,0.12)" : "transparent"};
-    color: ${({ $activo, theme }) => $activo ? "#C4773A" : theme.text};
+    border: 1.5px solid ${({ $activo, theme }) => $activo ? "#3C6E9E" : theme.color2};
+    background: ${({ $activo }) => $activo ? "rgba(60,110,158,0.12)" : "transparent"};
+    color: ${({ $activo, theme }) => $activo ? "#3C6E9E" : theme.text};
     transition: all 0.15s;
-    &:hover { border-color: #C4773A; }
+    &:hover { border-color: #3C6E9E; }
 `;
 
 const BotonesRow = styled.div`display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap;`;
 const BtnGuardar = styled.button`
     flex: 1; min-width: 140px; display: flex; align-items: center; justify-content: center; gap: 7px;
     padding: 11px 20px; border-radius: 10px; border: none;
-    background: #C4773A; color: #fff;
+    background: #3C6E9E; color: #fff;
     font-size: 13px; font-weight: 700; cursor: pointer; font-family: "Poppins", sans-serif;
     transition: background 0.15s;
     &:hover { background: #e07520; }
@@ -301,7 +301,7 @@ const BtnPrueba = styled.button`
     background: transparent; color: ${({ theme }) => theme.text};
     font-size: 13px; font-weight: 700; cursor: pointer; font-family: "Poppins", sans-serif;
     transition: all 0.15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 /* Pasos de instrucciones */
@@ -309,7 +309,7 @@ const PasosList = styled.div`display: flex; flex-direction: column; gap: 14px;`;
 const Paso = styled.div`display: flex; align-items: flex-start; gap: 12px;`;
 const PasoNum = styled.div`
     width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(196,119,58,0.15); color: #C4773A;
+    background: rgba(60,110,158,0.15); color: #3C6E9E;
     font-size: 12px; font-weight: 800;
     display: flex; align-items: center; justify-content: center;
 `;

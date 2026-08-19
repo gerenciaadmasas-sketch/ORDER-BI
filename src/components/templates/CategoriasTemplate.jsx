@@ -26,7 +26,7 @@ export function CategoriasTemplate() {
         <section className="area1">
             <Title>Categoria</Title>
             <Btn1 funcion={nuevoRegistro}
-                bgcolor="#C4773A"
+                bgcolor="#3C6E9E"
                 titulo="nuevo"
                 icono={<v.iconoagregar />} />
         </section>

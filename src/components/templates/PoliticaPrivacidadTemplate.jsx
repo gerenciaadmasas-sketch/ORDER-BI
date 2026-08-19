@@ -125,7 +125,7 @@ const BtnVolver = styled.button`
     width: fit-content;
     transition: all 0.15s;
     font-family: "Poppins", sans-serif;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const Header = styled.div`
@@ -182,7 +182,7 @@ const Seccion = styled.div`
 const SeccionTitulo = styled.h2`
     font-size: 15px;
     font-weight: 800;
-    color: #C4773A;
+    color: #3C6E9E;
     margin: 0;
 `;
 
@@ -195,8 +195,8 @@ const SeccionTexto = styled.p`
 `;
 
 const ContactoBox = styled.div`
-    background: rgba(196,119,58,0.06);
-    border: 1px solid rgba(196,119,58,0.2);
+    background: rgba(60,110,158,0.06);
+    border: 1px solid rgba(60,110,158,0.2);
     border-radius: 14px;
     padding: 20px 24px;
     display: flex;
@@ -219,7 +219,7 @@ const ContactoTexto = styled.p`
 `;
 
 const ContactoLink = styled.a`
-    color: #C4773A;
+    color: #3C6E9E;
     text-decoration: none;
     font-weight: 600;
     &:hover { text-decoration: underline; }
@@ -245,7 +245,7 @@ const LogoBtn = styled.button`
         font-size: 16px;
         font-weight: 700;
         color: rgba(255,255,255,0.4);
-        b { color: #C4773A; }
+        b { color: #3C6E9E; }
     }
 `;
 

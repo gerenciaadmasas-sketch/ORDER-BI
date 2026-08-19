@@ -61,7 +61,7 @@ const Items = styled.div`
   flex: 1;
 
   &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-thumb { background: #C4773A; border-radius: 10px; }
+  &::-webkit-scrollbar-thumb { background: #3C6E9E; border-radius: 10px; }
 `;
 
 const Item = styled.div`
@@ -85,7 +85,7 @@ const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #C4773A;
+  background: #3C6E9E;
   flex-shrink: 0;
 `;
 

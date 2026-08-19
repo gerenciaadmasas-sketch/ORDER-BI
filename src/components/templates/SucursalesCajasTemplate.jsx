@@ -293,9 +293,9 @@ const BtnAgregar = styled.button`
     font-family: "Poppins", sans-serif;
     transition: all 0.15s;
     &:hover {
-        border-color: #C4773A;
-        color: #C4773A;
-        background: rgba(196,119,58,0.06);
+        border-color: #3C6E9E;
+        color: #3C6E9E;
+        background: rgba(60,110,158,0.06);
     }
 `;
 
@@ -390,7 +390,7 @@ const BtnAgregarAlm = styled.button`
     cursor: ${({ $bloqueado }) => $bloqueado ? "not-allowed" : "pointer"};
     font-family: "Poppins", sans-serif;
     transition: all 0.15s;
-    &:hover { border-color: #C4773A; color: #C4773A; }
+    &:hover { border-color: #3C6E9E; color: #3C6E9E; }
 `;
 
 const Overlay = styled.div`
@@ -438,12 +438,12 @@ const Input = styled.input`
     color: ${({ theme }) => theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif;
     outline: none;
-    &:focus { border-color: #C4773A; }
+    &:focus { border-color: #3C6E9E; }
 `;
 
 const BtnGuardar = styled.button`
     padding: 12px; border-radius: 12px; border: none;
-    background: linear-gradient(135deg, #C4773A, #A66030);
+    background: linear-gradient(135deg, #3C6E9E, #2E5A80);
     color: #fff; font-size: 14px; font-weight: 700;
     cursor: pointer; font-family: "Poppins", sans-serif;
     &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -462,7 +462,7 @@ const LogoZona = styled.button`
     align-items: center;
     justify-content: center;
     transition: border-color 0.15s;
-    &:hover { border-color: #C4773A; }
+    &:hover { border-color: #3C6E9E; }
 `;
 
 const LogoImg = styled.img`
@@ -491,7 +491,7 @@ const LogoEditBadge = styled.div`
     position: absolute;
     bottom: 8px;
     right: 8px;
-    background: rgba(196,119,58,0.9);
+    background: rgba(60,110,158,0.9);
     border-radius: 8px;
     padding: 4px 6px;
     display: flex;
