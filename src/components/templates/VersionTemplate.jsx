@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { MostrarVersion, EditarVersion } from "../../supabase/crudVersion";
+import { MostrarVersion, EditarVersion, NuevaVersion } from "../../supabase/crudVersion";
 import { RiEditLine, RiCloseLine } from "react-icons/ri";
 import { Icon } from "@iconify/react";
 import { toastExito } from "../../utils/toast";
@@ -24,9 +24,20 @@ export function VersionTemplate() {
         onSuccess: () => { toastExito("Versión actualizada"); queryClient.invalidateQueries({ queryKey: ["config-version"] }); cerrar(); },
     });
 
+    const mutNueva = useMutation({
+        mutationFn: () => NuevaVersion(form),
+        onSuccess: () => { toastExito("Versión registrada"); queryClient.invalidateQueries({ queryKey: ["config-version"] }); cerrar(); },
+    });
+
     function abrirEditar(v) {
         setForm({ version: v.version, descripcion: v.descripcion ?? "" });
         setEditando(v);
+        setModal(true);
+    }
+
+    function abrirNueva() {
+        setForm({ version: "", descripcion: "" });
+        setEditando(null);
         setModal(true);
     }
 
@@ -34,7 +45,8 @@ export function VersionTemplate() {
 
     function handleGuardar(e) {
         e.preventDefault();
-        mutEditar.mutate();
+        if (editando) mutEditar.mutate();
+        else mutNueva.mutate();
     }
 
     return (
@@ -54,6 +66,11 @@ export function VersionTemplate() {
                     </VersionInfo>
                 </VersionActual>
             )}
+
+            <HistorialTop>
+                <span>Historial</span>
+                <BtnNueva onClick={abrirNueva}>+ Nueva versión</BtnNueva>
+            </HistorialTop>
 
             {/* Historial */}
             <Historial>
@@ -86,7 +103,7 @@ export function VersionTemplate() {
                                 <label>Notas de actualización</label>
                                 <Textarea value={form.descripcion} onChange={e => setForm({ ...form, descripcion: e.target.value })} placeholder="Describe qué cambió en esta versión..." rows={5} />
                             </Campo>
-                            <BtnGuardar type="submit" disabled={mutEditar.isPending}>
+                            <BtnGuardar type="submit" disabled={mutEditar.isPending || mutNueva.isPending}>
                                 {editando ? "Guardar cambios" : "Registrar versión"}
                             </BtnGuardar>
                         </ModalForm>
@@ -129,6 +146,20 @@ const VersionTag = styled.div`
 
 const VersionFecha = styled.div`
     font-size: 12px; color: ${({ theme }) => theme.colorsubtitlecard};
+`;
+
+const HistorialTop = styled.div`
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+    span { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: ${({ theme }) => theme.colorsubtitlecard}; }
+`;
+
+const BtnNueva = styled.button`
+    padding: 8px 14px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, #3C6E9E, #2E5A80);
+    color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    &:hover { filter: brightness(1.1); }
 `;
 
 const Historial = styled.div`display: flex; flex-direction: column; gap: 12px;`;
