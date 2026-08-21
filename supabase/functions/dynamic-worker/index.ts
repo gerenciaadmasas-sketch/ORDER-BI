@@ -11,8 +11,6 @@ const supabaseAdmin = createClient(
   { auth: { autoRefreshToken: false, persistSession: false } }
 );
 
-// Lee el claim "role" del JWT sin verificarlo (la verificación de firma ya la
-// hace la plataforma antes de invocar la función, vía verify_jwt: true).
 function rolDelToken(token: string): string | null {
   try {
     const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
@@ -30,26 +28,13 @@ Deno.serve(async (req) => {
   try {
     const authHeader = req.headers.get("Authorization") ?? "";
     const token = authHeader.replace(/^Bearer\s+/i, "");
-
-    const body = await req.json();
-    const {
-      email, password, usuario, nombres, nro_doc, telefono,
-      id_empresa, id_sucursal, id_almacen, tipo, permisos,
-    } = body;
-
-    // ── Autorización ──
-    // Llamadas internas (service role: webhook de Wompi, onboarding automático)
-    // se confían igual que antes. Cualquier otra llamada debe venir de un usuario
-    // autenticado con permiso para crear usuarios, y solo dentro de SU PROPIA
-    // empresa y con un rol igual o menor al que la interfaz ya le permite crear
-    // (mismas reglas que TIPOS_ADMIN / TIPOS_SUPERVISOR en UsuariosTemplate.jsx).
-    const TIPOS_PERMITIDOS = {
-      administrador: ["cajero", "supervisor"],
-      supervisor:    ["cajero"],
-    };
-    let idEmpresaFinal = id_empresa;
     const esServiceRole = rolDelToken(token) === "service_role";
 
+    const body = await req.json();
+    const { action = "create" } = body;
+
+    // ── Resolver caller (compartido para todas las acciones) ──
+    let caller: { tipo: string; id_empresa: number } | null = null;
     if (!esServiceRole) {
       const { data: authUser, error: authUserError } = await supabaseAdmin.auth.getUser(token);
       if (authUserError || !authUser?.user) {
@@ -57,21 +42,57 @@ Deno.serve(async (req) => {
           status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-
-      const { data: caller } = await supabaseAdmin
+      const { data } = await supabaseAdmin
         .from("usuarios")
         .select("tipo, id_empresa")
         .eq("id_auth", authUser.user.id)
         .maybeSingle();
-
+      caller = data;
       if (!caller || !["administrador", "supervisor", "superadmin"].includes(caller.tipo)) {
-        return new Response(JSON.stringify({ error: "No autorizado para crear usuarios" }), {
+        return new Response(JSON.stringify({ error: "No autorizado" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
+    }
 
+    // ── DELETE ──
+    if (action === "delete") {
+      const { id_auth: targetIdAuth } = body;
+      if (!targetIdAuth) {
+        return new Response(JSON.stringify({ error: "id_auth requerido para eliminar" }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      // Elimina el auth user (borra también la fila de usuarios si hay FK con CASCADE,
+      // sino el delete explícito de abajo lo limpia)
+      const { error: authErr } = await supabaseAdmin.auth.admin.deleteUser(targetIdAuth);
+      if (authErr) {
+        return new Response(JSON.stringify({ error: authErr.message }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      // Delete explícito por si no hay CASCADE configurado en la FK
+      await supabaseAdmin.from("usuarios").delete().eq("id_auth", targetIdAuth);
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── CREATE (lógica original) ──
+    const {
+      email, password, usuario, nombres, nro_doc, telefono,
+      id_empresa, id_sucursal, id_almacen, tipo, permisos,
+    } = body;
+
+    const TIPOS_PERMITIDOS: Record<string, string[]> = {
+      administrador: ["cajero", "supervisor"],
+      supervisor:    ["cajero"],
+    };
+    let idEmpresaFinal = id_empresa;
+
+    if (!esServiceRole && caller) {
       if (caller.tipo !== "superadmin") {
-        idEmpresaFinal = caller.id_empresa; // ignora cualquier id_empresa recibido del cliente
+        idEmpresaFinal = caller.id_empresa;
         if (!TIPOS_PERMITIDOS[caller.tipo]?.includes(tipo)) {
           return new Response(JSON.stringify({ error: "No autorizado para crear ese tipo de usuario" }), {
             status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -87,8 +87,17 @@ export async function ActualizarUsuario(p) {
 }
 
 export async function EliminarUsuarioEmpleado(p) {
-    const { error } = await supabase.from(tabla).delete().eq("id_auth", p.id_auth).eq("id_empresa", p.id_empresa);
-    if (error) { toastError(error.message, "Usuarios › Eliminar"); throw new Error(error.message); }
+    // Usa el Edge Function para borrar también el auth user (evita "email ya registrado" al re-crear)
+    const { data, error } = await supabase.functions.invoke("dynamic-worker", {
+        body: { action: "delete", id_auth: p.id_auth, id_empresa: p.id_empresa },
+    });
+    if (error) {
+        let msg = error.message;
+        try { const b = await error.context?.json?.(); if (b?.error) msg = b.error; } catch { /* */ }
+        toastError(msg, "Usuarios › Eliminar");
+        throw new Error(msg);
+    }
+    if (data?.error) { toastError(data.error, "Usuarios › Eliminar"); throw new Error(data.error); }
 }
 
 export async function ObtenerIdAuthSupabase() {

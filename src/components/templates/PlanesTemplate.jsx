@@ -156,10 +156,22 @@ const ANUAL_VISIBLE = false;
 
 const PERIODO_MESES = { mensual: 1, bimestral: 2, trimestral: 3, anual: 12 };
 
-// Los campos del plan no siguen el mismo nombre que la key del periodo
-// (precio_mes, no precio_mensual; precio_ano, no precio_anual) — este mapa evita el desfase.
-const PERIODO_CAMPO = { mensual: "precio_mes", bimestral: "precio_bimestral", trimestral: "precio_trimestral", anual: "precio_ano" };
-const precioDePlan = (plan, periodo) => plan[PERIODO_CAMPO[periodo]];
+// Total REAL a cobrar por periodo — debe coincidir exacto con calcularPrecios()
+// de crudConfigPlanes.jsx (lo mismo que usa /configuracion/planes). Nunca se
+// deriva de un número ya redondeado, para no arrastrar error de redondeo.
+function totalPeriodo(plan, periodo) {
+    if (periodo === "mensual") return plan.precio_mes;
+    if (periodo === "anual") return Math.round(plan.precio_mes * 0.85 * 12 / 1000) * 1000;
+    const { bimestral, trimestral } = calcularPrecios(plan.precio_mes);
+    return periodo === "bimestral" ? bimestral : trimestral;
+}
+
+// Equivalente mensual — solo para el número grande de la card, nunca se
+// reutiliza en más cálculos (evita el error de redondeo doble).
+function precioMensualEquivalente(plan, periodo) {
+    if (periodo === "mensual") return plan.precio_mes;
+    return Math.round(totalPeriodo(plan, periodo) / PERIODO_MESES[periodo] / 1000) * 1000;
+}
 
 const PERIODOS = [
     { key: "mensual",    label: "Mensual" },
@@ -171,7 +183,7 @@ const PERIODOS = [
 function precioNota(plan, periodo) {
     if (periodo === "mensual") return "Sin permanencia · Cancela cuando quieras";
     const meses = PERIODO_MESES[periodo];
-    const total = precioDePlan(plan, periodo) * meses;
+    const total = totalPeriodo(plan, periodo);
     if (periodo === "anual") return `Facturado anualmente · ${formatCOP(total)}/año`;
     const ahorro = PERIODOS.find(p => p.key === periodo)?.ahorro;
     return `Facturado cada ${meses} meses · ${formatCOP(total)} total ${ahorro ? `· Ahorras ${ahorro.replace("−", "")}` : ""}`;
@@ -356,16 +368,14 @@ export function PlanesTemplate() {
         return result;
     }, [configPlanes]);
 
-    // Precios dinámicos desde DB — se actualizan cuando el superadmin cambia config
+    // Precios dinámicos desde DB — se actualizan cuando el superadmin cambia config.
+    // Solo precio_mes viene de la DB; el resto de periodos se calculan al vuelo con
+    // totalPeriodo()/precioMensualEquivalente() para no arrastrar redondeos.
     const planesActivos = useMemo(() => {
         return PLANES.filter(p => !p.oculto).map(plan => {
             const dbPlan = configPlanes.find(p => p.tier === plan.id);
-            const precio_mes = dbPlan?.precio_base ?? plan.precio_mes;
-            const precio_ano = Math.round(precio_mes * 0.85 / 1000) * 1000; // equivalente mensual, 15% off
-            const { bimestral, trimestral } = calcularPrecios(precio_mes);
-            const precio_bimestral  = Math.round(bimestral  / 2 / 1000) * 1000; // equivalente mensual, 5% off
-            const precio_trimestral = Math.round(trimestral / 3 / 1000) * 1000; // equivalente mensual, 10% off
-            return { ...plan, precio_mes, precio_ano, precio_bimestral, precio_trimestral };
+            const precio_mes = Number(dbPlan?.precio_base ?? plan.precio_mes);
+            return { ...plan, precio_mes };
         });
     }, [configPlanes]);
 
