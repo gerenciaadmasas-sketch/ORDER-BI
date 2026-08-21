@@ -148,6 +148,31 @@ const formatCOP = (n) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n);
 
 /* ─────────────────────────────────────────
+   PERIODOS DE FACTURACIÓN
+   "anual" queda oculto por ahora (ANUAL_VISIBLE) — se reactiva con solo
+   cambiar ese flag, la lógica de precios/checkout ya lo soporta.
+───────────────────────────────────────── */
+const ANUAL_VISIBLE = false;
+
+const PERIODO_MESES = { mensual: 1, bimestral: 2, trimestral: 3, anual: 12 };
+
+const PERIODOS = [
+    { key: "mensual",    label: "Mensual" },
+    { key: "bimestral",  label: "Bimestral",  ahorro: "−5%" },
+    { key: "trimestral", label: "Trimestral", ahorro: "−10%" },
+    ...(ANUAL_VISIBLE ? [{ key: "anual", label: "Anual", ahorro: "−15%" }] : []),
+];
+
+function precioNota(plan, periodo) {
+    if (periodo === "mensual") return "Sin permanencia · Cancela cuando quieras";
+    const meses = PERIODO_MESES[periodo];
+    const total = plan[`precio_${periodo}`] * meses;
+    if (periodo === "anual") return `Facturado anualmente · ${formatCOP(total)}/año`;
+    const ahorro = PERIODOS.find(p => p.key === periodo)?.ahorro;
+    return `Facturado cada ${meses} meses · ${formatCOP(total)} total ${ahorro ? `· Ahorras ${ahorro.replace("−", "")}` : ""}`;
+}
+
+/* ─────────────────────────────────────────
    PARALLAX DE RATÓN
 ───────────────────────────────────────── */
 function useMouseParallax() {
@@ -330,14 +355,16 @@ export function PlanesTemplate() {
     const planesActivos = useMemo(() => {
         return PLANES.filter(p => !p.oculto).map(plan => {
             const dbPlan = configPlanes.find(p => p.tier === plan.id);
-            if (!dbPlan?.precio_base) return plan;
-            const precio_mes = dbPlan.precio_base;
-            const precio_ano = Math.round(precio_mes * 0.85 / 1000) * 1000; // 15% off anual
-            return { ...plan, precio_mes, precio_ano };
+            const precio_mes = dbPlan?.precio_base ?? plan.precio_mes;
+            const precio_ano = Math.round(precio_mes * 0.85 / 1000) * 1000; // equivalente mensual, 15% off
+            const { bimestral, trimestral } = calcularPrecios(precio_mes);
+            const precio_bimestral  = Math.round(bimestral  / 2 / 1000) * 1000; // equivalente mensual, 5% off
+            const precio_trimestral = Math.round(trimestral / 3 / 1000) * 1000; // equivalente mensual, 10% off
+            return { ...plan, precio_mes, precio_ano, precio_bimestral, precio_trimestral };
         });
     }, [configPlanes]);
 
-    const [anual, setAnual] = useState(false);
+    const [periodo, setPeriodo] = useState("mensual");
     const [visible, setVisible] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [faqOpen, setFaqOpen] = useState(null);
@@ -447,7 +474,7 @@ export function PlanesTemplate() {
             const { data, error } = await supabase.functions.invoke("wompi-sign", {
                 body: {
                     plan:                planPago.id,
-                    billing:             anual ? "anual" : "mensual",
+                    billing:             periodo,
                     nombre:              pagoForm.nombre,
                     apellido:            pagoForm.apellido,
                     email:               pagoForm.email,
@@ -634,23 +661,22 @@ export function PlanesTemplate() {
                 </motion.div>
             </HeroScene>
 
-            {/* ── Toggle ── */}
+            {/* ── Periodo de facturación ── */}
             <StatsToggleSection>
-                <ToggleWrap>
-                    <ToggleOpt $active={!anual} onClick={() => setAnual(false)}>Mensual</ToggleOpt>
-                    <TogglePill onClick={() => setAnual(!anual)} $on={anual}>
-                        <ToggleThumb $on={anual} />
-                    </TogglePill>
-                    <ToggleOpt $active={anual} onClick={() => setAnual(true)}>
-                        Anual <AhorroBadge>−15%</AhorroBadge>
-                    </ToggleOpt>
-                </ToggleWrap>
+                <PeriodoSelector>
+                    {PERIODOS.map(p => (
+                        <PeriodoBtn key={p.key} $active={periodo === p.key} onClick={() => setPeriodo(p.key)}>
+                            {p.label}
+                            {p.ahorro && <AhorroBadge>{p.ahorro}</AhorroBadge>}
+                        </PeriodoBtn>
+                    ))}
+                </PeriodoSelector>
             </StatsToggleSection>
 
             {/* ── Cards ── */}
             <CardsSection>
                 {planesActivos.map((plan, idx) => (
-                    <TiltCard key={`${plan.id}-${anual}`} color={plan.color} idx={idx} popular={plan.popular}>
+                    <TiltCard key={`${plan.id}-${periodo}`} color={plan.color} idx={idx} popular={plan.popular}>
                     <PlanCard
                         id={plan.id}
                         $color={plan.color}
@@ -684,15 +710,11 @@ export function PlanesTemplate() {
                             <PrecioBloque>
                                 <PrecioRow>
                                     <PrecioNum $color={plan.color}>
-                                        {formatCOP(anual ? plan.precio_ano : plan.precio_mes)}
+                                        {formatCOP(plan[`precio_${periodo}`])}
                                     </PrecioNum>
                                     <PrecioSufijo>/mes</PrecioSufijo>
                                 </PrecioRow>
-                                <PrecioNota>
-                                    {anual
-                                        ? `Facturado anualmente · ${formatCOP(plan.precio_ano * 12)}/año`
-                                        : "Sin permanencia · Cancela cuando quieras"}
-                                </PrecioNota>
+                                <PrecioNota>{precioNota(plan, periodo)}</PrecioNota>
                             </PrecioBloque>
 
                             {/* CTA */}
@@ -992,11 +1014,14 @@ export function PlanesTemplate() {
                             <PagoMiniEmoji>{planPago.emoji}</PagoMiniEmoji>
                             <div>
                                 <PagoMiniNombre $color={planPago.color}>Plan {planPago.nombre}</PagoMiniNombre>
-                                <PagoMiniPeriodo>{anual ? "Facturación anual · −20%" : "Facturación mensual"}</PagoMiniPeriodo>
+                                <PagoMiniPeriodo>
+                                    Facturación {PERIODOS.find(p => p.key === periodo)?.label.toLowerCase()}
+                                    {PERIODOS.find(p => p.key === periodo)?.ahorro && ` · ${PERIODOS.find(p => p.key === periodo)?.ahorro}`}
+                                </PagoMiniPeriodo>
                             </div>
                         </PagoMiniLeft>
                         <PagoMiniPrecio $color={planPago.color}>
-                            {formatCOP(anual ? planPago.precio_ano : planPago.precio_mes)}
+                            {formatCOP(planPago[`precio_${periodo}`])}
                             <PagoMiniPer>/mes</PagoMiniPer>
                         </PagoMiniPrecio>
                     </PagoMiniPlan>
@@ -1079,14 +1104,15 @@ export function PlanesTemplate() {
 
                         <PagoSubtotal $color={planPago.color}>
                             <PagoSubRow>
-                                <span>Plan {planPago.nombre} · {anual ? "Anual" : "Mensual"}</span>
-                                <span>{formatCOP(anual ? planPago.precio_ano : planPago.precio_mes)}/mes</span>
+                                <span>Plan {planPago.nombre} · {PERIODOS.find(p => p.key === periodo)?.label}</span>
+                                <span>{formatCOP(planPago[`precio_${periodo}`])}/mes</span>
                             </PagoSubRow>
-                            {anual && (
+                            {periodo !== "mensual" && (
                                 <PagoSubRow $highlight>
                                     <span>Total a facturar hoy</span>
                                     <span style={{ color: planPago.color, fontWeight: 900 }}>
-                                        {formatCOP(planPago.precio_ano * 12)}/año
+                                        {formatCOP(planPago[`precio_${periodo}`] * PERIODO_MESES[periodo])}
+                                        {periodo === "anual" ? "/año" : " total"}
                                     </span>
                                 </PagoSubRow>
                             )}
@@ -1728,33 +1754,28 @@ const StatLabel = styled.span`
 `;
 
 /* Toggle */
-const ToggleWrap = styled.div`
-    display: inline-flex; align-items: center; gap: 14px;
-`;
-
-const ToggleOpt = styled.span`
-    display: flex; align-items: center; gap: 8px;
-    font-size: 14px; font-weight: 700; cursor: pointer;
-    color: ${({ $active }) => $active ? "#fff" : "rgba(255,255,255,0.3)"};
-    transition: color 0.22s;
-`;
-
-const TogglePill = styled.div`
-    width: 52px; height: 28px;
+const PeriodoSelector = styled.div`
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 5px;
     border-radius: 999px;
-    background: ${({ $on }) => $on ? "linear-gradient(90deg, #3C6E9E, #2E5A80)" : "rgba(255,255,255,0.1)"};
-    border: 1.5px solid ${({ $on }) => $on ? "#2E5A8088" : "rgba(255,255,255,0.15)"};
-    position: relative; cursor: pointer;
-    transition: background 0.28s, border-color 0.28s;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    flex-wrap: wrap; justify-content: center;
 `;
 
-const ToggleThumb = styled.div`
-    position: absolute; top: 3px;
-    left: ${({ $on }) => $on ? "24px" : "3px"};
-    width: 18px; height: 18px;
-    border-radius: 50%; background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+const PeriodoBtn = styled.button`
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    white-space: nowrap;
+    color: ${({ $active }) => $active ? "#fff" : "rgba(255,255,255,0.45)"};
+    background: ${({ $active }) => $active ? "linear-gradient(90deg, #3C6E9E, #2E5A80)" : "transparent"};
+    transition: color 0.2s ease, background 0.2s ease;
+
+    &:hover { color: #fff; }
 `;
 
 const AhorroBadge = styled.span`

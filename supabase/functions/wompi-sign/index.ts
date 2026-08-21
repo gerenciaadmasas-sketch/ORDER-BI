@@ -13,6 +13,13 @@ const PLANES_COP: Record<string, { mes: number; ano_total: number }> = {
   cosmos: { mes: 249000, ano_total: 212000 * 12 },
 };
 
+// Debe coincidir con calcularPrecios() en src/supabase/crudConfigPlanes.jsx
+function totalMensualOBimestralOTrimestral(mesBase: number, billing: string): number {
+  if (billing === "trimestral") return Math.round((mesBase * 3 * 0.90) / 1000) * 1000;
+  if (billing === "bimestral")  return Math.round((mesBase * 2 * 0.95) / 1000) * 1000;
+  return mesBase; // mensual
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
 
@@ -28,7 +35,7 @@ serve(async (req) => {
     // Monto en centavos
     const amountInCents = billing === "anual"
       ? planData.ano_total * 100
-      : planData.mes * 100;
+      : totalMensualOBimestralOTrimestral(planData.mes, billing) * 100;
 
     // Referencia única
     const reference = `POS-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
