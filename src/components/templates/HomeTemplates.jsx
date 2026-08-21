@@ -51,7 +51,6 @@ const ROL_STYLE = {
 /* ── accesos por rol ── */
 const ACCESOS_SUPERADMIN = [
     { key: "saas",       icon: "solar:users-group-rounded-bold-duotone", label: "SaaS",        sub: "Gestión de clientes", to: "/saas",       accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: true  },
-    { key: "reportes",   icon: "solar:chart-square-bold-duotone",        label: "Clientes",    sub: "Ver reportes",        to: "/reportes",   accent: "#60a5fa", glow: "rgba(96,165,250,0.35)",   big: false },
     { key: "finanzas",   icon: "solar:dollar-minimalistic-bold-duotone", label: "Finanzas",    sub: "Rentabilidad",        to: "/finanzas",   accent: "#34d399", glow: "rgba(52,211,153,0.35)",   big: false },
     { key: "prospectos", icon: "solar:user-speak-bold-duotone",          label: "Leads",       sub: "Seguimiento",         to: "/prospectos", accent: "#818cf8", glow: "rgba(129,140,248,0.35)",  big: false },
     { key: "chat",       icon: "solar:chat-round-bold-duotone",          label: "Chat",        sub: "Mensajes",            to: "/chat",       accent: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   big: false },
