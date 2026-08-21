@@ -262,8 +262,8 @@ export function SaasTemplate() {
             ? new Date(s.fecha_proximo_pago).toLocaleDateString("es-CO", { day: "2-digit", month: "long" })
             : "";
         const msg = diasRestantes <= 0
-            ? `Hola ${s.nombre_cliente}, tu suscripción al *POS DL* venció el ${fecha}. Para renovarla y seguir usando el sistema, contáctanos. 🙌`
-            : `Hola ${s.nombre_cliente}, te recordamos que tu suscripción al *POS DL* vence el ${fecha} (en ${diasRestantes} día${diasRestantes !== 1 ? "s" : ""}). Si tienes dudas, escríbenos. ✅`;
+            ? `Hola ${s.nombre_cliente}, tu suscripción al *ORDER BI* venció el ${fecha}. Para renovarla y seguir usando el sistema, contáctanos. 🙌`
+            : `Hola ${s.nombre_cliente}, te recordamos que tu suscripción al *ORDER BI* vence el ${fecha} (en ${diasRestantes} día${diasRestantes !== 1 ? "s" : ""}). Si tienes dudas, escríbenos. ✅`;
         return `https://wa.me/57${tel}?text=${encodeURIComponent(msg)}`;
     }
 

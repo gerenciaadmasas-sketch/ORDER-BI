@@ -89,7 +89,7 @@ export function SoporteTemplate() {
             <ChatHeader>
                 <AvatarSoporte><Icon icon="ri:customer-service-2-fill" /></AvatarSoporte>
                 <HeaderInfo>
-                    <HeaderNombre>Soporte POS DL</HeaderNombre>
+                    <HeaderNombre>Soporte ORDER <b>BI</b></HeaderNombre>
                     <HeaderSub>Tiempo de respuesta: mismo día · {datausuarios?.nombres?.split(" ")[0]}</HeaderSub>
                 </HeaderInfo>
                 <OnlineDot />
@@ -175,7 +175,7 @@ const AvatarSoporte = styled.div`
 `;
 
 const HeaderInfo = styled.div`flex: 1;`;
-const HeaderNombre = styled.div`font-size: 15px; font-weight: 800; color: ${({ theme }) => theme.text};`;
+const HeaderNombre = styled.div`font-size: 15px; font-weight: 800; color: ${({ theme }) => theme.text}; b { color: #3C6E9E; }`;
 const HeaderSub    = styled.div`font-size: 11px; color: ${({ theme }) => theme.colorsubtitlecard}; margin-top: 2px;`;
 
 const OnlineDot = styled.div`

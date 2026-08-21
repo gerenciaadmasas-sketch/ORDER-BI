@@ -138,8 +138,8 @@ export function Sidebar({ state, setState, onNavClick }) {
                 <LogoImg $isopen={state}>
                     <img src={v.logo} alt="logo" />
                 </LogoImg>
-                {state && <LogoNombre>{dataempresa?.razon_social ?? "POS DL"}</LogoNombre>}
-                <LogoNombreMobile>{dataempresa?.razon_social ?? "POS DL"}</LogoNombreMobile>
+                {state && <LogoNombre>{dataempresa?.razon_social ?? <><LogoNombreOrder>ORDER</LogoNombreOrder> BI</>}</LogoNombre>}
+                <LogoNombreMobile>{dataempresa?.razon_social ?? <><LogoNombreOrder>ORDER</LogoNombreOrder> BI</>}</LogoNombreMobile>
                 {/* Botón cerrar — solo en móvil, se mueve con la animación del drawer */}
                 <BtnCerrarMobile onClick={onNavClick}>
                     <RiCloseLine />
@@ -332,6 +332,10 @@ const LogoNombre = styled.span`
     @media (max-width: 767px) {
         display: none;
     }
+`;
+
+const LogoNombreOrder = styled.span`
+    color: #fff;
 `;
 
 const LogoNombreMobile = styled.span`
