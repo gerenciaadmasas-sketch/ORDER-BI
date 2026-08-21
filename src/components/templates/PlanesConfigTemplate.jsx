@@ -1,9 +1,9 @@
 ﻿import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
+import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, EditarTextosTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
 import { toastExito } from "../../utils/toast";
-import { RiEditLine, RiCheckLine, RiCloseLine } from "react-icons/ri";
+import { RiEditLine, RiCheckLine, RiCloseLine, RiFileTextLine } from "react-icons/ri";
 import iconoGold from "../../assets/caballero.png";
 import iconoPro  from "../../assets/rey.png";
 
@@ -26,15 +26,25 @@ export function PlanesConfigTemplate() {
     const [bases, setBases]       = useState({});
     const [editando, setEditando] = useState(null);
     const [localF, setLocalF]     = useState({}); // {planId: [{label, activo}]}
+    const [textos, setTextos]         = useState({}); // {planId: {nombre, tagline, descripcion, para, cta_text}}
+    const [editandoTextos, setEditandoTextos] = useState(null);
 
     useEffect(() => {
-        const mapB = {}, mapF = {};
+        const mapB = {}, mapF = {}, mapT = {};
         planes.forEach(p => {
             mapB[p.id] = String(p.precio_base ?? 0);
             mapF[p.id] = p.features ?? [];
+            mapT[p.id] = {
+                nombre:      p.nombre ?? "",
+                tagline:     p.tagline ?? "",
+                descripcion: p.descripcion ?? "",
+                para:        p.para ?? "",
+                cta_text:    p.cta_text ?? "",
+            };
         });
         setBases(mapB);
         setLocalF(mapF);
+        setTextos(mapT);
     }, [planes]);
 
     const mutEditar = useMutation({
@@ -51,12 +61,25 @@ export function PlanesConfigTemplate() {
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["config-planes"] }),
     });
 
+    const mutTextos = useMutation({
+        mutationFn: (payload) => EditarTextosTier(payload),
+        onSuccess: () => {
+            toastExito("Textos del plan actualizados");
+            queryClient.invalidateQueries({ queryKey: ["config-planes"] });
+            setEditandoTextos(null);
+        },
+    });
+
     function toggleFeature(planId, idx) {
         const updated = (localF[planId] ?? []).map((f, i) =>
             i === idx ? { ...f, activo: !f.activo } : f
         );
         setLocalF({ ...localF, [planId]: updated });
         mutFeatures.mutate({ id: planId, features: updated });
+    }
+
+    function campoTexto(planId, campo, valor) {
+        setTextos(prev => ({ ...prev, [planId]: { ...prev[planId], [campo]: valor } }));
     }
 
     return (
@@ -78,10 +101,10 @@ export function PlanesConfigTemplate() {
                         <TierCard key={plan.id} $color={cfg.color} $glow={cfg.glow} $bg={cfg.bg} $border={cfg.border}>
                             <TierEmoji>
                                 {cfg.img
-                                    ? <img src={cfg.img} alt={cfg.nombre} style={{ width: 52, height: 52, objectFit: "contain" }} />
+                                    ? <img src={cfg.img} alt={plan.nombre || cfg.nombre} style={{ width: 52, height: 52, objectFit: "contain" }} />
                                     : cfg.emoji}
                             </TierEmoji>
-                            <TierNombre $color={cfg.color}>{cfg.nombre}</TierNombre>
+                            <TierNombre $color={cfg.color}>{plan.nombre || cfg.nombre}</TierNombre>
 
                             {/* Precio base editable */}
                             <BaseLabel>Precio base mensual</BaseLabel>
@@ -150,13 +173,55 @@ export function PlanesConfigTemplate() {
                                     </FeatureItem>
                                 ))}
                             </FeaturesList>
+
+                            {/* Textos de la card (nombre, tagline, descripción, "ideal para", botón) */}
+                            {editandoTextos === plan.id ? (
+                                <TextosEditWrap>
+                                    <CampoLabel>Nombre</CampoLabel>
+                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.nombre ?? ""}
+                                        onChange={e => campoTexto(plan.id, "nombre", e.target.value)} />
+
+                                    <CampoLabel>Tagline</CampoLabel>
+                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.tagline ?? ""}
+                                        onChange={e => campoTexto(plan.id, "tagline", e.target.value)} />
+
+                                    <CampoLabel>Descripción</CampoLabel>
+                                    <CampoTextarea $color={cfg.color} rows={2} value={textos[plan.id]?.descripcion ?? ""}
+                                        onChange={e => campoTexto(plan.id, "descripcion", e.target.value)} />
+
+                                    <CampoLabel>Ideal para</CampoLabel>
+                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.para ?? ""}
+                                        onChange={e => campoTexto(plan.id, "para", e.target.value)} />
+
+                                    <CampoLabel>Texto del botón</CampoLabel>
+                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.cta_text ?? ""}
+                                        onChange={e => campoTexto(plan.id, "cta_text", e.target.value)} />
+
+                                    <EditBtns>
+                                        <BtnOk
+                                            $color={cfg.color}
+                                            disabled={mutTextos.isPending}
+                                            onClick={() => mutTextos.mutate({ id: plan.id, ...textos[plan.id] })}
+                                        >
+                                            <RiCheckLine /> Guardar
+                                        </BtnOk>
+                                        <BtnCancel onClick={() => setEditandoTextos(null)}>
+                                            <RiCloseLine />
+                                        </BtnCancel>
+                                    </EditBtns>
+                                </TextosEditWrap>
+                            ) : (
+                                <BtnTextos onClick={() => setEditandoTextos(plan.id)}>
+                                    <RiFileTextLine /> Editar nombre, tagline y textos
+                                </BtnTextos>
+                            )}
                         </TierCard>
                     );
                 })}
             </Grid>
 
             <Nota>
-                Los cambios de precio se reflejan de inmediato en la landing. Los clientes existentes conservan el valor pactado al suscribirse — el nuevo precio aplica a partir del próximo ciclo de facturación que proceses.
+                Los cambios de precio, features, nombre y textos se reflejan de inmediato en la landing. Los clientes existentes conservan el valor pactado al suscribirse — el nuevo precio aplica a partir del próximo ciclo de facturación que proceses.
             </Nota>
         </Page>
     );
@@ -322,6 +387,46 @@ const FeatureTxt = styled.span`
     font-size: 12px; font-family: "Poppins", sans-serif;
     color: ${({ theme }) => theme.colorsubtitlecard};
     text-decoration: ${({ $activo }) => $activo ? "none" : "line-through"};
+`;
+
+/* ── Textos editables (nombre, tagline, descripción, para, cta) ── */
+const BtnTextos = styled.button`
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 8px; border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.15);
+    background: transparent; color: ${({ theme }) => theme.colorsubtitlecard};
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    transition: border-color 0.15s, color 0.15s;
+    &:hover { border-color: rgba(255,255,255,0.3); color: ${({ theme }) => theme.text}; }
+`;
+
+const TextosEditWrap = styled.div`
+    width: 100%; display: flex; flex-direction: column; gap: 6px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 14px;
+`;
+
+const CampoLabel = styled.div`
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: ${({ theme }) => theme.colorsubtitlecard};
+    margin-top: 4px;
+`;
+
+const CampoInput = styled.input`
+    width: 100%; padding: 8px 10px; border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
+    font-size: 12px; font-family: "Poppins", sans-serif; outline: none;
+    &:focus { border-color: ${({ $color }) => $color}; }
+`;
+
+const CampoTextarea = styled.textarea`
+    width: 100%; padding: 8px 10px; border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
+    font-size: 12px; font-family: "Poppins", sans-serif; outline: none; resize: vertical;
+    &:focus { border-color: ${({ $color }) => $color}; }
 `;
 
 const Nota = styled.div`

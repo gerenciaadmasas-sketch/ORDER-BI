@@ -368,14 +368,23 @@ export function PlanesTemplate() {
         return result;
     }, [configPlanes]);
 
-    // Precios dinámicos desde DB — se actualizan cuando el superadmin cambia config.
-    // Solo precio_mes viene de la DB; el resto de periodos se calculan al vuelo con
-    // totalPeriodo()/precioMensualEquivalente() para no arrastrar redondeos.
+    // Precios y textos dinámicos desde DB — se actualizan cuando el superadmin
+    // cambia config en /configuracion/planes. precio_mes es la única base para
+    // el resto de periodos, calculados al vuelo con totalPeriodo()/
+    // precioMensualEquivalente() para no arrastrar redondeos.
     const planesActivos = useMemo(() => {
         return PLANES.filter(p => !p.oculto).map(plan => {
             const dbPlan = configPlanes.find(p => p.tier === plan.id);
             const precio_mes = Number(dbPlan?.precio_base ?? plan.precio_mes);
-            return { ...plan, precio_mes };
+            return {
+                ...plan,
+                precio_mes,
+                nombre:  dbPlan?.nombre || plan.nombre,
+                tagline: dbPlan?.tagline || plan.tagline,
+                sub:     dbPlan?.descripcion || plan.sub,
+                para:    dbPlan?.para || plan.para,
+                ctaText: dbPlan?.cta_text || plan.ctaText,
+            };
         });
     }, [configPlanes]);
 

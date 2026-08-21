@@ -31,6 +31,14 @@ export async function EditarPrecioTier({ id, precio_base }) {
     if (error) { toastError(error.message, "Planes › Editar"); throw error; }
 }
 
+export async function EditarTextosTier({ id, nombre, tagline, descripcion, para, cta_text }) {
+    const { error } = await supabase
+        .from("config_planes")
+        .update({ nombre, tagline, descripcion, para, cta_text })
+        .eq("id", id);
+    if (error) { toastError(error.message, "Planes › Textos"); throw error; }
+}
+
 // Fórmulas de precio según ciclo de facturación
 export function calcularPrecios(precio_base) {
     const mensual    = precio_base;
