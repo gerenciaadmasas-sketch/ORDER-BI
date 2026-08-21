@@ -14,10 +14,10 @@ function totalMensualOBimestralOTrimestral(mesBase: number, billing: string): nu
   return mesBase; // mensual
 }
 
-// Debe coincidir con precio_ano en planesActivos de PlanesTemplate.jsx
+// Debe coincidir con totalPeriodo() en PlanesTemplate.jsx — un solo redondeo
+// sobre el total anual, no redondear el mensual y luego multiplicar por 12.
 function anoTotal(mesBase: number): number {
-  const mensualEquivalente = Math.round((mesBase * 0.85) / 1000) * 1000;
-  return mensualEquivalente * 12;
+  return Math.round((mesBase * 0.85 * 12) / 1000) * 1000;
 }
 
 serve(async (req) => {

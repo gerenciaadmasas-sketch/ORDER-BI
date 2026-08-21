@@ -725,7 +725,7 @@ export function PlanesTemplate() {
                             <PrecioBloque>
                                 <PrecioRow>
                                     <PrecioNum $color={plan.color}>
-                                        {formatCOP(precioDePlan(plan, periodo))}
+                                        {formatCOP(precioMensualEquivalente(plan, periodo))}
                                     </PrecioNum>
                                     <PrecioSufijo>/mes</PrecioSufijo>
                                 </PrecioRow>
@@ -1036,7 +1036,7 @@ export function PlanesTemplate() {
                             </div>
                         </PagoMiniLeft>
                         <PagoMiniPrecio $color={planPago.color}>
-                            {formatCOP(precioDePlan(planPago, periodo))}
+                            {formatCOP(precioMensualEquivalente(planPago, periodo))}
                             <PagoMiniPer>/mes</PagoMiniPer>
                         </PagoMiniPrecio>
                     </PagoMiniPlan>
@@ -1120,13 +1120,13 @@ export function PlanesTemplate() {
                         <PagoSubtotal $color={planPago.color}>
                             <PagoSubRow>
                                 <span>Plan {planPago.nombre} · {PERIODOS.find(p => p.key === periodo)?.label}</span>
-                                <span>{formatCOP(precioDePlan(planPago, periodo))}/mes</span>
+                                <span>{formatCOP(precioMensualEquivalente(planPago, periodo))}/mes</span>
                             </PagoSubRow>
                             {periodo !== "mensual" && (
                                 <PagoSubRow $highlight>
                                     <span>Total a facturar hoy</span>
                                     <span style={{ color: planPago.color, fontWeight: 900 }}>
-                                        {formatCOP(precioDePlan(planPago, periodo) * PERIODO_MESES[periodo])}
+                                        {formatCOP(totalPeriodo(planPago, periodo))}
                                         {periodo === "anual" ? "/año" : " total"}
                                     </span>
                                 </PagoSubRow>
