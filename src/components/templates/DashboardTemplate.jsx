@@ -458,6 +458,21 @@ export function DashboardTemplate() {
         return () => { supabase.removeChannel(channel); };
     }, [id_empresa, queryClient]);
 
+    // Suscripción real-time a cambios de inventario (almacen)
+    useEffect(() => {
+        if (!id_empresa || esCajero) return;
+        const ch = supabase
+            .channel(`almacen-rt-${id_empresa}`)
+            .on("postgres_changes", { event: "*", schema: "public", table: "almacen" },
+                () => {
+                    queryClient.invalidateQueries({ queryKey: ["dash-inversion", id_empresa] });
+                    queryClient.invalidateQueries({ queryKey: ["dash-estancados", id_empresa] });
+                }
+            )
+            .subscribe();
+        return () => { supabase.removeChannel(ch); };
+    }, [id_empresa, esCajero, queryClient]);
+
     return (
         <Page>
             {/* Encabezado */}
@@ -529,7 +544,7 @@ export function DashboardTemplate() {
                                         <Icon icon="solar:box-bold-duotone" style={{ fontSize: 20, color: "#f59e0b" }} />
                                     </StatTop>
                                     <StatVal>{formatCOP(inversion.costo)}</StatVal>
-                                    <PctNeutro>Ganancia potencial: <span style={{ color: "#4ade80", fontWeight: 800 }}>{formatCOP(inversion.valor - inversion.costo)}</span></PctNeutro>
+                                    <PctNeutro>Ganancia potencial: <span style={{ color: inversion.valor - inversion.costo >= 0 ? "#4ade80" : "#f87171", fontWeight: 800 }}>{formatCOP(inversion.valor - inversion.costo)}</span></PctNeutro>
                                 </StatCard>
                             )}
                         </StatsRow>
