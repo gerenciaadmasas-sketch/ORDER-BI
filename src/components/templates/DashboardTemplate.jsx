@@ -395,7 +395,8 @@ export function DashboardTemplate() {
     const { data: inversion = { costo: 0, valor: 0, productos: 0, unidades: 0 } } = useQuery({
         queryKey: ["dash-inversion", id_empresa, almacenEfectivo],
         queryFn: () => GetInversionInventario({ id_empresa, id_almacen: almacenEfectivo }),
-        enabled: !!id_empresa && !esCajero, refetchOnWindowFocus: false,
+        enabled: !!id_empresa && !esCajero,
+        staleTime: 0,
     });
 
     // Ventas diarias para gráfica
