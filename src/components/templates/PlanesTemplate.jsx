@@ -156,6 +156,11 @@ const ANUAL_VISIBLE = false;
 
 const PERIODO_MESES = { mensual: 1, bimestral: 2, trimestral: 3, anual: 12 };
 
+// Los campos del plan no siguen el mismo nombre que la key del periodo
+// (precio_mes, no precio_mensual; precio_ano, no precio_anual) — este mapa evita el desfase.
+const PERIODO_CAMPO = { mensual: "precio_mes", bimestral: "precio_bimestral", trimestral: "precio_trimestral", anual: "precio_ano" };
+const precioDePlan = (plan, periodo) => plan[PERIODO_CAMPO[periodo]];
+
 const PERIODOS = [
     { key: "mensual",    label: "Mensual" },
     { key: "bimestral",  label: "Bimestral",  ahorro: "−5%" },
@@ -166,7 +171,7 @@ const PERIODOS = [
 function precioNota(plan, periodo) {
     if (periodo === "mensual") return "Sin permanencia · Cancela cuando quieras";
     const meses = PERIODO_MESES[periodo];
-    const total = plan[`precio_${periodo}`] * meses;
+    const total = precioDePlan(plan, periodo) * meses;
     if (periodo === "anual") return `Facturado anualmente · ${formatCOP(total)}/año`;
     const ahorro = PERIODOS.find(p => p.key === periodo)?.ahorro;
     return `Facturado cada ${meses} meses · ${formatCOP(total)} total ${ahorro ? `· Ahorras ${ahorro.replace("−", "")}` : ""}`;
@@ -710,7 +715,7 @@ export function PlanesTemplate() {
                             <PrecioBloque>
                                 <PrecioRow>
                                     <PrecioNum $color={plan.color}>
-                                        {formatCOP(plan[`precio_${periodo}`])}
+                                        {formatCOP(precioDePlan(plan, periodo))}
                                     </PrecioNum>
                                     <PrecioSufijo>/mes</PrecioSufijo>
                                 </PrecioRow>
@@ -1021,7 +1026,7 @@ export function PlanesTemplate() {
                             </div>
                         </PagoMiniLeft>
                         <PagoMiniPrecio $color={planPago.color}>
-                            {formatCOP(planPago[`precio_${periodo}`])}
+                            {formatCOP(precioDePlan(planPago, periodo))}
                             <PagoMiniPer>/mes</PagoMiniPer>
                         </PagoMiniPrecio>
                     </PagoMiniPlan>
@@ -1105,13 +1110,13 @@ export function PlanesTemplate() {
                         <PagoSubtotal $color={planPago.color}>
                             <PagoSubRow>
                                 <span>Plan {planPago.nombre} · {PERIODOS.find(p => p.key === periodo)?.label}</span>
-                                <span>{formatCOP(planPago[`precio_${periodo}`])}/mes</span>
+                                <span>{formatCOP(precioDePlan(planPago, periodo))}/mes</span>
                             </PagoSubRow>
                             {periodo !== "mensual" && (
                                 <PagoSubRow $highlight>
                                     <span>Total a facturar hoy</span>
                                     <span style={{ color: planPago.color, fontWeight: 900 }}>
-                                        {formatCOP(planPago[`precio_${periodo}`] * PERIODO_MESES[periodo])}
+                                        {formatCOP(precioDePlan(planPago, periodo) * PERIODO_MESES[periodo])}
                                         {periodo === "anual" ? "/año" : " total"}
                                     </span>
                                 </PagoSubRow>
