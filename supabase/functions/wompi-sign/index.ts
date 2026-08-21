@@ -7,17 +7,17 @@ const CORS = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const PLANES_COP: Record<string, { mes: number; ano_total: number }> = {
-  chispa: { mes: 49000,  ano_total: 42000  * 12 },
-  fuego:  { mes: 129000, ano_total: 110000 * 12 },
-  cosmos: { mes: 249000, ano_total: 212000 * 12 },
-};
-
 // Debe coincidir con calcularPrecios() en src/supabase/crudConfigPlanes.jsx
 function totalMensualOBimestralOTrimestral(mesBase: number, billing: string): number {
   if (billing === "trimestral") return Math.round((mesBase * 3 * 0.90) / 1000) * 1000;
   if (billing === "bimestral")  return Math.round((mesBase * 2 * 0.95) / 1000) * 1000;
   return mesBase; // mensual
+}
+
+// Debe coincidir con precio_ano en planesActivos de PlanesTemplate.jsx
+function anoTotal(mesBase: number): number {
+  const mensualEquivalente = Math.round((mesBase * 0.85) / 1000) * 1000;
+  return mensualEquivalente * 12;
 }
 
 serve(async (req) => {
@@ -29,13 +29,30 @@ serve(async (req) => {
       empresa, telefono, cedula, actividad_economica,
     } = await req.json();
 
-    const planData = PLANES_COP[plan];
-    if (!planData) throw new Error(`Plan inválido: ${plan}`);
+    // Cliente con service role — se usa primero para leer el precio vigente
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+
+    // Precio real desde config_planes — nunca hardcodeado, así nunca se desincroniza
+    // del precio que edita el superadmin en /configuracion/planes.
+    const { data: planRow, error: planErr } = await supabase
+      .from("config_planes")
+      .select("precio_base")
+      .eq("tier", plan)
+      .maybeSingle();
+
+    if (planErr) throw new Error(`Error consultando el plan: ${planErr.message}`);
+    if (!planRow) throw new Error(`Plan inválido: ${plan}`);
+
+    const mesBase = Number(planRow.precio_base) || 0;
+    if (mesBase <= 0) throw new Error(`Plan sin precio configurado: ${plan}`);
 
     // Monto en centavos
     const amountInCents = billing === "anual"
-      ? planData.ano_total * 100
-      : totalMensualOBimestralOTrimestral(planData.mes, billing) * 100;
+      ? anoTotal(mesBase) * 100
+      : totalMensualOBimestralOTrimestral(mesBase, billing) * 100;
 
     // Referencia única
     const reference = `POS-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
@@ -50,11 +67,6 @@ serve(async (req) => {
       .join("");
 
     // Guardar transacción pendiente
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
-
     await supabase.from("wompi_transacciones_pendientes").insert({
       reference, plan, billing,
       nombre, apellido, email,
