@@ -5,7 +5,7 @@ import { useEmpresaStore } from "../../store/EmpresaStore";
 import { useUsuariosStore } from "../../store/UsuariosStore";
 import { MostrarSucursales, InsertarSucursal, EditarSucursal, EliminarSucursal } from "../../supabase/crudSucursales";
 import { MostrarAlmacenesPorEmpresa, InsertarAlmacen, EditarAlmacen, EliminarAlmacen, SubirLogoAlmacen } from "../../supabase/crudAlmacenesConfig";
-import { RiEditLine, RiDeleteBin2Line, RiAddLine, RiCloseLine, RiImageAddLine, RiStoreLine, RiErrorWarningLine } from "react-icons/ri";
+import { RiEditLine, RiDeleteBin2Line, RiAddLine, RiCloseLine, RiImageAddLine, RiStoreLine, RiErrorWarningLine, RiVipCrownLine } from "react-icons/ri";
 import { toastExito, confirmar } from "../../utils/toast";
 import { usePlan } from "../../hooks/usePlan";
 
@@ -17,6 +17,7 @@ export function SucursalesCajasTemplate() {
     const esSupervisor = datausuarios?.tipo === "supervisor";
     const { limites, tipoPlan } = usePlan();
 
+    const [modalLimite, setModalLimite] = useState(false);
     const [modalSuc, setModalSuc] = useState(false);
     const [editSuc, setEditSuc]   = useState(null);
     const [nombreSuc, setNombreSuc] = useState("");
@@ -85,7 +86,10 @@ export function SucursalesCajasTemplate() {
     });
 
     // ── Modal helpers ──
-    function abrirNuevaSuc() { setNombreSuc(""); setDirSuc(""); setEditSuc(null); setModalSuc(true); }
+    function abrirNuevaSuc() {
+        if (limiteAlmAlcanzado) { setModalLimite(true); return; }
+        setNombreSuc(""); setDirSuc(""); setEditSuc(null); setModalSuc(true);
+    }
     function abrirEditarSuc(s) { setNombreSuc(s.razon_social ?? ""); setDirSuc(s.direccion ?? ""); setEditSuc(s); setModalSuc(true); }
     function cerrarModalSuc() { setModalSuc(false); setEditSuc(null); }
 
@@ -190,9 +194,8 @@ export function SucursalesCajasTemplate() {
                                 ))}
 
                                 <BtnAgregarAlm
-                                    onClick={() => !limiteAlmAlcanzado && abrirNuevoAlm(suc.id)}
+                                    onClick={() => limiteAlmAlcanzado ? setModalLimite(true) : abrirNuevoAlm(suc.id)}
                                     $bloqueado={limiteAlmAlcanzado}
-                                    title={limiteAlmAlcanzado ? `Límite de ${limites.max_almacenes} almacén(es) alcanzado` : ""}
                                 >
                                     <RiAddLine /> {limiteAlmAlcanzado ? `Límite alcanzado (${limites.max_almacenes} máx.)` : "agregar almacén"}
                                 </BtnAgregarAlm>
@@ -201,6 +204,25 @@ export function SucursalesCajasTemplate() {
                     );
                 })}
             </Grid>
+
+            {/* ── Modal Límite de Plan ── */}
+            {modalLimite && (
+                <Overlay onClick={() => setModalLimite(false)}>
+                    <ModalLimite onClick={e => e.stopPropagation()}>
+                        <BtnCerrar onClick={() => setModalLimite(false)} style={{ alignSelf: "flex-end" }}><RiCloseLine /></BtnCerrar>
+                        <LimiteIcono><RiVipCrownLine /></LimiteIcono>
+                        <LimiteTitulo>Límite del plan alcanzado</LimiteTitulo>
+                        <LimiteTexto>
+                            Tu plan <strong>{tipoPlan}</strong> permite hasta{" "}
+                            <strong>{limites.max_almacenes} almacén{limites.max_almacenes !== 1 ? "es" : ""}</strong>.
+                            Ya tienes <strong>{almacenes.length}</strong>. Actualiza tu plan para seguir creciendo.
+                        </LimiteTexto>
+                        <LimiteCTA onClick={() => { setModalLimite(false); window.open("/", "_blank"); }}>
+                            <RiVipCrownLine /> Ver planes de upgrade
+                        </LimiteCTA>
+                    </ModalLimite>
+                </Overlay>
+            )}
 
             {/* ── Modal Sucursal ── */}
             {modalSuc && (
@@ -398,6 +420,49 @@ const Overlay = styled.div`
     background: rgba(0,0,0,0.55);
     display: flex; align-items: center; justify-content: center;
     z-index: 300;
+`;
+
+const ModalLimite = styled.div`
+    background: ${({ theme }) => theme.bg};
+    border: 1.5px solid rgba(248,113,113,0.35);
+    border-radius: 24px;
+    padding: 36px 32px 32px;
+    width: 100%; max-width: 380px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(248,113,113,0.15);
+`;
+
+const LimiteIcono = styled.div`
+    font-size: 48px;
+    color: #fbbf24;
+    line-height: 1;
+`;
+
+const LimiteTitulo = styled.h2`
+    font-size: 18px; font-weight: 900;
+    font-family: "Poppins", sans-serif;
+    color: ${({ theme }) => theme.text};
+    margin: 0;
+`;
+
+const LimiteTexto = styled.p`
+    font-size: 13px; line-height: 1.6;
+    color: ${({ theme }) => theme.colorsubtitlecard};
+    margin: 0;
+    strong { color: ${({ theme }) => theme.text}; }
+`;
+
+const LimiteCTA = styled.button`
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border-radius: 14px; border: none;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1a1000; font-size: 14px; font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer; margin-top: 6px;
+    transition: opacity 0.15s, transform 0.15s;
+    &:hover { opacity: 0.9; transform: translateY(-1px); }
+    svg { font-size: 16px; }
 `;
 
 const Modal = styled.div`
