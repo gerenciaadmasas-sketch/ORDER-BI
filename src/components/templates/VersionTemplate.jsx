@@ -19,6 +19,13 @@ export function VersionTemplate() {
 
     const actual = versiones[0];
 
+    function siguienteVersion() {
+        const ultima = versiones[0]?.version ?? "";
+        const match = ultima.match(/(\d+)\s*$/);
+        if (!match) return "ORDER BI.v1";
+        return ultima.slice(0, match.index) + (Number(match[1]) + 1);
+    }
+
     const mutEditar = useMutation({
         mutationFn: () => EditarVersion({ id: editando.id, ...form }),
         onSuccess: () => { toastExito("Versión actualizada"); queryClient.invalidateQueries({ queryKey: ["config-version"] }); cerrar(); },
@@ -36,7 +43,7 @@ export function VersionTemplate() {
     }
 
     function abrirNueva() {
-        setForm({ version: "", descripcion: "" });
+        setForm({ version: siguienteVersion(), descripcion: "" });
         setEditando(null);
         setModal(true);
     }
@@ -91,13 +98,20 @@ export function VersionTemplate() {
                 <Overlay onClick={cerrar}>
                     <Modal onClick={e => e.stopPropagation()}>
                         <ModalHeader>
-                            <span>Editar versión</span>
+                            <span>{editando ? "Editar versión" : "Nueva versión"}</span>
                             <BtnCerrar onClick={cerrar}><RiCloseLine /></BtnCerrar>
                         </ModalHeader>
                         <ModalForm onSubmit={handleGuardar}>
                             <Campo>
-                                <label>Versión</label>
-                                <Input value={form.version} onChange={e => setForm({ ...form, version: e.target.value })} placeholder="Ej: ORDER BI.v3" required />
+                                <label>Versión {!editando && "(automático)"}</label>
+                                <Input
+                                    value={form.version}
+                                    onChange={e => setForm({ ...form, version: e.target.value })}
+                                    placeholder="Ej: ORDER BI.v3"
+                                    readOnly={!editando}
+                                    $readOnly={!editando}
+                                    required
+                                />
                             </Campo>
                             <Campo>
                                 <label>Notas de actualización</label>
@@ -228,9 +242,11 @@ const Campo = styled.div`
 const Input = styled.input`
     padding: 10px 14px; border-radius: 10px;
     border: 1.5px solid ${({ theme }) => theme.color2};
-    background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
+    background: ${({ $readOnly, theme }) => $readOnly ? theme.bgcards : theme.bgtotal};
+    color: ${({ $readOnly, theme }) => $readOnly ? theme.colorsubtitlecard : theme.text};
     font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: #3C6E9E; }
+    cursor: ${({ $readOnly }) => $readOnly ? "default" : "text"};
+    &:focus { border-color: ${({ $readOnly }) => $readOnly ? "inherit" : "#3C6E9E"}; }
 `;
 
 const Textarea = styled.textarea`
