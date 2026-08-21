@@ -1,5 +1,6 @@
 import { toastError } from "../utils/toast";
 import { supabase } from "../index";
+import { InsertarMovimientoKardex } from "./crudKardex";
 const tabla = "productos";
 
 export async function InsertarProducto(p) {
@@ -8,6 +9,31 @@ export async function InsertarProducto(p) {
         toastError(error.message, "Productos › Insertar");
         throw new Error(error.message);
     }
+
+    // Si el producto maneja inventario y arrancó con stock, registrar la "entrada" en Kardex
+    const stockInicial = Number(p._stock) || 0;
+    if (p._maneja_inventarios && stockInicial > 0 && data) {
+        const { data: almacenRow } = await supabase
+            .from("almacen")
+            .select("id_almacen, id_sucursal, stock")
+            .eq("id_producto", data)
+            .maybeSingle();
+        if (almacenRow) {
+            await InsertarMovimientoKardex({
+                id_empresa:      p._id_empresa,
+                id_sucursal:     almacenRow.id_sucursal,
+                id_almacen:      almacenRow.id_almacen,
+                id_producto:     data,
+                nombre_producto: p._nombre,
+                tipo:            "entrada",
+                cantidad:        stockInicial,
+                stock_anterior:  0,
+                stock_nuevo:     almacenRow.stock,
+                descripcion:     "Stock inicial al crear el producto",
+            });
+        }
+    }
+
     return data;
 }
 
