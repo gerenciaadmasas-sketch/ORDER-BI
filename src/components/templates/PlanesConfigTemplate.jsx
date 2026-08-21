@@ -1,19 +1,20 @@
-﻿import { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import { useState } from "react";
+import styled, { keyframes, css } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, EditarTextosTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
 import { toastExito } from "../../utils/toast";
-import { RiEditLine, RiCheckLine, RiCloseLine, RiFileTextLine } from "react-icons/ri";
+import { RiEditLine, RiCheckLine, RiCloseLine } from "react-icons/ri";
 import iconoGold from "../../assets/caballero.png";
 import iconoPro  from "../../assets/rey.png";
 
 const formatCOP = (n) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n ?? 0);
 
+// Mismos valores de marca que usa la landing (PlanesTemplate.jsx → PLANES) — para
+// que estas cards se vean exactamente igual, no una versión aparte.
 const TIERS = {
-    chispa: { img: iconoGold, nombre: "Gold",   color: "#fbbf24", glow: "rgba(251,191,36,0.35)",   bg: "rgba(251,191,36,0.06)",   border: "rgba(251,191,36,0.2)"   },
-    fuego:  { img: iconoPro,  nombre: "Pro",    color: "#3C6E9E", glow: "rgba(60,110,158,0.35)",   bg: "rgba(60,110,158,0.06)",   border: "rgba(60,110,158,0.2)"   },
-    cosmos: { emoji: "🌌",   nombre: "Cosmos", color: "#818cf8", glow: "rgba(129,140,248,0.35)",  bg: "rgba(129,140,248,0.06)",  border: "rgba(129,140,248,0.2)"  },
+    chispa: { img: iconoGold, nombre: "Gold", popular: false, color: "#C4A882", colorAlt: "#A8885E", glow: "rgba(196,168,130,0.35)" },
+    fuego:  { img: iconoPro,  nombre: "Pro",  popular: true,  color: "#3C6E9E", colorAlt: "#2E5A80", glow: "rgba(60,110,158,0.5)"   },
 };
 
 export function PlanesConfigTemplate() {
@@ -23,36 +24,18 @@ export function PlanesConfigTemplate() {
         queryFn: MostrarConfigPlanes,
     });
 
-    const [bases, setBases]       = useState({});
-    const [editando, setEditando] = useState(null);
-    const [localF, setLocalF]     = useState({}); // {planId: [{label, activo}]}
-    const [textos, setTextos]         = useState({}); // {planId: {nombre, tagline, descripcion, para, cta_text}}
-    const [editandoTextos, setEditandoTextos] = useState(null);
+    const [editandoPrecio, setEditandoPrecio] = useState(null); // planId
+    const [precioDraft, setPrecioDraft]       = useState("");
 
-    useEffect(() => {
-        const mapB = {}, mapF = {}, mapT = {};
-        planes.forEach(p => {
-            mapB[p.id] = String(p.precio_base ?? 0);
-            mapF[p.id] = p.features ?? [];
-            mapT[p.id] = {
-                nombre:      p.nombre ?? "",
-                tagline:     p.tagline ?? "",
-                descripcion: p.descripcion ?? "",
-                para:        p.para ?? "",
-                cta_text:    p.cta_text ?? "",
-            };
-        });
-        setBases(mapB);
-        setLocalF(mapF);
-        setTextos(mapT);
-    }, [planes]);
+    const [editandoCampo, setEditandoCampo] = useState(null); // `${planId}:${campo}`
+    const [draft, setDraft]                 = useState("");
 
-    const mutEditar = useMutation({
+    const mutPrecio = useMutation({
         mutationFn: ({ id, precio_base }) => EditarPrecioTier({ id, precio_base }),
         onSuccess: () => {
             toastExito("Precio base actualizado");
             queryClient.invalidateQueries({ queryKey: ["config-planes"] });
-            setEditando(null);
+            setEditandoPrecio(null);
         },
     });
 
@@ -64,166 +47,217 @@ export function PlanesConfigTemplate() {
     const mutTextos = useMutation({
         mutationFn: (payload) => EditarTextosTier(payload),
         onSuccess: () => {
-            toastExito("Textos del plan actualizados");
+            toastExito("Actualizado");
             queryClient.invalidateQueries({ queryKey: ["config-planes"] });
-            setEditandoTextos(null);
+            setEditandoCampo(null);
         },
     });
 
-    function toggleFeature(planId, idx) {
-        const updated = (localF[planId] ?? []).map((f, i) =>
-            i === idx ? { ...f, activo: !f.activo } : f
-        );
-        setLocalF({ ...localF, [planId]: updated });
-        mutFeatures.mutate({ id: planId, features: updated });
+    function abrirPrecio(plan) {
+        setEditandoPrecio(plan.id);
+        setPrecioDraft(String(plan.precio_base ?? 0));
     }
 
-    function campoTexto(planId, campo, valor) {
-        setTextos(prev => ({ ...prev, [planId]: { ...prev[planId], [campo]: valor } }));
+    function abrirCampo(plan, campo) {
+        setEditandoCampo(`${plan.id}:${campo}`);
+        setDraft(plan[campo] ?? "");
+    }
+
+    function guardarCampo(plan, campo) {
+        mutTextos.mutate({
+            id:          plan.id,
+            nombre:      campo === "nombre"      ? draft : (plan.nombre ?? ""),
+            tagline:     campo === "tagline"     ? draft : (plan.tagline ?? ""),
+            descripcion: campo === "descripcion" ? draft : (plan.descripcion ?? ""),
+            para:        campo === "para"        ? draft : (plan.para ?? ""),
+            cta_text:    campo === "cta_text"    ? draft : (plan.cta_text ?? ""),
+        });
+    }
+
+    function toggleFeature(plan, idx) {
+        const updated = (plan.features ?? []).map((f, i) =>
+            i === idx ? { ...f, activo: !f.activo } : f
+        );
+        mutFeatures.mutate({ id: plan.id, features: updated });
     }
 
     return (
         <Page>
             <TopBar>
                 <h1>Configuración de planes</h1>
-                <p>Define el precio base mensual de cada tier — los precios bimestral y trimestral se calculan automáticamente</p>
+                <p>Las cards se ven igual que en la landing. Todo lo que edites aquí (menos la imagen) se refleja ahí en vivo — usa el lápiz de cada campo.</p>
             </TopBar>
 
-            <Grid>
+            <CardsSection>
                 {planes.filter(p => p.tier !== "cosmos").map(plan => {
                     const cfg = TIERS[plan.tier] ?? TIERS.chispa;
-                    const enEdicion = editando === plan.id;
-                    const baseVal   = bases[plan.id];
-                    const baseNum   = (baseVal != null && baseVal !== "") ? (Number(baseVal) || 0) : (plan.precio_base ?? 0);
-                    const precios   = calcularPrecios(baseNum);
+                    const enEdicionPrecio = editandoPrecio === plan.id;
+                    const baseNum = enEdicionPrecio ? (Number(precioDraft) || 0) : (plan.precio_base ?? 0);
+                    const precios = calcularPrecios(baseNum);
 
                     return (
-                        <TierCard key={plan.id} $color={cfg.color} $glow={cfg.glow} $bg={cfg.bg} $border={cfg.border}>
-                            <TierEmoji>
-                                {cfg.img
-                                    ? <img src={cfg.img} alt={plan.nombre || cfg.nombre} style={{ width: 52, height: 52, objectFit: "contain" }} />
-                                    : cfg.emoji}
-                            </TierEmoji>
-                            <TierNombre $color={cfg.color}>{plan.nombre || cfg.nombre}</TierNombre>
+                        <PlanCard key={plan.id} $color={cfg.color} $glow={cfg.glow} $popular={cfg.popular}>
+                            <PlanAccentBar $color={cfg.color} $popular={cfg.popular} />
+                            {cfg.popular && <PopularBand>⭐ El más elegido</PopularBand>}
 
-                            {/* Precio base editable */}
-                            <BaseLabel>Precio base mensual</BaseLabel>
-                            {enEdicion ? (
-                                <EditWrap>
-                                    <BaseInput
-                                        type="number"
-                                        min="0"
-                                        step="1000"
-                                        value={bases[plan.id] ?? ""}
-                                        onChange={e => { const v = e.target.value; setBases(prev => ({ ...prev, [plan.id]: v })); }}
-                                        autoFocus
-                                        $color={cfg.color}
+                            <CardInner>
+                                {/* Cabecera — la imagen no se edita, el resto sí */}
+                                <PlanTopRow>
+                                    <PlanEmojiBox $color={cfg.color} $glow={cfg.glow}>
+                                        <img src={cfg.img} alt={plan.nombre || cfg.nombre} />
+                                    </PlanEmojiBox>
+                                    <PlanInfo>
+                                        <CampoEditable
+                                            styleAs={PlanNombre} $color={cfg.color}
+                                            valor={plan.nombre || cfg.nombre}
+                                            editando={editandoCampo === `${plan.id}:nombre`}
+                                            draft={draft} setDraft={setDraft}
+                                            onAbrir={() => abrirCampo(plan, "nombre")}
+                                            onGuardar={() => guardarCampo(plan, "nombre")}
+                                            onCancelar={() => setEditandoCampo(null)}
+                                            pending={mutTextos.isPending}
+                                        />
+                                        <CampoEditable
+                                            styleAs={PlanTaglineNew}
+                                            valor={plan.tagline || cfg.nombre}
+                                            editando={editandoCampo === `${plan.id}:tagline`}
+                                            draft={draft} setDraft={setDraft}
+                                            onAbrir={() => abrirCampo(plan, "tagline")}
+                                            onGuardar={() => guardarCampo(plan, "tagline")}
+                                            onCancelar={() => setEditandoCampo(null)}
+                                            pending={mutTextos.isPending}
+                                        />
+                                    </PlanInfo>
+                                </PlanTopRow>
+
+                                <CampoEditable
+                                    styleAs={PlanDescNew} multiline
+                                    valor={plan.descripcion}
+                                    editando={editandoCampo === `${plan.id}:descripcion`}
+                                    draft={draft} setDraft={setDraft}
+                                    onAbrir={() => abrirCampo(plan, "descripcion")}
+                                    onGuardar={() => guardarCampo(plan, "descripcion")}
+                                    onCancelar={() => setEditandoCampo(null)}
+                                    pending={mutTextos.isPending}
+                                />
+
+                                {/* Precio — click al lápiz para editar el mensual, bimestral/trimestral se calculan solos */}
+                                <PrecioBloque>
+                                    {enEdicionPrecio ? (
+                                        <PrecioEditRow>
+                                            <PrecioInput
+                                                type="number" min="0" step="1000" autoFocus
+                                                $color={cfg.color}
+                                                value={precioDraft}
+                                                onChange={e => setPrecioDraft(e.target.value)}
+                                            />
+                                            <PencilOk $color={cfg.color} disabled={mutPrecio.isPending}
+                                                onClick={() => mutPrecio.mutate({ id: plan.id, precio_base: precioDraft })}>
+                                                <RiCheckLine />
+                                            </PencilOk>
+                                            <PencilCancel onClick={() => setEditandoPrecio(null)}><RiCloseLine /></PencilCancel>
+                                        </PrecioEditRow>
+                                    ) : (
+                                        <PrecioRow>
+                                            <PrecioNum $color={cfg.color}>{formatCOP(plan.precio_base)}</PrecioNum>
+                                            <PrecioSufijo>/mes</PrecioSufijo>
+                                            <PencilBtn onClick={() => abrirPrecio(plan)}><RiEditLine /></PencilBtn>
+                                        </PrecioRow>
+                                    )}
+
+                                    {/* Desglose por periodo — mismo lugar de siempre, se recalcula solo */}
+                                    <DerivadosList>
+                                        <DerivadoItem>
+                                            <DerivadoLabel>Mensual</DerivadoLabel>
+                                            <DerivadoVal $color={cfg.color}>{formatCOP(precios.mensual)}</DerivadoVal>
+                                        </DerivadoItem>
+                                        <DerivadoItem>
+                                            <DerivadoLabel>Bimestral <Descuento>−5%</Descuento></DerivadoLabel>
+                                            <DerivadoVal $color={cfg.color}>{formatCOP(precios.bimestral)}</DerivadoVal>
+                                        </DerivadoItem>
+                                        <DerivadoItem>
+                                            <DerivadoLabel>Trimestral <Descuento>−10%</Descuento></DerivadoLabel>
+                                            <DerivadoVal $color={cfg.color}>{formatCOP(precios.trimestral)}</DerivadoVal>
+                                        </DerivadoItem>
+                                    </DerivadosList>
+                                </PrecioBloque>
+
+                                {/* CTA — solo texto editable, no navega a pago aquí */}
+                                {editandoCampo === `${plan.id}:cta_text` ? (
+                                    <CampoInlineRow>
+                                        <CampoInlineInput $color={cfg.color} autoFocus value={draft} onChange={e => setDraft(e.target.value)} />
+                                        <PencilOk $color={cfg.color} disabled={mutTextos.isPending} onClick={() => guardarCampo(plan, "cta_text")}><RiCheckLine /></PencilOk>
+                                        <PencilCancel onClick={() => setEditandoCampo(null)}><RiCloseLine /></PencilCancel>
+                                    </CampoInlineRow>
+                                ) : (
+                                    <BtnPlanWrap>
+                                        <BtnPlan $color={cfg.color} $colorAlt={cfg.colorAlt} $glow={cfg.glow}>
+                                            {plan.cta_text || `Empezar con ${plan.nombre || cfg.nombre}`}
+                                        </BtnPlan>
+                                        <PencilBtn $sobreBoton onClick={() => abrirCampo(plan, "cta_text")}><RiEditLine /></PencilBtn>
+                                    </BtnPlanWrap>
+                                )}
+
+                                {/* Features — click directo para activar/desactivar, igual que antes */}
+                                <PlanIncluye>Incluye:</PlanIncluye>
+                                <FeatureList>
+                                    {(plan.features ?? []).map((f, i) => (
+                                        <FeatureRow key={i} $ok={f.activo} onClick={() => toggleFeature(plan, i)} title={f.activo ? "Desactivar" : "Activar"}>
+                                            <FeatureIco $ok={f.activo} $color={cfg.color}>
+                                                {f.activo ? <RiCheckLine /> : <RiCloseLine />}
+                                            </FeatureIco>
+                                            <span>{f.label}</span>
+                                        </FeatureRow>
+                                    ))}
+                                </FeatureList>
+
+                                <PlanParaWrap>
+                                    Ideal para:{" "}
+                                    <CampoEditable
+                                        styleAs={PlanParaText}
+                                        valor={plan.para}
+                                        editando={editandoCampo === `${plan.id}:para`}
+                                        draft={draft} setDraft={setDraft}
+                                        onAbrir={() => abrirCampo(plan, "para")}
+                                        onGuardar={() => guardarCampo(plan, "para")}
+                                        onCancelar={() => setEditandoCampo(null)}
+                                        pending={mutTextos.isPending}
+                                        inline
                                     />
-                                    <EditBtns>
-                                        <BtnOk
-                                            $color={cfg.color}
-                                            onClick={() => mutEditar.mutate({ id: plan.id, precio_base: bases[plan.id] })}
-                                            disabled={mutEditar.isPending}
-                                        >
-                                            <RiCheckLine /> Guardar
-                                        </BtnOk>
-                                        <BtnCancel onClick={() => setEditando(null)}>
-                                            <RiCloseLine />
-                                        </BtnCancel>
-                                    </EditBtns>
-                                </EditWrap>
-                            ) : (
-                                <PrecioBase $color={cfg.color} onClick={() => setEditando(plan.id)}>
-                                    {formatCOP(plan.precio_base)}
-                                    <EditIcon $color={cfg.color}><RiEditLine /></EditIcon>
-                                </PrecioBase>
-                            )}
-
-                            {/* Precios derivados — se actualizan en tiempo real al escribir */}
-                            <DerivadosList>
-                                <DerivadoItem>
-                                    <DerivadoLabel>Mensual</DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.mensual)}</DerivadoVal>
-                                </DerivadoItem>
-                                <DerivadoItem>
-                                    <DerivadoLabel>Bimestral <Descuento>−5%</Descuento></DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.bimestral)}</DerivadoVal>
-                                </DerivadoItem>
-                                <DerivadoItem>
-                                    <DerivadoLabel>Trimestral <Descuento>−10%</Descuento></DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.trimestral)}</DerivadoVal>
-                                </DerivadoItem>
-                            </DerivadosList>
-
-                            {/* Features del tier — click para activar/desactivar */}
-                            <FeatureHint>Click para activar / desactivar</FeatureHint>
-                            <FeaturesList>
-                                {(localF[plan.id] ?? []).map((f, i) => (
-                                    <FeatureItem
-                                        key={i}
-                                        $activo={f.activo}
-                                        $color={cfg.color}
-                                        onClick={() => toggleFeature(plan.id, i)}
-                                        title={f.activo ? "Desactivar" : "Activar"}
-                                    >
-                                        <FeatureCheck $activo={f.activo} $color={cfg.color}>
-                                            {f.activo ? <RiCheckLine /> : <RiCloseLine />}
-                                        </FeatureCheck>
-                                        <FeatureTxt $activo={f.activo}>{f.label}</FeatureTxt>
-                                    </FeatureItem>
-                                ))}
-                            </FeaturesList>
-
-                            {/* Textos de la card (nombre, tagline, descripción, "ideal para", botón) */}
-                            {editandoTextos === plan.id ? (
-                                <TextosEditWrap>
-                                    <CampoLabel>Nombre</CampoLabel>
-                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.nombre ?? ""}
-                                        onChange={e => campoTexto(plan.id, "nombre", e.target.value)} />
-
-                                    <CampoLabel>Tagline</CampoLabel>
-                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.tagline ?? ""}
-                                        onChange={e => campoTexto(plan.id, "tagline", e.target.value)} />
-
-                                    <CampoLabel>Descripción</CampoLabel>
-                                    <CampoTextarea $color={cfg.color} rows={2} value={textos[plan.id]?.descripcion ?? ""}
-                                        onChange={e => campoTexto(plan.id, "descripcion", e.target.value)} />
-
-                                    <CampoLabel>Ideal para</CampoLabel>
-                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.para ?? ""}
-                                        onChange={e => campoTexto(plan.id, "para", e.target.value)} />
-
-                                    <CampoLabel>Texto del botón</CampoLabel>
-                                    <CampoInput $color={cfg.color} value={textos[plan.id]?.cta_text ?? ""}
-                                        onChange={e => campoTexto(plan.id, "cta_text", e.target.value)} />
-
-                                    <EditBtns>
-                                        <BtnOk
-                                            $color={cfg.color}
-                                            disabled={mutTextos.isPending}
-                                            onClick={() => mutTextos.mutate({ id: plan.id, ...textos[plan.id] })}
-                                        >
-                                            <RiCheckLine /> Guardar
-                                        </BtnOk>
-                                        <BtnCancel onClick={() => setEditandoTextos(null)}>
-                                            <RiCloseLine />
-                                        </BtnCancel>
-                                    </EditBtns>
-                                </TextosEditWrap>
-                            ) : (
-                                <BtnTextos onClick={() => setEditandoTextos(plan.id)}>
-                                    <RiFileTextLine /> Editar nombre, tagline y textos
-                                </BtnTextos>
-                            )}
-                        </TierCard>
+                                </PlanParaWrap>
+                            </CardInner>
+                        </PlanCard>
                     );
                 })}
-            </Grid>
+            </CardsSection>
 
             <Nota>
                 Los cambios de precio, features, nombre y textos se reflejan de inmediato en la landing. Los clientes existentes conservan el valor pactado al suscribirse — el nuevo precio aplica a partir del próximo ciclo de facturación que proceses.
             </Nota>
         </Page>
+    );
+}
+
+/* ─────────────────────────────────────────
+   Campo de texto con lápiz — click al lápiz para editar inline,
+   check para guardar, X para cancelar sin guardar.
+───────────────────────────────────────── */
+function CampoEditable({ styleAs: Display, valor, editando, draft, setDraft, onAbrir, onGuardar, onCancelar, pending, multiline, inline, $color }) {
+    if (editando) {
+        const Input = multiline ? CampoInlineTextarea : CampoInlineInput;
+        return (
+            <CampoInlineRow $inline={inline}>
+                <Input $color={$color} autoFocus value={draft} onChange={e => setDraft(e.target.value)} />
+                <PencilOk $color={$color} disabled={pending} onClick={onGuardar}><RiCheckLine /></PencilOk>
+                <PencilCancel onClick={onCancelar}><RiCloseLine /></PencilCancel>
+            </CampoInlineRow>
+        );
+    }
+    return (
+        <Display $color={$color} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            {valor}
+            <PencilBtn onClick={onAbrir}><RiEditLine /></PencilBtn>
+        </Display>
     );
 }
 
@@ -234,103 +268,144 @@ const fadeUp = keyframes`from{opacity:0;transform:translateY(14px)}to{opacity:1;
 const Page = styled.div`
     min-height: 100vh; background: ${({ theme }) => theme.bgtotal};
     padding: 28px; animation: ${fadeUp} 0.3s ease;
+    display: flex; flex-direction: column; align-items: center;
     @media (max-width: 767px) { padding: 68px 12px 20px; }
 `;
 
 const TopBar = styled.div`
     text-align: center; margin-bottom: 36px;
     h1 { font-size: 22px; font-weight: 900; color: ${({ theme }) => theme.text}; margin: 0 0 6px; }
-    p  { font-size: 13px; color: ${({ theme }) => theme.colorsubtitlecard}; margin: 0; max-width: 480px; margin: 0 auto; line-height: 1.55; }
+    p  { font-size: 13px; color: ${({ theme }) => theme.colorsubtitlecard}; margin: 0 auto; max-width: 480px; line-height: 1.55; }
 `;
 
-const Grid = styled.div`
+/* ── Cards — mismos estilos que PlanesTemplate.jsx (landing) ── */
+const CardsSection = styled.div`
+    position: relative; z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 580px;
-    margin: 0 auto;
-    @media (max-width: 560px) { grid-template-columns: 1fr; }
+    gap: 28px;
+    width: 100%; max-width: 860px;
+
+    @media (max-width: 760px) { grid-template-columns: 1fr; max-width: 460px; gap: 20px; }
 `;
 
-/* ── Tier Card ── */
-const TierCard = styled.div`
-    background: ${({ $bg }) => $bg};
-    border: 1.5px solid ${({ $border }) => $border};
-    border-radius: 20px;
-    padding: 28px 22px;
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
-    transition: box-shadow 0.2s, transform 0.2s;
-    &:hover {
-        box-shadow: 0 0 40px ${({ $glow }) => $glow};
-        transform: translateY(-3px);
-    }
+const PlanCard = styled.div`
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 100%;
+    transition: box-shadow 0.25s ease;
+
+    ${({ $popular, $color, $glow }) => $popular ? css`
+        background: linear-gradient(160deg, #1C1108 0%, #140D05 100%);
+        box-shadow: 0 0 50px ${$glow}, 0 24px 56px rgba(0,0,0,0.55);
+        &:hover { box-shadow: 0 0 70px ${$glow}, 0 30px 70px rgba(0,0,0,0.65); transform: translateY(-6px); }
+    ` : css`
+        background: rgba(255,255,255,0.022);
+        border: 1px solid rgba(255,255,255,0.07);
+        box-shadow: 0 4px 28px rgba(0,0,0,0.35);
+        &:hover {
+            box-shadow: 0 8px 44px ${$glow}, 0 20px 48px rgba(0,0,0,0.45);
+            border-color: ${$color}40;
+            transform: translateY(-6px);
+        }
+    `}
 `;
 
-const TierEmoji = styled.div`
-    font-size: 44px; line-height: 1;
+const PlanAccentBar = styled.div`
+    height: ${({ $popular }) => $popular ? "4px" : "3px"};
+    background: ${({ $color }) => $color};
+    opacity: ${({ $popular }) => $popular ? 1 : 0.7};
 `;
 
-const TierNombre = styled.div`
-    font-size: 18px; font-weight: 900;
-    color: ${({ $color }) => $color};
-    font-family: "Poppins", sans-serif;
+const PopularBand = styled.div`
+    background: #3C6E9E;
+    color: #fff;
+    text-align: center;
+    font-size: 11px; font-weight: 800;
+    padding: 6px 16px;
+    letter-spacing: 0.04em;
 `;
 
-const BaseLabel = styled.div`
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-    color: ${({ theme }) => theme.colorsubtitlecard};
+const CardInner = styled.div`
+    position: relative; z-index: 2;
+    padding: 28px 26px 26px;
+    display: flex; flex-direction: column; gap: 18px;
+    flex: 1;
 `;
 
-const PrecioBase = styled.div`
+const PlanTopRow = styled.div`
+    display: flex; align-items: center; gap: 14px;
+`;
+
+const PlanEmojiBox = styled.div`
+    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+    background: ${({ $color }) => `${$color}18`};
+    border: 1.5px solid ${({ $color }) => `${$color}30`};
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px ${({ $glow }) => $glow};
+    overflow: hidden;
+    img { width: 30px; height: 30px; object-fit: contain; }
+`;
+
+const PlanInfo = styled.div`
+    display: flex; flex-direction: column; gap: 2px;
+`;
+
+const PlanNombre = styled.h3`
+    font-size: 22px; font-weight: 900;
+    margin: 0; color: ${({ $color }) => $color};
+    letter-spacing: -0.3px;
+`;
+
+const PlanTaglineNew = styled.span`
+    font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase; letter-spacing: 0.05em;
+`;
+
+const PlanDescNew = styled.p`
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    margin: 0; line-height: 1.65;
+    border-left: 2px solid rgba(255,255,255,0.08);
+    padding-left: 12px;
+`;
+
+const PrecioBloque = styled.div`
+    display: flex; flex-direction: column; gap: 10px;
+`;
+
+const PrecioRow = styled.div`
+    display: flex; align-items: baseline; gap: 6px;
+`;
+
+const PrecioNum = styled.span`
     font-size: 28px; font-weight: 900;
     color: ${({ $color }) => $color};
-    font-family: "Poppins", sans-serif;
-    cursor: pointer;
+    letter-spacing: -0.5px;
+`;
+
+const PrecioSufijo = styled.span`
+    font-size: 14px; color: rgba(255,255,255,0.3); font-weight: 600;
+`;
+
+const PrecioEditRow = styled.div`
     display: flex; align-items: center; gap: 8px;
-    transition: opacity 0.15s;
-    &:hover { opacity: 0.8; }
 `;
 
-const EditIcon = styled.span`
-    font-size: 16px; color: ${({ $color }) => $color}; opacity: 0.6;
-`;
-
-const EditWrap = styled.div`
-    width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;
-`;
-
-const BaseInput = styled.input`
-    width: 100%; padding: 10px 14px; border-radius: 12px; text-align: center;
+const PrecioInput = styled.input`
+    flex: 1; padding: 8px 12px; border-radius: 10px;
     border: 2px solid ${({ $color }) => $color};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
-    font-size: 20px; font-weight: 800; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { box-shadow: 0 0 0 3px ${({ $color }) => $color}33; }
+    font-size: 18px; font-weight: 800; font-family: "Poppins", sans-serif; outline: none;
 `;
 
-const EditBtns = styled.div`
-    display: flex; gap: 8px; width: 100%;
-`;
-
-const BtnOk = styled.button`
-    flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-    padding: 9px; border-radius: 10px; border: none;
-    background: ${({ $color }) => $color}; color: #fff;
-    font-size: 13px; font-weight: 800; cursor: pointer;
-    font-family: "Poppins", sans-serif;
-    &:disabled { opacity: 0.5; }
-`;
-
-const BtnCancel = styled.button`
-    padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
-    background: transparent; color: ${({ theme }) => theme.colorsubtitlecard};
-    font-size: 16px; cursor: pointer;
-`;
-
-/* ── Derived prices ── */
+/* ── Desglose Mensual/Bimestral/Trimestral ── */
 const DerivadosList = styled.div`
     width: 100%; display: flex; flex-direction: column; gap: 8px;
     border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 14px;
+    padding-top: 12px;
 `;
 
 const DerivadoItem = styled.div`
@@ -338,7 +413,7 @@ const DerivadoItem = styled.div`
 `;
 
 const DerivadoLabel = styled.span`
-    font-size: 12px; color: ${({ theme }) => theme.colorsubtitlecard};
+    font-size: 12px; color: rgba(255,255,255,0.45);
     font-family: "Poppins", sans-serif;
     display: flex; align-items: center; gap: 6px;
 `;
@@ -351,86 +426,126 @@ const Descuento = styled.span`
 const DerivadoVal = styled.span`
     font-size: 13px; font-weight: 800;
     font-family: "Poppins", sans-serif;
-    transition: color 0.15s, opacity 0.15s;
-    color:    ${({ $color, $vivo }) => $vivo ? $color : $color};
-    opacity:  ${({ $vivo }) => $vivo ? 1 : 0.75};
-    filter:   ${({ $vivo }) => $vivo ? "brightness(1.25)" : "none"};
+    color: ${({ $color }) => $color};
+`;
+
+/* ── Botón CTA (solo display + lápiz, no navega) ── */
+const BtnPlanWrap = styled.div`
+    position: relative; width: 100%;
+`;
+
+const BtnPlan = styled.div`
+    width: 100%; padding: 15px 20px;
+    border-radius: 14px;
+    border: 2px solid ${({ $colorAlt }) => `${$colorAlt}88`};
+    background: ${({ $color, $colorAlt }) => `linear-gradient(135deg, ${$color} 0%, ${$colorAlt} 100%)`};
+    color: #fff;
+    font-size: 15px; font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    text-align: center; letter-spacing: 0.2px;
+    box-shadow: ${({ $glow }) => `0 6px 24px ${$glow}, 4px 4px 0 rgba(0,0,0,0.3)`};
 `;
 
 /* ── Features ── */
-const FeatureHint = styled.div`
-    font-size: 10px; color: rgba(255,255,255,0.22); font-style: italic;
-    text-align: center; width: 100%;
+const PlanIncluye = styled.div`
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.25);
+    padding-top: 4px;
 `;
 
-const FeaturesList = styled.ul`
-    width: 100%; list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 4px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 12px;
+const FeatureList = styled.ul`
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 6px;
 `;
 
-const FeatureItem = styled.li`
-    display: flex; align-items: center; gap: 8px;
-    padding: 5px 8px; border-radius: 8px; cursor: pointer;
-    transition: background 0.15s;
-    opacity: ${({ $activo }) => $activo ? 1 : 0.45};
-    &:hover { background: rgba(255,255,255,0.05); opacity: 1; }
+const FeatureRow = styled.li`
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    padding: 3px 4px; border-radius: 6px;
+    color: ${({ $ok }) => $ok ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.25)"};
+    text-decoration: ${({ $ok }) => $ok ? "none" : "line-through"};
+    transition: background 0.15s, color 0.15s;
+    &:hover { background: rgba(255,255,255,0.05); }
 `;
 
-const FeatureCheck = styled.span`
-    font-size: 14px; flex-shrink: 0;
-    color: ${({ $activo, $color }) => $activo ? $color : "#f87171"};
+const FeatureIco = styled.span`
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    font-size: 13px; flex-shrink: 0;
+    background: ${({ $ok, $color }) => $ok ? `${$color}20` : "rgba(248,113,113,0.1)"};
+    color: ${({ $ok, $color }) => $ok ? $color : "#f87171"};
 `;
 
-const FeatureTxt = styled.span`
-    font-size: 12px; font-family: "Poppins", sans-serif;
-    color: ${({ theme }) => theme.colorsubtitlecard};
-    text-decoration: ${({ $activo }) => $activo ? "none" : "line-through"};
+const PlanParaWrap = styled.div`
+    margin-top: auto;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 2px;
 `;
 
-/* ── Textos editables (nombre, tagline, descripción, para, cta) ── */
-const BtnTextos = styled.button`
-    width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
-    padding: 8px; border-radius: 10px;
-    border: 1px dashed rgba(255,255,255,0.15);
-    background: transparent; color: ${({ theme }) => theme.colorsubtitlecard};
-    font-size: 11px; font-weight: 700; cursor: pointer;
-    font-family: "Poppins", sans-serif;
-    transition: border-color 0.15s, color 0.15s;
-    &:hover { border-color: rgba(255,255,255,0.3); color: ${({ theme }) => theme.text}; }
+const PlanParaText = styled.span`
+    color: rgba(255,255,255,0.55); font-style: italic;
 `;
 
-const TextosEditWrap = styled.div`
-    width: 100%; display: flex; flex-direction: column; gap: 6px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 14px;
+/* ── Edición inline compartida ── */
+const PencilBtn = styled.button`
+    display: inline-flex; align-items: center; justify-content: center;
+    background: none; border: none; cursor: pointer; padding: 0;
+    font-size: 13px; color: rgba(255,255,255,0.3); flex-shrink: 0;
+    transition: color 0.15s;
+    &:hover { color: rgba(255,255,255,0.7); }
+
+    ${({ $sobreBoton }) => $sobreBoton && css`
+        position: absolute; top: -10px; right: -10px;
+        width: 26px; height: 26px; border-radius: 50%;
+        background: ${({ theme }) => theme.bgtotal};
+        border: 1px solid rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.6);
+        &:hover { color: #fff; }
+    `}
 `;
 
-const CampoLabel = styled.div`
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-    color: ${({ theme }) => theme.colorsubtitlecard};
-    margin-top: 4px;
+const CampoInlineRow = styled.div`
+    display: flex; align-items: center; gap: 6px;
+    width: 100%;
 `;
 
-const CampoInput = styled.input`
-    width: 100%; padding: 8px 10px; border-radius: 8px;
-    border: 1.5px solid rgba(255,255,255,0.1);
+const CampoInlineInput = styled.input`
+    flex: 1; min-width: 0; padding: 6px 10px; border-radius: 8px;
+    border: 1.5px solid ${({ $color }) => $color ?? "rgba(255,255,255,0.2)"};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
-    font-size: 12px; font-family: "Poppins", sans-serif; outline: none;
-    &:focus { border-color: ${({ $color }) => $color}; }
+    font-size: 13px; font-family: "Poppins", sans-serif; outline: none;
 `;
 
-const CampoTextarea = styled.textarea`
-    width: 100%; padding: 8px 10px; border-radius: 8px;
-    border: 1.5px solid rgba(255,255,255,0.1);
+const CampoInlineTextarea = styled.textarea`
+    flex: 1; min-width: 0; padding: 6px 10px; border-radius: 8px;
+    border: 1.5px solid ${({ $color }) => $color ?? "rgba(255,255,255,0.2)"};
     background: ${({ theme }) => theme.bgtotal}; color: ${({ theme }) => theme.text};
-    font-size: 12px; font-family: "Poppins", sans-serif; outline: none; resize: vertical;
-    &:focus { border-color: ${({ $color }) => $color}; }
+    font-size: 13px; font-family: "Poppins", sans-serif; outline: none; resize: vertical;
+`;
+
+const PencilOk = styled.button`
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px; border: none;
+    display: flex; align-items: center; justify-content: center;
+    background: ${({ $color }) => $color ?? "#3C6E9E"}; color: #fff; cursor: pointer;
+    &:disabled { opacity: 0.5; }
+`;
+
+const PencilCancel = styled.button`
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; color: rgba(255,255,255,0.5); cursor: pointer;
 `;
 
 const Nota = styled.div`
     text-align: center; margin-top: 32px;
     font-size: 12px; color: ${({ theme }) => theme.colorsubtitlecard};
-    font-style: italic;
+    font-style: italic; max-width: 600px;
 `;
