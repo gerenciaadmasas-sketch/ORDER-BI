@@ -26,10 +26,9 @@ const COSTOS_ESCALA_COP = Math.round(COSTOS_ESCALA_USD * TRM);
 const PLANES_REF = [
     { nombre: "Gold ⚡", precio: 49000,  color: "#818cf8" },
     { nombre: "Pro 🔥",  precio: 129000, color: "#3C6E9E" },
-    { nombre: "Cosmos 🌌", precio: 249000, color: "#34d399" },
 ];
 
-const MIX = [0.30, 0.60, 0.10]; // 30% Gold, 60% Pro, 10% Cosmos
+const MIX = [1 / 3, 2 / 3]; // 33% Gold, 67% Pro — Cosmos aún no se vende, fuera del mix
 
 const COMPETENCIA = [
     { nombre: "Siigo POS",   basico: 79000,  medio: 159000, color: "#60a5fa" },
@@ -43,8 +42,7 @@ const fmtCOP = (n) =>
 const ingresosProyectados = (n) =>
     Math.round(
         n * (MIX[0] * PLANES_REF[0].precio +
-             MIX[1] * PLANES_REF[1].precio +
-             MIX[2] * PLANES_REF[2].precio)
+             MIX[1] * PLANES_REF[1].precio)
     );
 
 /* ═══════════════════════════════════════
@@ -375,7 +373,7 @@ export function FinanzasTemplate() {
                 <ProyHead>
                     <RiCalculatorLine />
                     <span>¿Cuánto ganarías con <b>{clientesSlider} clientes</b>?</span>
-                    <ProyMix>(Mix: 30% Gold · 60% Pro · 10% Cosmos)</ProyMix>
+                    <ProyMix>(Mix: 33% Gold · 67% Pro)</ProyMix>
                 </ProyHead>
 
                 <SliderWrap>
