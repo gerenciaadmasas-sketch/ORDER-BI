@@ -156,7 +156,7 @@ export function PlanesConfigTemplate() {
             </Grid>
 
             <Nota>
-                Los cambios de precio aplican solo a nuevos clientes. Los existentes conservan su tarifa pactada.
+                Los cambios de precio se reflejan de inmediato en la landing. Los clientes existentes conservan el valor pactado al suscribirse — el nuevo precio aplica a partir del próximo ciclo de facturación que proceses.
             </Nota>
         </Page>
     );

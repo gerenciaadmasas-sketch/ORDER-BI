@@ -7,7 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { v } from "../../styles/variables";
 import { useQuery } from "@tanstack/react-query";
-import { MostrarConfigPlanes } from "../../supabase/crudConfigPlanes";
+import { MostrarConfigPlanes, calcularPrecios } from "../../supabase/crudConfigPlanes";
 import { useAuthStore } from "../../store/AuthStore";
 import { ObtenerEmailPorUsuario } from "../../supabase/crudUsuarios";
 import { CrearProspecto } from "../../supabase/crudProspectos";
@@ -326,6 +326,17 @@ export function PlanesTemplate() {
         return result;
     }, [configPlanes]);
 
+    // Precios dinámicos desde DB — se actualizan cuando el superadmin cambia config
+    const planesActivos = useMemo(() => {
+        return PLANES.filter(p => !p.oculto).map(plan => {
+            const dbPlan = configPlanes.find(p => p.tier === plan.id);
+            if (!dbPlan?.precio_base) return plan;
+            const precio_mes = dbPlan.precio_base;
+            const precio_ano = Math.round(precio_mes * 0.85 / 1000) * 1000; // 15% off anual
+            return { ...plan, precio_mes, precio_ano };
+        });
+    }, [configPlanes]);
+
     const [anual, setAnual] = useState(false);
     const [visible, setVisible] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -638,7 +649,7 @@ export function PlanesTemplate() {
 
             {/* ── Cards ── */}
             <CardsSection>
-                {PLANES.filter(p => !p.oculto).map((plan, idx) => (
+                {planesActivos.map((plan, idx) => (
                     <TiltCard key={`${plan.id}-${anual}`} color={plan.color} idx={idx} popular={plan.popular}>
                     <PlanCard
                         id={plan.id}
