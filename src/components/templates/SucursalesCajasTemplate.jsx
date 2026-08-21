@@ -15,7 +15,7 @@ export function SucursalesCajasTemplate() {
     const queryClient = useQueryClient();
     const id_empresa = dataempresa?.id;
     const esSupervisor = datausuarios?.tipo === "supervisor";
-    const { limites, tipoPlan } = usePlan();
+    const { limites } = usePlan();
 
     const [modalLimite, setModalLimite] = useState(false);
     const [modalSuc, setModalSuc] = useState(false);
@@ -129,14 +129,14 @@ export function SucursalesCajasTemplate() {
                     <p>{esSupervisor ? "gestiona los almacenes de tu sucursal" : "gestiona tus puntos de venta y sus almacenes de inventario"}</p>
                 </div>
                 <PlanLimitBadge $alerta={limiteAlmAlcanzado}>
-                    {almacenes.length} / {limites.max_almacenes === Infinity ? "∞" : limites.max_almacenes} almacenes · {tipoPlan}
+                    {almacenes.length} / {limites.max_almacenes === Infinity ? "∞" : limites.max_almacenes} almacenes · {limites.label}
                 </PlanLimitBadge>
             </TopBar>
 
             {limiteAlmAlcanzado && (
                 <LimitAlert>
                     <RiErrorWarningLine />
-                    Tu plan <strong>{tipoPlan}</strong> permite hasta <strong>{limites.max_almacenes} almacén{limites.max_almacenes !== 1 ? "es" : ""}</strong>. Actualiza tu plan para agregar más.
+                    Tu plan <strong>{limites.label}</strong> permite hasta <strong>{limites.max_almacenes} almacén{limites.max_almacenes !== 1 ? "es" : ""}</strong>. Actualiza tu plan para agregar más.
                 </LimitAlert>
             )}
 
@@ -213,7 +213,7 @@ export function SucursalesCajasTemplate() {
                         <LimiteIcono><RiVipCrownLine /></LimiteIcono>
                         <LimiteTitulo>Límite del plan alcanzado</LimiteTitulo>
                         <LimiteTexto>
-                            Tu plan <strong>{tipoPlan}</strong> permite hasta{" "}
+                            Tu plan <strong>{limites.label}</strong> permite hasta{" "}
                             <strong>{limites.max_almacenes} almacén{limites.max_almacenes !== 1 ? "es" : ""}</strong>.
                             Ya tienes <strong>{almacenes.length}</strong>. Actualiza tu plan para seguir creciendo.
                         </LimiteTexto>

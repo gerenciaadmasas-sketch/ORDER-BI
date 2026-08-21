@@ -74,7 +74,7 @@ export function UsuariosTemplate() {
     const esAdmin = tipoActual === "administrador";
     const TIPOS = esSupervisor ? TIPOS_SUPERVISOR : esAdmin ? TIPOS_ADMIN : TIPOS_TODOS;
 
-    const { limites, tipoPlan } = usePlan();
+    const { limites } = usePlan();
 
     const [modalAbierto, setModalAbierto] = useState(false);
     const [editando,     setEditando]     = useState(null); // usuario a editar
@@ -251,9 +251,9 @@ export function UsuariosTemplate() {
                 </div>
                 <TopBarRight>
                     <PlanLimitBadge $alerta={limiteAlcanzado}>
-                        {usuarios.length} / {limites.max_usuarios === Infinity ? "∞" : limites.max_usuarios} usuarios · {tipoPlan}
+                        {usuarios.length} / {limites.max_usuarios === Infinity ? "∞" : limites.max_usuarios} usuarios · {limites.label}
                     </PlanLimitBadge>
-                    <BtnNuevo onClick={abrirNuevo} disabled={limiteAlcanzado} title={limiteAlcanzado ? `Límite del plan ${tipoPlan} alcanzado` : ""}>
+                    <BtnNuevo onClick={abrirNuevo} disabled={limiteAlcanzado} title={limiteAlcanzado ? `Límite del plan ${limites.label} alcanzado` : ""}>
                         <RiAddLine style={{ fontSize: 18 }} />
                         Nuevo usuario
                     </BtnNuevo>
@@ -263,7 +263,7 @@ export function UsuariosTemplate() {
             {limiteAlcanzado && (
                 <LimitAlert>
                     <RiErrorWarningLine />
-                    Tu plan <strong>{tipoPlan}</strong> permite hasta <strong>{limites.max_usuarios} usuarios</strong>. Actualiza tu plan para agregar más.
+                    Tu plan <strong>{limites.label}</strong> permite hasta <strong>{limites.max_usuarios} usuarios</strong>. Actualiza tu plan para agregar más.
                 </LimitAlert>
             )}
 

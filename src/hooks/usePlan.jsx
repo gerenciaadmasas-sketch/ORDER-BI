@@ -4,8 +4,8 @@ import { useEmpresaStore } from "../store/EmpresaStore";
 import { useUsuariosStore } from "../store/UsuariosStore";
 
 export const LIMITES_PLAN = {
-    chispa: { max_usuarios: 2,        max_almacenes: 1,        kardex: false, label: "Chispa ⚡" },
-    fuego:  { max_usuarios: 10,       max_almacenes: 3,        kardex: true,  label: "Fuego 🔥"  },
+    chispa: { max_usuarios: 2,        max_almacenes: 1,        kardex: false, label: "Gold ⚡" },
+    fuego:  { max_usuarios: 10,       max_almacenes: 3,        kardex: true,  label: "Pro 🔥"  },
     cosmos: { max_usuarios: 12,       max_almacenes: 6,        kardex: true,  label: "Cosmos 🌌" },
 };
 
