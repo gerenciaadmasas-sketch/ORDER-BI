@@ -111,6 +111,7 @@ export function Sidebar({ state, setState, onNavClick }) {
     const esSuscripcionesTV = dataempresa?.actividad_economica === "suscripciones_tv";
     const esInmobiliaria    = dataempresa?.actividad_economica === "construccion";
     const esRestaurante     = dataempresa?.actividad_economica === "restaurante";
+    const esRetail          = dataempresa?.actividad_economica?.startsWith("retail_");
 
     const linksBase = (esSuscripcionesTV || esInmobiliaria || esRestaurante)
         ? LinksArray.filter(l => LINKS_SUSCRIPCIONES.includes(l.to))
@@ -122,9 +123,9 @@ export function Sidebar({ state, setState, onNavClick }) {
         ? LinksArray.filter(l => LINKS_COMERCIAL.includes(l.to))
         : LinksArray.filter(l => LINKS_ADMIN.includes(l.to));
 
-    const linksVisibles = !limites.kardex
-        ? linksBase.filter(l => l.to !== "/kardex")
-        : linksBase;
+    const linksVisibles = linksBase
+        .filter(l => !esRetail || l.to !== "/mensajes")
+        .filter(l => !limites.kardex ? l.to !== "/kardex" : true);
 
     return (
         <Wrap $isopen={state}>
