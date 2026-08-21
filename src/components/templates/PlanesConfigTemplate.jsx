@@ -70,7 +70,9 @@ export function PlanesConfigTemplate() {
                 {planes.filter(p => p.tier !== "cosmos").map(plan => {
                     const cfg = TIERS[plan.tier] ?? TIERS.chispa;
                     const enEdicion = editando === plan.id;
-                    const precios   = calcularPrecios(Number(bases[plan.id]) || plan.precio_base || 0);
+                    const baseVal   = bases[plan.id];
+                    const baseNum   = (baseVal != null && baseVal !== "") ? (Number(baseVal) || 0) : (plan.precio_base ?? 0);
+                    const precios   = calcularPrecios(baseNum);
 
                     return (
                         <TierCard key={plan.id} $color={cfg.color} $glow={cfg.glow} $bg={cfg.bg} $border={cfg.border}>
@@ -90,7 +92,7 @@ export function PlanesConfigTemplate() {
                                         min="0"
                                         step="1000"
                                         value={bases[plan.id] ?? ""}
-                                        onChange={e => setBases({ ...bases, [plan.id]: e.target.value })}
+                                        onChange={e => { const v = e.target.value; setBases(prev => ({ ...prev, [plan.id]: v })); }}
                                         autoFocus
                                         $color={cfg.color}
                                     />
@@ -114,19 +116,19 @@ export function PlanesConfigTemplate() {
                                 </PrecioBase>
                             )}
 
-                            {/* Precios derivados */}
+                            {/* Precios derivados — se actualizan en tiempo real al escribir */}
                             <DerivadosList>
                                 <DerivadoItem>
                                     <DerivadoLabel>Mensual</DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color}>{formatCOP(precios.mensual)}</DerivadoVal>
+                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.mensual)}</DerivadoVal>
                                 </DerivadoItem>
                                 <DerivadoItem>
                                     <DerivadoLabel>Bimestral <Descuento>−5%</Descuento></DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color}>{formatCOP(precios.bimestral)}</DerivadoVal>
+                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.bimestral)}</DerivadoVal>
                                 </DerivadoItem>
                                 <DerivadoItem>
                                     <DerivadoLabel>Trimestral <Descuento>−10%</Descuento></DerivadoLabel>
-                                    <DerivadoVal $color={cfg.color}>{formatCOP(precios.trimestral)}</DerivadoVal>
+                                    <DerivadoVal $color={cfg.color} $vivo={enEdicion}>{formatCOP(precios.trimestral)}</DerivadoVal>
                                 </DerivadoItem>
                             </DerivadosList>
 
@@ -282,8 +284,12 @@ const Descuento = styled.span`
 `;
 
 const DerivadoVal = styled.span`
-    font-size: 13px; font-weight: 800; color: ${({ $color }) => $color};
+    font-size: 13px; font-weight: 800;
     font-family: "Poppins", sans-serif;
+    transition: color 0.15s, opacity 0.15s;
+    color:    ${({ $color, $vivo }) => $vivo ? $color : $color};
+    opacity:  ${({ $vivo }) => $vivo ? 1 : 0.75};
+    filter:   ${({ $vivo }) => $vivo ? "brightness(1.25)" : "none"};
 `;
 
 /* ── Features ── */
