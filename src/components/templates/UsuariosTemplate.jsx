@@ -208,7 +208,7 @@ export function UsuariosTemplate() {
 
     const mutEditar = useMutation({
         mutationFn: (vals) => ActualizarUsuario({
-            id:          editando.id,
+            id_auth:     editando.id_auth,
             nombres:     vals.nombres,
             apellidos:   vals.apellidos,
             nro_doc:     vals.nro_doc,
@@ -228,7 +228,7 @@ export function UsuariosTemplate() {
     });
 
     const mutEliminar = useMutation({
-        mutationFn: (u) => EliminarUsuarioEmpleado({ id: u.id }),
+        mutationFn: (u) => EliminarUsuarioEmpleado({ id_auth: u.id_auth, id_empresa: u.id_empresa }),
         onSuccess: () => {
             toastExito("Usuario eliminado", "Usuarios");
             queryClient.invalidateQueries({ queryKey: ["usuarios-empresa", id_empresa] });
