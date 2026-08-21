@@ -48,15 +48,22 @@ export const toastWarning = (mensaje, contexto = "") =>
         customClass: { popup: "toast-pos" },
     });
 
-export const confirmar = ({ titulo, texto, onConfirmar }) =>
+export const confirmar = ({
+    titulo,
+    texto,
+    onConfirmar,
+    icono = "🗑️",
+    confirmText = "Sí, eliminar",
+    confirmColor = "#ef4444",
+}) =>
     Swal.fire({
         title: titulo,
         text: texto,
-        iconHtml: `<span style="font-size:36px">🗑️</span>`,
+        iconHtml: `<span style="font-size:36px">${icono}</span>`,
         showCancelButton: true,
-        confirmButtonColor: "#ef4444",
+        confirmButtonColor: confirmColor,
         cancelButtonColor: "#4b5563",
-        confirmButtonText: "Sí, eliminar",
+        confirmButtonText: confirmText,
         cancelButtonText: "Cancelar",
         background: "#1e1e2e",
         color: "#e2e8f0",

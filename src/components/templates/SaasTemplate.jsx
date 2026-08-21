@@ -583,6 +583,9 @@ export function SaasTemplate() {
                                         onClick={() => confirmar({
                                             titulo: "¿Eximir pago?",
                                             texto: `Se extenderá la fecha de ${s.nombre_cliente} sin registrar cobro.`,
+                                            icono: "🛡️",
+                                            confirmText: "Sí, eximir",
+                                            confirmColor: "#3C6E9E",
                                             onConfirmar: () => mutEximir.mutate(s),
                                         })}
                                     >
@@ -598,6 +601,9 @@ export function SaasTemplate() {
                                         onClick={() => confirmar({
                                             titulo: "¿Reactivar cuenta?",
                                             texto: `Se reactivará la cuenta de ${s.nombre_cliente} y se reiniciará el período de pago.`,
+                                            icono: "✅",
+                                            confirmText: "Sí, reactivar",
+                                            confirmColor: "#22c55e",
                                             onConfirmar: () => mutReactivar.mutate(s),
                                         })}
                                     >
