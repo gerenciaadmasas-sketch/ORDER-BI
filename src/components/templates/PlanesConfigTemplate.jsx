@@ -3,7 +3,7 @@ import styled, { keyframes, css } from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MostrarConfigPlanes, EditarPrecioTier, EditarFeaturesTier, EditarTextosTier, calcularPrecios } from "../../supabase/crudConfigPlanes";
 import { toastExito } from "../../utils/toast";
-import { RiEditLine, RiCheckLine, RiCloseLine } from "react-icons/ri";
+import { RiEditLine, RiCheckLine, RiCloseLine, RiDeleteBinLine } from "react-icons/ri";
 import iconoGold from "../../assets/caballero.png";
 import iconoPro  from "../../assets/rey.png";
 
@@ -79,6 +79,32 @@ export function PlanesConfigTemplate() {
             i === idx ? { ...f, activo: !f.activo } : f
         );
         mutFeatures.mutate({ id: plan.id, features: updated });
+    }
+
+    function abrirFeature(plan, idx) {
+        setEditandoCampo(`${plan.id}:feature-${idx}`);
+        setDraft(plan.features?.[idx]?.label ?? "");
+    }
+
+    function guardarFeatureLabel(plan, idx) {
+        const texto = draft.trim();
+        if (!texto) return;
+        const updated = (plan.features ?? []).map((f, i) => i === idx ? { ...f, label: texto } : f);
+        mutFeatures.mutate({ id: plan.id, features: updated });
+        setEditandoCampo(null);
+    }
+
+    function eliminarFeature(plan, idx) {
+        const updated = (plan.features ?? []).filter((_, i) => i !== idx);
+        mutFeatures.mutate({ id: plan.id, features: updated });
+    }
+
+    function agregarFeature(plan) {
+        const actuales = plan.features ?? [];
+        const updated = [...actuales, { label: "Nueva feature", activo: true }];
+        mutFeatures.mutate({ id: plan.id, features: updated });
+        setEditandoCampo(`${plan.id}:feature-${actuales.length}`);
+        setDraft("Nueva feature");
     }
 
     return (
@@ -198,17 +224,49 @@ export function PlanesConfigTemplate() {
                                     </BtnPlanWrap>
                                 )}
 
-                                {/* Features — click directo para activar/desactivar, igual que antes */}
+                                {/* Features — check activa/desactiva, lápiz edita el texto, tacho elimina la fila */}
                                 <PlanIncluye>Incluye:</PlanIncluye>
                                 <FeatureList>
                                     {(plan.features ?? []).map((f, i) => (
-                                        <FeatureRow key={i} $ok={f.activo} onClick={() => toggleFeature(plan, i)} title={f.activo ? "Desactivar" : "Activar"}>
-                                            <FeatureIco $ok={f.activo} $color={cfg.color}>
+                                        <FeatureRow key={i} $ok={f.activo}>
+                                            <FeatureIco
+                                                as="button"
+                                                $ok={f.activo} $color={cfg.color}
+                                                onClick={() => toggleFeature(plan, i)}
+                                                title={f.activo ? "Desactivar" : "Activar"}
+                                            >
                                                 {f.activo ? <RiCheckLine /> : <RiCloseLine />}
                                             </FeatureIco>
-                                            <span>{f.label}</span>
+
+                                            {editandoCampo === `${plan.id}:feature-${i}` ? (
+                                                <CampoInlineRow>
+                                                    <CampoInlineInput
+                                                        $color={cfg.color} autoFocus
+                                                        value={draft}
+                                                        onChange={e => setDraft(e.target.value)}
+                                                        onKeyDown={e => {
+                                                            if (e.key === "Enter") guardarFeatureLabel(plan, i);
+                                                            if (e.key === "Escape") setEditandoCampo(null);
+                                                        }}
+                                                    />
+                                                    <PencilOk $color={cfg.color} disabled={mutFeatures.isPending}
+                                                        onClick={() => guardarFeatureLabel(plan, i)}>
+                                                        <RiCheckLine />
+                                                    </PencilOk>
+                                                    <PencilCancel onClick={() => setEditandoCampo(null)}><RiCloseLine /></PencilCancel>
+                                                </CampoInlineRow>
+                                            ) : (
+                                                <>
+                                                    <FeatureLabel>{f.label}</FeatureLabel>
+                                                    <PencilBtn onClick={() => abrirFeature(plan, i)} title="Editar texto"><RiEditLine /></PencilBtn>
+                                                    <PencilBtn $danger onClick={() => eliminarFeature(plan, i)} title="Eliminar"><RiDeleteBinLine /></PencilBtn>
+                                                </>
+                                            )}
                                         </FeatureRow>
                                     ))}
+                                    <BtnAgregarFeature onClick={() => agregarFeature(plan)}>
+                                        + Agregar feature
+                                    </BtnAgregarFeature>
                                 </FeatureList>
 
                                 <PlanParaWrap>
@@ -460,8 +518,8 @@ const FeatureList = styled.ul`
 `;
 
 const FeatureRow = styled.li`
-    display: flex; align-items: center; gap: 10px;
-    font-size: 13px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500;
     padding: 3px 4px; border-radius: 6px;
     color: ${({ $ok }) => $ok ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.25)"};
     text-decoration: ${({ $ok }) => $ok ? "none" : "line-through"};
@@ -473,8 +531,23 @@ const FeatureIco = styled.span`
     display: flex; align-items: center; justify-content: center;
     width: 22px; height: 22px; border-radius: 6px;
     font-size: 13px; flex-shrink: 0;
+    border: none; padding: 0; cursor: pointer; font-family: inherit;
     background: ${({ $ok, $color }) => $ok ? `${$color}20` : "rgba(248,113,113,0.1)"};
     color: ${({ $ok, $color }) => $ok ? $color : "#f87171"};
+`;
+
+const FeatureLabel = styled.span`
+    flex: 1; min-width: 0;
+`;
+
+const BtnAgregarFeature = styled.li`
+    list-style: none;
+    display: flex; align-items: center; justify-content: center;
+    padding: 6px; margin-top: 2px; border-radius: 6px;
+    border: 1px dashed rgba(255,255,255,0.15);
+    font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.35);
+    cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    &:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
 `;
 
 const PlanParaWrap = styled.div`
@@ -499,7 +572,7 @@ const PencilBtn = styled.button`
     background: none; border: none; cursor: pointer; padding: 0;
     font-size: 13px; color: rgba(255,255,255,0.3); flex-shrink: 0;
     transition: color 0.15s;
-    &:hover { color: rgba(255,255,255,0.7); }
+    &:hover { color: ${({ $danger }) => $danger ? "#f87171" : "rgba(255,255,255,0.7)"}; }
 
     ${({ $sobreBoton }) => $sobreBoton && css`
         position: absolute; top: -10px; right: -10px;
