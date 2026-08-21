@@ -584,18 +584,6 @@ export function POSTemplate() {
 
                 {/* Panel derecho */}
                 <Derecha $visible={verPago}>
-                    {/* Métodos de pago */}
-                    <GridPagos>
-                        <BtnPago $color="#4CAF50" $shadow="#2E7D32" $activo={metodoPago === "efectivo"}
-                            onClick={() => seleccionarMetodo("efectivo")}>EFECTIVO</BtnPago>
-                        <BtnPago $color="#E91E8C" $shadow="#880E4F" $activo={metodoPago === "transferencia"}
-                            onClick={() => seleccionarMetodo("transferencia")}>TRANSFERENCIA</BtnPago>
-                        <BtnPago $color="#FF9800" $shadow="#E65100" $activo={metodoPago === "qr"}
-                            onClick={() => seleccionarMetodo("qr")}>QR</BtnPago>
-                        <BtnPago $color="#9C27B0" $shadow="#4A148C" $activo={metodoPago === "mixto"}
-                            onClick={() => seleccionarMetodo("mixto")}>MIXTO</BtnPago>
-                    </GridPagos>
-
                     {/* Cliente (opcional) */}
                     <ClienteWrap>
                         {clienteSeleccionado ? (
@@ -606,7 +594,7 @@ export function POSTemplate() {
                         ) : (
                             <ClienteInput
                                 type="text"
-                                placeholder="👤 Cliente (opcional)"
+                                placeholder="👤 Cliente — nombre, cédula o NIT"
                                 value={buscarCliente}
                                 onChange={e => {
                                     const texto = e.target.value;
@@ -617,8 +605,8 @@ export function POSTemplate() {
                                         const { data } = await supabase.from("clientes")
                                             .select("id, nombre, apellido, documento")
                                             .eq("id_empresa", dataempresa?.id)
-                                            .ilike("nombre", `%${texto}%`)
-                                            .limit(5);
+                                            .or(`nombre.ilike.%${texto}%,apellido.ilike.%${texto}%,documento.ilike.%${texto}%`)
+                                            .limit(8);
                                         setClientesResultados(data ?? []);
                                         setDropCliente(true);
                                     }, 300);
@@ -642,6 +630,18 @@ export function POSTemplate() {
                             </ClienteDropdown>
                         )}
                     </ClienteWrap>
+
+                    {/* Métodos de pago */}
+                    <GridPagos>
+                        <BtnPago $color="#4CAF50" $shadow="#2E7D32" $activo={metodoPago === "efectivo"}
+                            onClick={() => seleccionarMetodo("efectivo")}>EFECTIVO</BtnPago>
+                        <BtnPago $color="#E91E8C" $shadow="#880E4F" $activo={metodoPago === "transferencia"}
+                            onClick={() => seleccionarMetodo("transferencia")}>TRANSFERENCIA</BtnPago>
+                        <BtnPago $color="#FF9800" $shadow="#E65100" $activo={metodoPago === "qr"}
+                            onClick={() => seleccionarMetodo("qr")}>QR</BtnPago>
+                        <BtnPago $color="#9C27B0" $shadow="#4A148C" $activo={metodoPago === "mixto"}
+                            onClick={() => seleccionarMetodo("mixto")}>MIXTO</BtnPago>
+                    </GridPagos>
 
                     {/* Panel mixto */}
                     {metodoPago === "mixto" && (
