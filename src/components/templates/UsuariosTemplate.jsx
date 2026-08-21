@@ -209,6 +209,7 @@ export function UsuariosTemplate() {
     const mutEditar = useMutation({
         mutationFn: (vals) => ActualizarUsuario({
             id_auth:     editando.id_auth,
+            id_empresa:  editando.id_empresa,
             nombres:     vals.nombres,
             apellidos:   vals.apellidos,
             nro_doc:     vals.nro_doc,

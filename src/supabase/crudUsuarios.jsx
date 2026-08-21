@@ -57,10 +57,10 @@ export async function CrearUsuarioEmpleado(p) {
         toastError(msg, "Usuarios › Crear empleado");
         throw new Error(msg);
     }
-    // Guardar email en la fila de usuarios para poder buscarlo en el login
+    // Guardar email y apellidos (el Edge Function no los persiste directamente)
     await supabase
         .from(tabla)
-        .update({ email: p.email })
+        .update({ email: p.email, apellidos: p.apellidos ?? null })
         .eq("usuario", p.usuario)
         .eq("id_empresa", p.id_empresa);
     return data;
