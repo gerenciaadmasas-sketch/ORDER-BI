@@ -28,8 +28,8 @@ const PLANES = [
 ];
 
 const TIPOS_PLAN = [
-    { key: "chispa", label: "Gold", img: iconoGold },
-    { key: "fuego",  label: "Pro",  img: iconoPro  },
+    { key: "gold", label: "Gold", img: iconoGold },
+    { key: "pro",  label: "Pro",  img: iconoPro  },
 ];
 
 const ACTIVIDADES = [
@@ -69,7 +69,7 @@ export function SaasTemplate() {
 
     const [form, setForm] = useState({
         nombre_cliente: "", apellido_cliente: "", cedula_cliente: "",
-        plan: "mensual", tipo_plan: "chispa", valor_mensual: "",
+        plan: "mensual", tipo_plan: "gold", valor_mensual: "",
         estado: "al_dia", fecha_proximo_pago: "", notas: "",
         actividad_economica: "retail_ropa",
         gracia_hasta: "", descuento_pct: 0,
@@ -96,8 +96,8 @@ export function SaasTemplate() {
             cedula_cliente: "",
             telefono: p.telefono ?? "",
             plan: p.plan_elegido ?? "mensual",
-            tipo_plan: "chispa",
-            valor_mensual: String(preciosPlanes.find(x => x.tier === "chispa")?.precio_base ?? ""),
+            tipo_plan: "gold",
+            valor_mensual: String(preciosPlanes.find(x => x.tier === "gold")?.precio_base ?? ""),
             estado: "al_dia",
             fecha_proximo_pago: "",
             notas: p.notas ?? "",
@@ -223,7 +223,7 @@ export function SaasTemplate() {
     }
 
     function abrirNuevo() {
-        setForm({ nombre_cliente: "", apellido_cliente: "", cedula_cliente: "", telefono: "", plan: "mensual", tipo_plan: "chispa", valor_mensual: getPrecioTier("chispa"), estado: "al_dia", fecha_proximo_pago: "", notas: "", actividad_economica: "retail_ropa", gracia_hasta: "", descuento_pct: 0 });
+        setForm({ nombre_cliente: "", apellido_cliente: "", cedula_cliente: "", telefono: "", plan: "mensual", tipo_plan: "gold", valor_mensual: getPrecioTier("gold"), estado: "al_dia", fecha_proximo_pago: "", notas: "", actividad_economica: "retail_ropa", gracia_hasta: "", descuento_pct: 0 });
         setEditando(null);
         setModal(true);
     }
@@ -235,7 +235,7 @@ export function SaasTemplate() {
             cedula_cliente: s.cedula_cliente ?? "",
             telefono: s.telefono ?? "",
             plan: s.plan ?? "mensual",
-            tipo_plan: s.tipo_plan ?? "chispa",
+            tipo_plan: s.tipo_plan ?? "gold",
             valor_mensual: String(s.valor_mensual ?? ""),
             estado: s.estado ?? "al_dia",
             fecha_proximo_pago: s.fecha_proximo_pago ?? "",
@@ -1171,8 +1171,8 @@ const PlanBadgeWrap = styled.div`
 `;
 
 const PLAN_COLORS = {
-    chispa: { bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.5)", text: "#fbbf24",  activeBg: "rgba(251,191,36,0.25)" },
-    fuego:  { bg: "rgba(60,110,158,0.12)", border: "rgba(60,110,158,0.5)", text: "#3C6E9E",  activeBg: "rgba(60,110,158,0.25)" },
+    gold: { bg: "rgba(196,168,130,0.12)", border: "rgba(196,168,130,0.5)", text: "#C4A882", activeBg: "rgba(196,168,130,0.25)" },
+    pro:  { bg: "rgba(60,110,158,0.12)",  border: "rgba(60,110,158,0.5)",  text: "#3C6E9E", activeBg: "rgba(60,110,158,0.25)" },
 };
 
 const PlanBadge = styled.button`
@@ -1188,12 +1188,12 @@ const PlanBadge = styled.button`
     color: rgba(255,255,255,0.4);
 
     /* Set per-plan colors via data attr on parent — simpler to apply inline styles in JSX */
-    &[data-tipo="chispa"] {
-        border-color: ${({ $activo }) => $activo ? "rgba(251,191,36,0.8)" : "rgba(251,191,36,0.25)"};
-        background:   ${({ $activo }) => $activo ? "rgba(251,191,36,0.2)"  : "transparent"};
-        color:        ${({ $activo }) => $activo ? "#fbbf24" : "rgba(251,191,36,0.5)"};
+    &[data-tipo="gold"] {
+        border-color: ${({ $activo }) => $activo ? "rgba(196,168,130,0.8)" : "rgba(196,168,130,0.25)"};
+        background:   ${({ $activo }) => $activo ? "rgba(196,168,130,0.2)"  : "transparent"};
+        color:        ${({ $activo }) => $activo ? "#C4A882" : "rgba(196,168,130,0.5)"};
     }
-    &[data-tipo="fuego"] {
+    &[data-tipo="pro"] {
         border-color: ${({ $activo }) => $activo ? "rgba(60,110,158,0.8)" : "rgba(60,110,158,0.25)"};
         background:   ${({ $activo }) => $activo ? "rgba(60,110,158,0.2)"  : "transparent"};
         color:        ${({ $activo }) => $activo ? "#3C6E9E" : "rgba(60,110,158,0.5)"};
@@ -1203,8 +1203,8 @@ const PlanBadge = styled.button`
 
 /* ── Tipo plan pill en tarjeta ── */
 const TIPO_COLORS = {
-    chispa: { color: "#fbbf24", bg: "rgba(251,191,36,0.12)", border: "rgba(251,191,36,0.3)" },
-    fuego:  { color: "#3C6E9E", bg: "rgba(60,110,158,0.12)",  border: "rgba(60,110,158,0.3)"  },
+    gold: { color: "#C4A882", bg: "rgba(196,168,130,0.12)", border: "rgba(196,168,130,0.3)" },
+    pro:  { color: "#3C6E9E", bg: "rgba(60,110,158,0.12)",  border: "rgba(60,110,158,0.3)"  },
 };
 
 const TipoPlanPill = styled.span`

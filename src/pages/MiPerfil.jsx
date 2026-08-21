@@ -13,9 +13,8 @@ import { RiUserLine, RiBuildingLine, RiStoreLine, RiEditLine, RiSaveLine, RiClos
 import { usePlan, LIMITES_PLAN } from "../hooks/usePlan";
 
 const PLAN_COLORS = {
-    chispa: { bg: "rgba(96,165,250,0.12)",  color: "#60a5fa", glow: "rgba(96,165,250,0.25)"  },
-    fuego:  { bg: "rgba(60,110,158,0.12)",  color: "#3C6E9E", glow: "rgba(60,110,158,0.25)"  },
-    cosmos: { bg: "rgba(167,139,250,0.12)", color: "#a78bfa", glow: "rgba(167,139,250,0.25)" },
+    gold: { bg: "rgba(196,168,130,0.12)", color: "#C4A882", glow: "rgba(196,168,130,0.25)" },
+    pro:  { bg: "rgba(60,110,158,0.12)",  color: "#3C6E9E", glow: "rgba(60,110,158,0.25)"  },
 };
 
 const TIPO_COLORS = {
@@ -204,8 +203,8 @@ export function MiPerfil() {
 
                     {/* Membresía (no superadmin) */}
                     {!esSuperAdmin && suscripcion && (() => {
-                        const pc = PLAN_COLORS[tipoPlan] ?? PLAN_COLORS.chispa;
-                        const lim = LIMITES_PLAN[tipoPlan] ?? LIMITES_PLAN.chispa;
+                        const pc = PLAN_COLORS[tipoPlan] ?? PLAN_COLORS.gold;
+                        const lim = LIMITES_PLAN[tipoPlan] ?? LIMITES_PLAN.gold;
                         const fechaStr = suscripcion.fecha_proximo_pago
                             ? new Date(suscripcion.fecha_proximo_pago + "T00:00:00")
                                 .toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" })

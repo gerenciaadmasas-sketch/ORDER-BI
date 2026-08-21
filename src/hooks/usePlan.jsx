@@ -4,9 +4,8 @@ import { useEmpresaStore } from "../store/EmpresaStore";
 import { useUsuariosStore } from "../store/UsuariosStore";
 
 export const LIMITES_PLAN = {
-    chispa: { max_usuarios: 2,        max_almacenes: 1,        kardex: false, label: "Gold ⚡" },
-    fuego:  { max_usuarios: 10,       max_almacenes: 3,        kardex: true,  label: "Pro 🔥"  },
-    cosmos: { max_usuarios: 12,       max_almacenes: 6,        kardex: true,  label: "Cosmos 🌌" },
+    gold: { max_usuarios: 2,  max_almacenes: 1, kardex: false, label: "Gold" },
+    pro:  { max_usuarios: 10, max_almacenes: 3, kardex: true,  label: "Pro"  },
 };
 
 export function usePlan() {
@@ -30,8 +29,8 @@ export function usePlan() {
         refetchOnWindowFocus: false,
     });
 
-    const tipoPlan = suscripcion?.tipo_plan ?? "chispa";
-    const limites  = LIMITES_PLAN[tipoPlan] ?? LIMITES_PLAN.chispa;
+    const tipoPlan = suscripcion?.tipo_plan ?? "gold";
+    const limites  = LIMITES_PLAN[tipoPlan] ?? LIMITES_PLAN.gold;
 
     // Calcular días de mora (positivo = días vencidos)
     const hoy = new Date();

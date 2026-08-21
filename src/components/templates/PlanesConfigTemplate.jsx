@@ -13,8 +13,8 @@ const formatCOP = (n) =>
 // Mismos valores de marca que usa la landing (PlanesTemplate.jsx → PLANES) — para
 // que estas cards se vean exactamente igual, no una versión aparte.
 const TIERS = {
-    chispa: { img: iconoGold, nombre: "Gold", popular: false, color: "#C4A882", colorAlt: "#A8885E", glow: "rgba(196,168,130,0.35)" },
-    fuego:  { img: iconoPro,  nombre: "Pro",  popular: true,  color: "#3C6E9E", colorAlt: "#2E5A80", glow: "rgba(60,110,158,0.5)"   },
+    gold: { img: iconoGold, nombre: "Gold", popular: false, color: "#C4A882", colorAlt: "#A8885E", glow: "rgba(196,168,130,0.35)" },
+    pro:  { img: iconoPro,  nombre: "Pro",  popular: true,  color: "#3C6E9E", colorAlt: "#2E5A80", glow: "rgba(60,110,158,0.5)"   },
 };
 
 export function PlanesConfigTemplate() {
@@ -115,8 +115,8 @@ export function PlanesConfigTemplate() {
             </TopBar>
 
             <CardsSection>
-                {planes.filter(p => p.tier !== "cosmos").map(plan => {
-                    const cfg = TIERS[plan.tier] ?? TIERS.chispa;
+                {planes.map(plan => {
+                    const cfg = TIERS[plan.tier] ?? TIERS.gold;
                     const enEdicionPrecio = editandoPrecio === plan.id;
                     const baseNum = enEdicionPrecio ? (Number(precioDraft) || 0) : (plan.precio_base ?? 0);
                     const precios = calcularPrecios(baseNum);

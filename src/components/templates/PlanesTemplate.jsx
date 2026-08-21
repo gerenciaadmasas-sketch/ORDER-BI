@@ -45,7 +45,7 @@ const ACTIVIDADES = [
 ───────────────────────────────────────── */
 const PLANES = [
     {
-        id: "chispa",
+        id: "gold",
         nombre: "Gold",
         emoji: "🪨",
         iconImg: iconoGold,
@@ -71,7 +71,7 @@ const PLANES = [
         ],
     },
     {
-        id: "fuego",
+        id: "pro",
         nombre: "Pro",
         emoji: "🌿",
         iconImg: iconoPro,
@@ -98,35 +98,6 @@ const PLANES = [
             { icon: <RiTeamLine />,         ok: true,  txt: "CRM de clientes" },
             { icon: <RiPrinterLine />,      ok: true,  txt: "Ticket personalizado" },
             { icon: <RiShieldCheckLine />,  ok: true,  txt: "Soporte prioritario" },
-        ],
-    },
-    {
-        id: "cosmos",
-        nombre: "Cima",
-        emoji: "⛰️",
-        icon: <RiPlanetLine />,
-        tagline: "Para cadenas y franquicias",
-        sub: "Hasta 6 sedes, 12 usuarios y soporte dedicado. Para cuando el negocio pide más.",
-        para: "cadenas, franquicias y operaciones de alto volumen",
-        ctaText: "Escalar con Cima",
-        precio_mes: 249000,
-        precio_ano: 212000,
-        color: "#6BAF8A",
-        colorAlt: "#4A9070",
-        colorDark: "#2E7050",
-        glow: "rgba(107,175,138,0.35)",
-        popular: false,
-        oculto: true,
-        features: [
-            { icon: <RiStore2Line />,               ok: true, txt: "Hasta 6 almacenes" },
-            { icon: <RiTeamLine />,                 ok: true, txt: "Hasta 12 usuarios" },
-            { icon: <RiFlashlightLine />,           ok: true, txt: "Todo el plan Pro incluido" },
-            { icon: <RiSmartphoneLine />,           ok: true, txt: "App móvil optimizada" },
-            { icon: <RiTeamLine />,                 ok: true, txt: "CRM avanzado de clientes" },
-            { icon: <RiVipCrownLine />,             ok: true, txt: "Onboarding personalizado" },
-            { icon: <RiCustomerService2Line />,     ok: true, txt: "Soporte dedicado 24/7" },
-            { icon: <RiShieldCheckLine />,          ok: true, txt: "SLA garantizado 99.9%" },
-            { icon: <RiTimeLine />,                 ok: true, txt: "Respuesta en < 2 horas" },
         ],
     },
 ];
@@ -616,7 +587,7 @@ export function PlanesTemplate() {
                 </NavLogo>
 
                 <NavCenter>
-                    <NavLink onClick={() => document.getElementById("chispa")?.scrollIntoView({ behavior: "smooth" })}>Planes</NavLink>
+                    <NavLink onClick={() => document.getElementById("gold")?.scrollIntoView({ behavior: "smooth" })}>Planes</NavLink>
                     <NavLink onClick={() => document.getElementById("por-que")?.scrollIntoView({ behavior: "smooth" })}>Por qué elegirnos</NavLink>
                     <NavLink onClick={() => document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" })}>FAQ</NavLink>
                 </NavCenter>
@@ -663,7 +634,7 @@ export function PlanesTemplate() {
                             <HeroCTA onClick={abrirRegistro}>
                                 Comenzar ahora →
                             </HeroCTA>
-                            <HeroCTASecondary onClick={() => document.getElementById("chispa")?.scrollIntoView({ behavior: "smooth" })}>
+                            <HeroCTASecondary onClick={() => document.getElementById("gold")?.scrollIntoView({ behavior: "smooth" })}>
                                 Ver planes ↓
                             </HeroCTASecondary>
                         </HeroCTAsRow>
