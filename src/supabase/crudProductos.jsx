@@ -54,6 +54,21 @@ export async function MostrarProductos(p) {
     }));
 }
 
+export async function ObtenerSiguienteCodigoBarra(id_empresa) {
+    const { data } = await supabase
+        .from(tabla)
+        .select("codigo_barra")
+        .eq("id_empresa", id_empresa)
+        .ilike("codigo_barra", "DK%")
+        .order("codigo_barra", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+    if (!data?.codigo_barra) return "DK00000001";
+    const num = parseInt(data.codigo_barra.replace(/^DK/i, ""), 10);
+    const siguiente = isNaN(num) ? 1 : num + 1;
+    return `DK${String(siguiente).padStart(8, "0")}`;
+}
+
 export async function BuscarProductos(p) {
     const { data, error } = await supabase
         .from(tabla)

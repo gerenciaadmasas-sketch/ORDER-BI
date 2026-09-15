@@ -6,7 +6,7 @@ import { RiImageAddLine } from "react-icons/ri";
 import {
     InputText, Btn1, useProductosStore, useCategoriasStore, ConvertirCapitalize,
     ContainerSelector, useSucursalesStore, ListaDesplegable, Selector, Checkbox1,
-    BuscarProductoPorCodigo, Switch1
+    BuscarProductoPorCodigo, Switch1, ObtenerSiguienteCodigoBarra
 } from "../../../index";
 import { MoverProductoAlmacen } from "../../../supabase/crudAlmacenes";
 import { toastWarning } from "../../../utils/toast";
@@ -77,8 +77,9 @@ export function RegistrarProductos({ onClose, dataSelect, accion, setIsExploding
 
     useEffect(() => {
         if (accion === "Nuevo") {
-            const codigo = generarCodigo();
-            setValue("codigo_barra", codigo);
+            ObtenerSiguienteCodigoBarra(dataempresa?.id).then(codigo => {
+                setValue("codigo_barra", codigo);
+            });
         }
     }, [accion]);
 
