@@ -167,7 +167,7 @@ export function RegistrarProductos({ onClose, dataSelect, accion, setIsExploding
                 _maneja_inventarios: true,
                 _maneja_multiprecios: false,
                 _aplica_iva: aplicaIva,
-                _id_sucursal: sucursalesItemSelect?.id ?? null,
+                _id_sucursal: sucursalesItemSelect?.id_sucursal ?? null,
                 _stock: parseFloat(data.stock) || 0,
             };
             const nuevo_id = await insertarProducto(p);
